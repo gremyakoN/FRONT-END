@@ -63,7 +63,7 @@
                     </ng-container>
                 </mat-menu>
             </button>
-            <div logout *ngIf="states.userid.value">
+            <div logout *ngIf="states.user.value">
                 <user-info></user-info>
                 <button mat-icon-button [matMenuTriggerFor]="userMenu">
                     <mat-icon>person</mat-icon>
