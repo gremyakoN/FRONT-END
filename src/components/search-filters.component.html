@@ -1,0 +1,239 @@
+<mat-expansion-panel *ngIf="states.user.value" class="mat-elevation-z0" [expanded]="states.searchFiltersExpanded.value">
+    <div line>
+        <mat-form-field appearance="outline">
+            <mat-label>{{states.texts.value.searchParams.primary_organization_id[states.lang.value]}}</mat-label>
+            <textarea #primaryOrganizationSelectorTextarea matInput cdkTextareaAutosize
+                      [placeholder]="data.primary_organization_id ? states.primaryOrganizationsByID.value[data.primary_organization_id].name : ''"
+                      (focus)="primaryOrganizationFocused()"
+                      (blur)="primaryOrganizationBlurred()"
+                      [formControl]="formControls['primary_organization_id']"
+                      [matAutocomplete]="primaryOrganizationAutoComplete">
+            </textarea>
+            <mat-autocomplete #primaryOrganizationAutoComplete="matAutocomplete">
+                <mat-option *ngFor="let primaryOrganization of filteredPrimaryOrganizations"
+                            (mousedown)="selectPrimaryOrganization(primaryOrganization, primaryOrganizationSelectorTextarea)"
+                            (click)="selectPrimaryOrganization(primaryOrganization, primaryOrganizationSelectorTextarea)">
+                    {{primaryOrganization.name}}
+                </mat-option>
+            </mat-autocomplete>
+            <button mat-button *ngIf="data.primary_organization_id != null" matSuffix mat-icon-button
+                    (mousedown)="selectPrimaryOrganization(null, primaryOrganizationSelectorTextarea)"
+                    (click)="selectPrimaryOrganization(null, primaryOrganizationSelectorTextarea)">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>{{states.texts.value.searchParams.assignment_id[states.lang.value]}}</mat-label>
+            <mat-select (selectionChange)="setField('assignment_id', $event.source.selected ? $event.source.selected.value : null)"
+                        [formControl]="formControls['assignment_id']">
+                <mat-option>{{states.texts.value.forms.clear[states.lang.value]}}</mat-option>
+                <mat-optgroup *ngFor="let level of states.assignmentsLevels.value"
+                              [label]="states.texts.value.assignments[level][states.lang.value]">
+                    <mat-option *ngFor="let assignment of states.assignmentsByLevel.value[level]"
+                                [value]="assignment.id">
+                        {{assignment.name}}
+                    </mat-option>
+                </mat-optgroup>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div line>
+        <mat-form-field appearance="outline">
+            <mat-label>{{states.texts.value.searchParams.status[states.lang.value]}}</mat-label>
+            <mat-select (selectionChange)="setField('status', $event.source.selected ? $event.source.selected.value : null)"
+                        [formControl]="formControls['status']">
+                <mat-option>{{states.texts.value.forms.clear[states.lang.value]}}</mat-option>
+                <mat-option *ngFor="let status of states.statuses.value" [value]="status.id">
+                    {{status.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>{{states.texts.value.searchParams.card_type[states.lang.value]}}</mat-label>
+            <mat-select (selectionChange)="setField('card_type', $event.source.selected ? $event.source.selected.value : null)"
+                        [formControl]="formControls['card_type']">
+                <mat-option>{{states.texts.value.forms.clear[states.lang.value]}}</mat-option>
+                <mat-option *ngFor="let cardType of states.cardTypes.value" [value]="cardType.id">
+                    {{cardType.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div line>
+        <mat-form-field appearance="outline">
+            <mat-label>{{states.texts.value.searchParams.category_id[states.lang.value]}}</mat-label>
+            <mat-select
+                    (selectionChange)="setField('category_id', $event.source.selected.value)"
+                    [formControl]="formControls['category_id']">
+                <mat-option *ngFor="let category of states.categories.value" [value]="category.id">
+                    {{category.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div double>
+            <mat-form-field appearance="outline">
+                <mat-label>{{states.texts.value.searchParams.min_mark[states.lang.value]}}</mat-label>
+                <input type="number" step="1" matInput
+                       (change)="setField('min_mark', $event.target.value)"
+                       [formControl]="formControls['min_mark']"/>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>{{states.texts.value.searchParams.max_mark[states.lang.value]}}</mat-label>
+                <input type="number" step="1" matInput
+                       (change)="setField('max_mark', $event.target.value)"
+                       [formControl]="formControls['max_mark']"/>
+            </mat-form-field>
+        </div>
+    </div>
+    <div line>
+        <div double>
+            <mat-form-field appearance="outline">
+                <mat-label>{{states.texts.value.searchParams.min_age[states.lang.value]}}</mat-label>
+                <mat-select [formControl]="formControls['min_age']"
+                            (selectionChange)="setField('min_age',  $event.source.selected ? $event.source.selected.value : null)">
+                    <mat-option>{{states.texts.value.forms.clear[states.lang.value]}}</mat-option>
+                    <mat-option *ngFor="let age of ages" [value]="age"
+                                [disabled]="data.max_age ? ((data.max_age - 1) < age) : false">
+                        {{age}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>{{states.texts.value.searchParams.max_age[states.lang.value]}}</mat-label>
+                <mat-select [formControl]="formControls['max_age']"
+                            (selectionChange)="setField('max_age', $event.source.selected ? $event.source.selected.value : null)">
+                    <mat-option>{{states.texts.value.forms.clear[states.lang.value]}}</mat-option>
+                    <mat-option *ngFor="let age of ages" [value]="age"
+                                [disabled]="data.min_age ? ((data.min_age + 1) > age) : false">
+                        {{age}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div double dates>
+            <mat-form-field appearance="outline">
+                <mat-label>{{states.texts.value.searchParams.min_inserted_date[states.lang.value]}}</mat-label>
+                <input matInput [matDatepickerFilter]="minInsertedParamBound" [matDatepicker]="minInsertedDatePicker"
+                       [formControl]="formControls['min_inserted_date']"
+                       (dateChange)="setField('min_inserted_date', $event.value)">
+                <mat-datepicker-toggle matSuffix [for]="minInsertedDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #minInsertedDatePicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>{{states.texts.value.searchParams.max_inserted_date[states.lang.value]}}</mat-label>
+                <input matInput [matDatepickerFilter]="maxInsertedParamBound" [matDatepicker]="maxInsertedDatePicker"
+                       [formControl]="formControls['max_inserted_date']"
+                       (dateChange)="setField('max_inserted_date', $event.value)">
+                <mat-datepicker-toggle matSuffix [for]="maxInsertedDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #maxInsertedDatePicker></mat-datepicker>
+            </mat-form-field>
+        </div>
+    </div>
+    <div line>
+        <div triple>
+            <mat-slide-toggle color="primary" [formControl]="formControls['with_photo']"
+                              (change)="setField('with_photo', $event.checked)">
+                {{states.texts.value.searchParams.with_photo[states.lang.value]}}
+            </mat-slide-toggle>
+            <mat-slide-toggle color="primary" [formControl]="formControls['with_passport']"
+                              (change)="setField('with_passport', $event.checked)">
+                {{states.texts.value.searchParams.with_passport[states.lang.value]}}
+            </mat-slide-toggle>
+            <mat-slide-toggle color="primary" [formControl]="formControls['is_transfer']"
+                              (change)="setField('is_transfer', $event.checked)">
+                {{states.texts.value.searchParams.is_transfer[states.lang.value]}}
+            </mat-slide-toggle>
+            <mat-slide-toggle color="primary" [formControl]="formControls['is_debtor']"
+                              (change)="setField('is_debtor', $event.checked)">
+                {{states.texts.value.searchParams.is_debtor[states.lang.value]}}
+            </mat-slide-toggle>
+        </div>
+    </div>
+    <div buttons>
+        <button mat-stroked-button color="primary" (click)="clearAllSearchParams()" [disabled]="cleared.value">
+            <text-label id="forms.clearFilters"></text-label>
+        </button>
+        <button mat-flat-button color="primary" (click)="applySearchParams()" [disabled]="!changed.value">
+            <text-label id="forms.apply"></text-label>
+        </button>
+    </div>
+</mat-expansion-panel>
+<mat-chip-list>
+    <mat-chip *ngIf="states.searchParams.value.primary_organization_id != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('primary_organization_id')">
+        {{states.primaryOrganizationsByID.value[states.searchParams.value.primary_organization_id].name}}
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+    <mat-chip *ngIf="states.searchParams.value.assignment_id != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('assignment_id')">
+        {{states.assignmentsByID.value[states.searchParams.value.assignment_id].name}}
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+    <mat-chip *ngIf="states.searchParams.value.status != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('status')">
+        {{states.statusesByID.value[states.searchParams.value.status].name}}
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+    <mat-chip *ngIf="states.searchParams.value.card_type != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('card_type')">
+        {{states.cardTypesByID.value[states.searchParams.value.card_type].name}}
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+    <mat-chip *ngIf="states.searchParams.value.min_age != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('min_age')">
+        <text-label id="searchParams.min_age"></text-label>
+        &nbsp;{{states.searchParams.value.min_age}}
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+    <mat-chip *ngIf="states.searchParams.value.max_age != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('max_age')">
+        <text-label id="searchParams.max_age"></text-label>
+        &nbsp;{{states.searchParams.value.max_age}}
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+    <mat-chip *ngIf="states.searchParams.value.min_inserted != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('min_inserted_date')">
+        <text-label id="searchParams.min_inserted_date"></text-label>
+        &nbsp;{{states.searchParams.value.min_inserted_date.toDate().toLocaleDateString('ru')}}
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+    <mat-chip *ngIf="states.searchParams.value.max_inserted != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('max_inserted_date')">
+        <text-label id="searchParams.max_inserted_date"></text-label>
+        &nbsp;{{states.searchParams.value.max_inserted_date.toDate().toLocaleDateString('ru')}}
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+    <mat-chip *ngIf="states.searchParams.value.with_photo != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('with_photo')">
+        <text-label id="searchParams.with_photo"></text-label>
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+    <mat-chip *ngIf="states.searchParams.value.with_passport != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('with_passport')">
+        <text-label id="searchParams.with_passport"></text-label>
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+    <mat-chip *ngIf="states.searchParams.value.is_debtor != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('is_debtor')">
+        <text-label id="searchParams.is_debtor"></text-label>
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+    <mat-chip *ngIf="states.searchParams.value.min_mark != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('min_mark')">
+        <text-label id="searchParams.min_mark"></text-label>
+        &nbsp;{{states.searchParams.value.min_mark}}
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+    <mat-chip *ngIf="states.searchParams.value.max_mark != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('max_mark')">
+        <text-label id="searchParams.max_mark"></text-label>
+        &nbsp;{{states.searchParams.value.max_mark}}
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+    <mat-chip *ngIf="states.searchParams.value.category_id != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('category_id')">
+        {{states.categoriesByID.value[states.searchParams.value.category_id].name}}
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+</mat-chip-list>
+

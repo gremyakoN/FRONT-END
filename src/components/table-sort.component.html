@@ -1,0 +1,10 @@
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1">
+
+  <ng-container *ngFor="let column of columns" [matColumnDef]="column">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header><text-label [id]="labelPrefix + '.' + column"></text-label></th>
+    <td mat-cell *matCellDef="let element">{{element[column]}}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columns"></tr>
+  <tr mat-row *matRowDef="let row; columns: columns" [class.clickable]="clickable" (click)="rowClicked(row)"></tr>
+</table>

@@ -1,0 +1,15 @@
+<mat-expansion-panel class="mat-elevation-z1" [expanded]="states.selectedMembersIDs.value.length > 0">
+  <div buttons>
+    <button mat-flat-button color="primary" (click)="clearMembers()">
+      <text-label id="members.clear"></text-label>
+    </button>
+    <button mat-flat-button color="primary" (click)="actionsVisible.set(!actionsVisible.value)">
+      <text-label [id]="'members.' + (actionsVisible.value ? 'hideActions' : 'selectAction')"></text-label>
+    </button>
+  </div>
+  <mat-expansion-panel actions class="mat-elevation-z0" [expanded]="actionsVisible.value">
+    <button mat-stroked-button *ngFor="let action of actions" (click)="actionSelected(action)">
+      <text-label [id]="'members.actions.' + action"></text-label>
+    </button>
+  </mat-expansion-panel>
+</mat-expansion-panel>

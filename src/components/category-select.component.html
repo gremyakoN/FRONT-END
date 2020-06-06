@@ -1,0 +1,13 @@
+<button mat-icon-button close (click)="select()">
+    <mat-icon>close</mat-icon>
+</button>
+<form>
+    <mat-form-field appearance="outline">
+        <mat-label>{{states.texts.value.category[states.lang.value]}}</mat-label>
+        <mat-select (selectionChange)="select($event.source.selected.value)">
+            <mat-option *ngFor="let category of states.categories.value" [value]="category.id">
+                {{category.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</form>

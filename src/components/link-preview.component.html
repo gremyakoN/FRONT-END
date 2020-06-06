@@ -1,0 +1,12 @@
+<mat-card class="mat-elevation-z4" *ngIf="url">
+    <ng-container *ngIf="!gettingData">
+        <mat-card-header>
+            <mat-card-title>{{title}}</mat-card-title>
+        </mat-card-header>
+        <img *ngIf="imgURL" [src]="imgURL" />
+        <mat-card-content *ngIf="description">{{description}}</mat-card-content>
+    </ng-container>
+    <div spinner>
+        <mat-spinner *ngIf="gettingData"></mat-spinner>
+    </div>
+</mat-card>

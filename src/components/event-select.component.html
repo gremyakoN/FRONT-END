@@ -1,0 +1,28 @@
+<button mat-icon-button close (click)="select()">
+    <mat-icon>close</mat-icon>
+</button>
+<ng-container *ngIf="states.events.value.length">
+<form>
+    <mat-form-field appearance="outline">
+        <mat-label>{{states.texts.value.event[states.lang.value]}}</mat-label>
+        <mat-select class="twoLines" (selectionChange)="select($event.source.selected.value)" [value]="selectedEventID">
+            <mat-select-trigger>
+                <div>{{states.eventsByID.value[selectedEventID].name}}</div>
+                <div>{{utils.formatJavaDate(states.eventsByID.value[selectedEventID].date_from)}} - {{utils.formatJavaDate(states.eventsByID.value[selectedEventID].date_to)}}</div>
+            </mat-select-trigger>
+            <mat-option class="twoLines" *ngFor="let event of states.events.value" [value]="event.id">
+                <div>{{event.title}}</div>
+                <div>{{utils.formatJavaDate(event.start)}} - {{utils.formatJavaDate(event.end)}}</div>
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</form>
+<div buttons>
+    <button mat-raised-button color="primary" (click)="apply()">
+        <text-label id="forms.apply"></text-label>
+    </button>
+</div>
+</ng-container>
+<ng-container *ngIf="!states.promotions.value.length">
+    <text-label id="events.noEvents"></text-label>
+</ng-container>

@@ -1,0 +1,10 @@
+{
+  "languages": ["ru"],
+  "defaultLang": "ru",
+  "XserverURLOld": "http://82.209.233.254/ords/api/rpc/v1",
+  "XserverFileURLOld": "http://82.209.233.254/api/file/v1",
+  "XproxyServerURL": "http://82.209.233.254/proxy/api?url=",
+  "serverURL": "https://api.reso-med.com:8043/ords/rest/api/rpc/",
+  "XserverFileURL": "http://82.209.233.254/ords/api/file/v1",
+  "searchPageSize": 20
+}

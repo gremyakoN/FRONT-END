@@ -1,0 +1,65 @@
+<mat-expansion-panel class="mat-elevation-z0" [expanded]="states.searchPaymentsFiltersExpanded.value">
+    <div line>
+        <mat-form-field appearance="outline" floatLabel="always"
+                        [class.disabled]="states.user.value.hierarchy_level < 4">
+            <mat-label>{{states.texts.value.member.committee_id[states.lang.value]}}</mat-label>
+            <textarea #committeeSelectorTextarea matInput cdkTextareaAutosize
+                      [placeholder]="data.committee_id ? states.committeesByID.value[data.committee_id].name : ''"
+                      (focus)="committeeFocused()"
+                      (blur)="committeeBlurred()"
+                      [formControl]="formControls['committee_id']"
+                      [matAutocomplete]="committeesAutoComplete">
+            </textarea>
+            <mat-autocomplete #committeesAutoComplete="matAutocomplete">
+                <mat-option *ngFor="let committee of filteredCommittees"
+                            (mousedown)="selectCommittee(committee, committeeSelectorTextarea)"
+                            (click)="selectCommittee(committee, committeeSelectorTextarea)">
+                    {{committee.name}}
+                </mat-option>
+            </mat-autocomplete>
+            <button mat-button *ngIf="data.committee_id !== null" matSuffix mat-icon-button
+                    (mousedown)="selectCommittee(null, committeeSelectorTextarea)"
+                    (click)="selectCommittee(null, committeeSelectorTextarea)">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>{{states.texts.value.searchPaymentsParams.period[states.lang.value]}}</mat-label>
+            <mat-select [formControl]="formControls['period']"
+                        (selectionChange)="setField('period', $event.source.selected ? $event.source.selected.value : null)">
+                <mat-option>{{states.texts.value.forms.clear[states.lang.value]}}</mat-option>
+                <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-slide-toggle color="primary" [formControl]="formControls['is_erip']"
+                          (change)="setField('is_erip', $event.checked)">
+            {{states.texts.value.searchPaymentsParams.is_erip[states.lang.value]}}
+        </mat-slide-toggle>
+    </div>
+    <div buttons>
+        <button mat-stroked-button color="primary" (click)="clearAllSearchParams()" [disabled]="cleared.value">
+            <text-label id="forms.clearFilters"></text-label>
+        </button>
+        <button mat-flat-button color="primary" (click)="applySearchParams()" [disabled]="!changed.value">
+            <text-label id="forms.apply"></text-label>
+        </button>
+    </div>
+</mat-expansion-panel>
+<mat-chip-list>
+    <mat-chip *ngIf="states.searchPaymentsParams.value.committee_id != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('committee_id')">
+        {{states.committeesByID.value[states.searchPaymentsParams.value.committee_id].name}}
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+    <mat-chip *ngIf="states.searchPaymentsParams.value.period != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('period')">
+        {{states.searchPaymentsParams.value.period}}
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+    <mat-chip *ngIf="states.searchPaymentsParams.value.is_erip != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('is_erip')">
+        <text-label id="searchPaymentsParams.is_erip"></text-label>
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+</mat-chip-list>
+

@@ -1,0 +1,34 @@
+<button close mat-icon-button (click)="cancel()">
+    <mat-icon>close</mat-icon>
+</button>
+<form>
+    <mat-form-field appearance="outline" *ngFor="let field of FIELDS">
+        <mat-label>{{states.texts.value.categories[field][states.lang.value]}}</mat-label>
+        <ng-container *ngIf="field == 'name'">
+            <textarea matInput cdkTextareaAutosize
+                      [value]="(data[field] == undefined) ? '' : data[field]"
+                      (change)="fieldChanged(field, $event)"
+                      [formControl]="formControls[field]"
+                      [errorStateMatcher]="matcher">
+            </textarea>
+        </ng-container>
+        <ng-container *ngIf="field != 'name'">
+            <input type="number" matInput min="0"
+                   [value]="(data[field] == undefined) ? '' : data[field]"
+                   (change)="fieldChanged(field, $event)"
+                   [formControl]="formControls[field]"
+                   [errorStateMatcher]="matcher"/>
+        </ng-container>
+        <mat-error *ngIf="error && (error.field == field)">
+            {{error.message}}
+        </mat-error>
+    </mat-form-field>
+</form>
+<div buttons>
+    <button save mat-flat-button color="primary" (click)="save()">
+        <text-label [id]="'forms.' + (adding ? 'add'  : 'save')"></text-label>
+    </button>
+    <button delete mat-flat-button color="warn" (click)="delete()" *ngIf="!adding">
+        <text-label id="forms.delete"></text-label>
+    </button>
+</div>
