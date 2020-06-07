@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {State} from '../classes/State';
 import {
+    TExchange,
+    TFile,
     Assignment,
     CalendarEvent,
     CardType,
@@ -26,6 +28,11 @@ export class States {
     loginErrorVisible: State<boolean> = new State<boolean>(false);
     selectedMenu: State<string> = new State<string>('');
     user: State<User> = new State<User>(null);
+
+    exchanges: State<Array<TExchange>> = new State<Array<TExchange>>(null);
+    files: State<Array<TFile>> = new State<Array<TFile>>(null);
+
+
     loggedIn: State<boolean> = new State<boolean>(false);
     events: State<Array<FullCalendarEvent>> = new State<Array<FullCalendarEvent>>(null);
     eventsByID: State<Array<CalendarEvent>> = new State<Array<CalendarEvent>>([]);

@@ -1,5 +1,47 @@
 import {Moment} from 'moment';
 
+export interface TExchange {
+    id: number;
+    regionId: number;
+    name: string;
+    code: string;
+    exchangeDate: string;
+    fileCount: string;
+    fileFormed: string;
+    recCount: string;
+    parentId: number;
+    children: Array<TExchange>;
+}
+
+export interface TFile {
+    id: number;
+    name: string;
+    code: string;
+    fileName: string;
+    fileDate: string;
+    modifDate: string;
+    fileType: string;
+    exchType: string;
+    fileFormed: number;
+    fileCategoryId: number;
+    mailId: number;
+    mailName: string;
+    mailText: string;
+    flkId: number;
+    recCount: number;
+    directionId: number;
+    errCount: number;
+    isAck1: number;
+    isAck2: number;
+    errChecked: number;
+    parentId: number;
+    children: Array<TFile>;
+    parent_exchangeId: number;
+    childrenExch: Array<TExchange>;
+    processStateId: number;
+    fileSize: number;
+}
+
 export interface Assignment {
     id: string;
     name: string;

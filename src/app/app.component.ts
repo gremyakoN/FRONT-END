@@ -43,7 +43,7 @@ import {Moment} from 'moment';
 
 export class AppComponent extends StateComponent implements OnInit {
 
-    menuItems: Array<string> = ['members', 'payments', null, 'events', 'news', null, 'hierarchy', 'assignments', 'categories', 'promotions'];
+    menuItems: Array<string> = [/*'exchanges', */'members', 'payments', null, 'events', 'news', null, 'hierarchy', 'assignments', 'categories', 'promotions'];
 
     runTickBound: FrameRequestCallback;
     usernameFormControl: FormControl;
@@ -80,6 +80,7 @@ export class AppComponent extends StateComponent implements OnInit {
             this.states.initComplete,
             this.states.loginErrorVisible,
             this.states.selectedMenu,
+            //this.states.exchanges,
             this.states.committees,
             this.states.assignmentsByLevel,
             this.states.categories,
