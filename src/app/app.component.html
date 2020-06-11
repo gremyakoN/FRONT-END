@@ -30,7 +30,7 @@
         <div menu>
             <div top>
                 <div logo>
-                    <img logo src="assets/svg/logo.svg"/>
+                    <img logo src="assets/svg/logo_small.svg"/>
                 </div>
                 <mat-action-list menu-container>
                     <ng-container *ngFor="let menuItem of menuItems">
@@ -78,7 +78,7 @@
                 <mat-card>
                     <div top>
                         <mat-form-field search appearance="outline">
-                            <mat-label>{{states.texts.value.exchanges.search[states.lang.value]}}</mat-label>
+                            <mat-label>{{states.texts.value.members.search[states.lang.value]}}</mat-label>
                             <input #searchInput matInput type="search" (keyup)="updateSearchInputWithEnter($event)"/>
                             <button mat-button *ngIf="searchInput.value" matSuffix mat-icon-button
                                     (click)="updateSearchInput(''); searchInput.value = ''">
@@ -95,7 +95,7 @@
                     </div>
                     <!-- <search-filters></search-filters> -->
                 </mat-card>
-                <!-- <search-results [resultState]="states.searchExchangeResult" [paramsState]="states.searchExchangeParams" [searchingState]="states.searching"></search-results> -->
+                <!-- <search-results [resultState]="states.searchResult" [paramsState]="states.searchParams" [searchingState]="states.searching"></search-results> -->
             </div>
         </div>
     </div>
