@@ -1,6 +1,15 @@
 import {Moment} from 'moment';
 
-export interface TExchange {
+export interface User {
+    userid: number;
+    clnid: number;
+    name: string;
+    regionid: number;
+    companyid: number;
+    is_admin: boolean;
+}
+
+export interface Exchange {
     id: number;
     regionId: number;
     name: string;
@@ -10,10 +19,30 @@ export interface TExchange {
     fileFormed: string;
     recCount: string;
     parentId: number;
-    children: Array<TExchange>;
+    children: Array<Exchange>;
 }
 
-export interface TFile {
+export interface SearchExchangeParams {
+    page_number: number;
+    page_size: number;
+    order_by: string;
+    order_type: string;
+    fromdate: Moment;
+    todate: Moment;
+}
+
+export interface SearchResultExchange {
+    id: string;
+
+}
+
+export interface SearchExchangeResult {
+    exchanges: Array<SearchResultExchange>;
+    count: number;
+}
+
+
+export interface File {
     id: number;
     name: string;
     code: string;
@@ -35,13 +64,13 @@ export interface TFile {
     isAck2: number;
     errChecked: number;
     parentId: number;
-    children: Array<TFile>;
+    children: Array<File>;
     parent_exchangeId: number;
-    childrenExch: Array<TExchange>;
+    childrenExch: Array<Exchange>;
     processStateId: number;
     fileSize: number;
 }
-
+/*
 export interface Assignment {
     id: string;
     name: string;
@@ -50,8 +79,8 @@ export interface Assignment {
 }
 
 export interface Committee {
-    id: string;
-    parent_id: string;
+    id: number;
+    parent_id: number;
     unp: string;
     name: string;
     address: string;
@@ -83,19 +112,6 @@ export interface PrimaryOrganization {
     address: string;
     phone: string;
     email: string;
-}
-
-export interface User {
-    assignment_id: string;
-    committee_id: string;
-    full_name: string;
-    hierarchy_level: number;
-    is_admin: boolean;
-    session_id: string;
-    user_id: string;
-    work_committee_id: string;
-    photo_id: string;
-    photo: string;
 }
 
 export interface CalendarEvent {
@@ -179,7 +195,7 @@ export interface SearchPaymentsResult {
     count: number;
 }
 
-export  interface SearchResultMember {
+export interface SearchResultMember {
     id: string;
     surname: string;
     firstname: string;
@@ -213,3 +229,4 @@ export interface Article {
     link: string;
     editable: boolean;
 }
+*/

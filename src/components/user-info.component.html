@@ -1,6 +1,6 @@
-<img avatar [src]="states.user.value.photo ? utils.imgPrefix + states.user.value.photo : 'assets/images/no-avatar.png'" />
-<div full-name>{{states.user.value.full_name}}</div>
-<div assignment>{{states.assignmentsByID.value[states.user.value.assignment_id].name}}</div>
+<div name>{{states.user.value.name}}</div>
+<div companyid>{{states.user.value.companyid}}</div>
+<div regionid>{{states.user.value.regionid}}</div>
 <text-label id="changePassword" (click)="changePassword()"></text-label>
 <button mat-raised-button color="primary" (click)="logout()">
   <text-label id="logout"></text-label>

@@ -1,17 +1,21 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {States} from './states';
+/*
 import {
-    Article,
-    Assignment,
-    CalendarEvent,
-    Category,
-    Committee,
-    PrimaryOrganization,
-    Promotion,
-    SearchParams,
-    SearchPaymentsParams
+    Exchange,
+    SearchExchangeParams
+    //Article,
+    //Assignment,
+    //CalendarEvent,
+    //Category,
+    //Committee,
+    //PrimaryOrganization,
+    //Promotion,
+    //SearchParams,
+    //SearchPaymentsParams
 } from '../classes/Interfaces';
+*/
 import { md5b64 } from '../providers/md5b64';
 
 @Injectable()
@@ -20,7 +24,8 @@ export class Server {
     mock = false;
 
     requestID = 0;
-    session_id: string;
+    logid: string;
+    token: string;
 
     constructor(public http: HttpClient, public states: States) {
     }
@@ -43,8 +48,9 @@ export class Server {
 
     request(method: string, params: any = {}, responseType: any = 'json'): Promise<any> {
         const paramsCopy = JSON.parse(JSON.stringify(params));
-        if (this.session_id) {
-            paramsCopy.session_id = this.session_id;
+        if (this.logid != null) {
+            paramsCopy.logid = this.logid;
+            paramsCopy.token = this.token;
         }
         return new Promise((resolve, reject) => {
             this.http.post(this.states.config.value.serverURL, {
@@ -67,6 +73,11 @@ export class Server {
                             reject(response['error']);
                         }
                     } else {
+                        if (method === 'Login') {
+                            //alert(response['result'].token);
+                            this.logid = response['result'].logid;
+                            this.token = response['result'].token;
+                        }
                         resolve(response['result']);
                     }
                 } else {
@@ -131,15 +142,17 @@ export class Server {
         }
     }
 
-    getUser(): Promise<any> {
+    getExchanges(params: any): Promise<any> {
         if (this.mock) {
             return new Promise(resolve => {
-                resolve(true);
+                resolve([]);
             });
         } else {
-            return this.request('GetUser');
+            return this.request('GetExchanges', params);
         }
     }
+
+/*
 
     updateCommittee(committee: Committee): Promise<any> {
         if (this.mock) {
@@ -520,7 +533,7 @@ export class Server {
             return this.request('AcceptEntryFee', {id: id});
         }
     }
-
+*/
     proxy(url: string): Promise<any> {
         if (this.mock) {
             return new Promise(resolve => {

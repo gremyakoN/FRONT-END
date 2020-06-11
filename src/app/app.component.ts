@@ -6,32 +6,34 @@ import {FormControl, Validators} from '@angular/forms';
 import {MatBottomSheet, MatDialog, MatTreeNestedDataSource} from '@angular/material';
 import {ResetPasswordComponent} from '../components/reset-password.component';
 import {
-    Article,
-    Assignment,
-    CalendarEvent,
-    Category,
-    Committee,
-    PrimaryOrganization,
-    Promotion,
-    SearchParams,
-    SearchPaymentsParams
+    SearchExchangeParams,
+    Exchange,
+//    Article,
+//    Assignment,
+//    CalendarEvent,
+//    Category,
+//    Committee,
+//    PrimaryOrganization,
+//    Promotion,
+    //SearchParams,
+    //SearchPaymentsParams
 } from '../classes/Interfaces';
 import {NestedTreeControl} from '@angular/cdk/tree';
-import {CommitteeDetailsComponent} from '../components/committee-details.component';
-import {PrimaryOrganizationDetailsComponent} from '../components/primary-organization-details.component';
-import {AssignmentEditComponent} from '../components/assignment-edit.component';
-import {CategoryEditComponent} from '../components/category-edit.component';
-import {PromotionEditComponent} from '../components/promotion-edit.component';
-import {PromotionSelectComponent} from '../components/promotion-select.component';
-import {CategorySelectComponent} from '../components/category-select.component';
+//import {CommitteeDetailsComponent} from '../components/committee-details.component';
+//import {PrimaryOrganizationDetailsComponent} from '../components/primary-organization-details.component';
+//import {AssignmentEditComponent} from '../components/assignment-edit.component';
+//import {CategoryEditComponent} from '../components/category-edit.component';
+//import {PromotionEditComponent} from '../components/promotion-edit.component';
+//import {PromotionSelectComponent} from '../components/promotion-select.component';
+//import {CategorySelectComponent} from '../components/category-select.component';
 import {Utils} from '../providers/utils';
-import {AddArticleComponent} from '../components/add-article.component';
+//import {AddArticleComponent} from '../components/add-article.component';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listMonthPlugin from '@fullcalendar/list';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import {FullCalendarComponent} from '@fullcalendar/angular';
-import {AddEventComponent} from '../components/add-event.component';
-import {EventSelectComponent} from '../components/event-select.component';
+//import {AddEventComponent} from '../components/add-event.component';
+//import {EventSelectComponent} from '../components/event-select.component';
 import * as moment from 'moment';
 import {Moment} from 'moment';
 
@@ -43,30 +45,38 @@ import {Moment} from 'moment';
 
 export class AppComponent extends StateComponent implements OnInit {
 
-    menuItems: Array<string> = [/*'exchanges', */'members', 'payments', null, 'events', 'news', null, 'hierarchy', 'assignments', 'categories', 'promotions'];
+    //menuItems: Array<string> = [/*'exchanges', */'members', 'payments', null, 'events', 'news', null, 'hierarchy', 'assignments', 'categories', 'promotions'];
+    menuItems: Array<string> = ['exchanges'];
 
     runTickBound: FrameRequestCallback;
     usernameFormControl: FormControl;
     passwordFormControl: FormControl;
-    hierarchyTreeControl: NestedTreeControl<Committee>;
-    hierarchyDataSource: MatTreeNestedDataSource<Committee>;
-    committeeHasChildrenBound: Function;
-    searchMembersBound: Function;
-    searchPaymentsBound: Function;
+    //hierarchyTreeControl: NestedTreeControl<Committee>;
+    //hierarchyDataSource: MatTreeNestedDataSource<Committee>;
+    //committeeHasChildrenBound: Function;
+    //searchMembersBound: Function;
+    //searchPaymentsBound: Function;
+
+    searchExchangesBound: Function;
+
     selectedMembersActionChangedBound: Function;
     calendarPlugins = [dayGridPlugin, listMonthPlugin, timeGridPlugin];
     addEventWithDateBound: Function;
+
 
     @ViewChild(FullCalendarComponent) eventsCalendar: FullCalendarComponent;
 
     constructor(private app: ApplicationRef, public states: States, private utils: Utils, private server: Server, private bottomSheet: MatBottomSheet, private dialog: MatDialog, changeDetectorRef: ChangeDetectorRef) {
         super(changeDetectorRef);
         this.runTickBound = this.runTick.bind(this);
-        this.committeeHasChildrenBound = this.committeeHasChildren.bind(this);
-        this.searchMembersBound = this.searchMembers.bind(this);
-        this.searchPaymentsBound = this.searchPayments.bind(this);
-        this.selectedMembersActionChangedBound = this.selectedMembersActionChanged.bind(this);
-        this.addEventWithDateBound = this.addEventWithDate.bind(this);
+        //this.committeeHasChildrenBound = this.committeeHasChildren.bind(this);
+
+        this.searchExchangesBound = this.searchExchanges.bind(this);
+
+        //this.searchMembersBound = this.searchMembers.bind(this);
+        //this.searchPaymentsBound = this.searchPayments.bind(this);
+        //this.selectedMembersActionChangedBound = this.selectedMembersActionChanged.bind(this);
+        //this.addEventWithDateBound = this.addEventWithDate.bind(this);
         history.pushState(null, null, location.href);
         window.onpopstate = () => history.go(1);
     }
@@ -79,15 +89,14 @@ export class AppComponent extends StateComponent implements OnInit {
             this.states.lang,
             this.states.initComplete,
             this.states.loginErrorVisible,
-            this.states.selectedMenu,
-            //this.states.exchanges,
-            this.states.committees,
-            this.states.assignmentsByLevel,
-            this.states.categories,
-            this.states.selectedMembersIDs,
-            this.states.news,
-            this.states.eventsCalendarTitle,
-            this.states.events
+            this.states.selectedMenu
+            //this.states.committees,
+            //this.states.assignmentsByLevel,
+            //this.states.categories,
+            //this.states.selectedMembersIDs,
+            //this.states.news,
+            //this.states.eventsCalendarTitle,
+            //this.states.events
         ]);
         Promise.all([
             this.server.loadTexts(),
@@ -97,12 +106,15 @@ export class AppComponent extends StateComponent implements OnInit {
             this.states.config.set(data[1]);
             this.states.lang.set(data[1].defaultLang);
             this.states.initComplete.set(true);
-            const savedSessionID: string = window.localStorage.getItem('session_id');
-            // const savedSessionID = null;
-            if (savedSessionID) {
+            const savedLogId: string = window.localStorage.getItem('logid');
+            const savedToken: string = window.localStorage.getItem('token');
+            // const savedToken = null;
+            if (savedLogId != null) {
                 this.states.curtainVisible.set(true);
-                this.server.session_id = savedSessionID;
-                window.localStorage.removeItem('session_id');
+                this.server.logid = savedLogId;
+                this.server.token = savedToken;
+                window.localStorage.removeItem('logid');
+                window.localStorage.removeItem('token');
                 this.server.refresh().then(response => {
                     this.afterLogin(response);
                 }).finally(() => {
@@ -130,11 +142,13 @@ export class AppComponent extends StateComponent implements OnInit {
         // this.passwordFormControl = new FormControl('v@lent1n', [
         //     Validators.required
         // ]);
-        this.hierarchyTreeControl = new NestedTreeControl<Committee>(node => {
-            return node.children;
-        });
-        this.hierarchyDataSource = new MatTreeNestedDataSource<Committee>();
-        this.states.assignmentsLevels.set(['4', '3', '2', '1', '0']);
+
+        //this.hierarchyTreeControl = new NestedTreeControl<Committee>(node => {
+        //    return node.children;
+        //});
+        //this.hierarchyDataSource = new MatTreeNestedDataSource<Committee>();
+        //this.states.assignmentsLevels.set(['4', '3', '2', '1', '0']);
+/*
         this.states.searchParams.set({
             page_number: 1,
             page_size: 0,
@@ -162,8 +176,13 @@ export class AppComponent extends StateComponent implements OnInit {
             period: null,
             is_erip: null
         } as SearchPaymentsParams);
+*/
+        this.states.searchExchangeParams.set({
+            page_number: 1,
+            page_size: 0
+        } as SearchExchangeParams);
         document.body.appendChild(document.body.querySelector('div[curtain]'));
-        this.states.selectedMenu.set('members');
+        this.states.selectedMenu.set('exchanges');
     }
 
     runTick() {
@@ -196,43 +215,48 @@ export class AppComponent extends StateComponent implements OnInit {
     }
 
     afterLogin(loginResponse) {
-        window.localStorage.setItem('session_id', loginResponse.user.session_id);
-        this.server.session_id = loginResponse.user.session_id;
-        this.updateHierarchy(loginResponse.committees || [], loginResponse.primary_organizations || []);
-        this.updateAssignments(loginResponse.assignments || []);
-        this.updateCategories(loginResponse.categories || []);
-        this.updatePromotions(loginResponse.promotions || []);
-        this.updateStatuses(loginResponse.statuses || []);
-        this.updateCardTypes(loginResponse.card_types || []);
+        window.localStorage.setItem('logid', loginResponse.logid);
+        this.server.logid = loginResponse.logid;
+        window.localStorage.setItem('token', loginResponse.token);
+        this.server.token = loginResponse.token;
+
+        // update all dicts!
+        //this.updateHierarchy(loginResponse.committees || [], loginResponse.primary_organizations || []);
+        //this.updateAssignments(loginResponse.assignments || []);
+        //this.updateCategories(loginResponse.categories || []);
+        //this.updatePromotions(loginResponse.promotions || []);
+        //this.updateStatuses(loginResponse.statuses || []);
+        //this.updateCardTypes(loginResponse.card_types || []);
         // loginResponse.user.is_admin = false;
         // loginResponse.user.hierarchy_level = 1;
         // loginResponse.user.work_committee_id = 3;
-        this.states.searchParams.setField('page_size', this.states.config.value.searchPageSize);
-        this.states.searchParams.subscribe(this.searchMembersBound);
-        this.states.searchPaymentsParams.setField('page_size', this.states.config.value.searchPageSize);
-        this.states.searchPaymentsParams.subscribe(this.searchPaymentsBound);
-        this.states.selectedMembersAction.subscribe(this.selectedMembersActionChangedBound);
-        this.states.news.set(loginResponse.news || []);
-        this.updateEvents(loginResponse.events || []);
+        //this.states.searchParams.setField('page_size', this.states.config.value.searchPageSize);
+        //this.states.searchParams.subscribe(this.searchMembersBound);
+        //this.states.searchPaymentsParams.setField('page_size', this.states.config.value.searchPageSize);
+        //this.states.searchPaymentsParams.subscribe(this.searchPaymentsBound);
+        //this.states.selectedMembersAction.subscribe(this.selectedMembersActionChangedBound);
+        //this.states.news.set(loginResponse.news || []);
+        //this.updateEvents(loginResponse.events || []);
         this.states.user.set(loginResponse.user);
         window.requestAnimationFrame(() => {
-            this.updateCalendarSize();
-            this.updateCalendarTitle();
-            this.eventsCalendar.getApi().on('datesRender', () => {
-                this.updateCalendarTitle();
-            });
+            //this.updateCalendarSize();
+            //this.updateCalendarTitle();
+            //this.eventsCalendar.getApi().on('datesRender', () => {
+            //    this.updateCalendarTitle();
+            //});
             this.states.loggedIn.set(true);
         });
         Promise.all([
-            this.loadUserPhoto(),
-            this.searchMembers(),
-            this.searchPayments()
+            //this.loadUserPhoto(),
+            //this.searchMembers(),
+            //this.searchPayments()
+            this.searchExchanges()
         ]).then(responses => {
-            this.states.user.setField('photo', responses[0]);
+            //this.states.user.setField('photo', responses[0]);
             this.states.curtainVisible.set(false);
         });
     }
-
+/*
     updateCalendarTitle() {
         this.states.eventsCalendarTitle.set(this.eventsCalendar.getApi().view.title);
     }
@@ -259,7 +283,7 @@ export class AppComponent extends StateComponent implements OnInit {
             }
         });
     }
-
+*/
     showLoginError(code: string) {
         this.states.loginError.set(code);
         this.states.loginErrorVisible.set(true);
@@ -286,6 +310,7 @@ export class AppComponent extends StateComponent implements OnInit {
             alert(this.states.texts.value.forms.email.required[this.states.lang.value]);
         }
     }
+/*
     updateHierarchy(committees: Array<Committee> = null, primaryOrganizations: Array<PrimaryOrganization> = null) {
         if (primaryOrganizations) {
             const primaryOrganizationsByID: Array<PrimaryOrganization> = [];
@@ -329,7 +354,7 @@ export class AppComponent extends StateComponent implements OnInit {
     }
 
     committeeHasChildren(index: number, node: Committee): boolean {
-        return (node.children && !!node.children.length) || (this.states.primaryOrganizationsByCommittee.value[node.id]);
+        return (node.children && !!node.children.length) || (this.states.primaryOrganizationsByCommittee.value[node.id.toString()]);
     }
 
     updateAssignments(assignments) {
@@ -442,7 +467,7 @@ export class AppComponent extends StateComponent implements OnInit {
             }
         });
     }
-
+*/
     updateSearchInputWithEnter(event) {
         if (event.key === 'Enter') {
             this.updateSearchInput(event.target.value);
@@ -450,10 +475,30 @@ export class AppComponent extends StateComponent implements OnInit {
     }
 
     updateSearchInput(value: string) {
-        this.states.searchParams.setField('search_like', value);
-        this.searchMembers();
+        this.states.searchExchangeParams.setField('search_like', value);
+        this.searchExchanges();
     }
 
+    searchExchanges(): Promise<any> {
+        return new Promise(resolve => {
+            this.states.searching.set(true);
+            const searchParams = JSON.stringify(this.states.searchExchangeParams.value);
+            this.server.getExchanges(this.states.searchExchangeParams.value).then(response => {
+                if (searchParams === JSON.stringify(this.states.searchExchangeParams.value)) {
+                    this.states.searchExchangeResult.set(response);
+                    this.states.searching.set(false);
+                } else {
+                    console.log('searchExchange outdated response', searchParams, JSON.stringify(this.states.searchExchangeParams.value));
+                }
+                resolve();
+            }).catch(error => {
+                this.states.searching.set(false);
+                console.error('searchExchange error', error);
+                resolve();
+            });
+        });
+    }
+/*
     searchMembers(): Promise<any> {
         return new Promise(resolve => {
             this.states.searching.set(true);
@@ -505,7 +550,9 @@ export class AppComponent extends StateComponent implements OnInit {
             });
         });
     }
+*/
 
+/*
     selectedMembersActionChanged() {
         switch (this.states.selectedMembersAction.value) {
             case 'changeCategory':
@@ -634,4 +681,6 @@ export class AppComponent extends StateComponent implements OnInit {
     addEventWithDate(date: Moment) {
         this.addEvent(null, this.utils.convertToJAVADate(moment(date)));
     }
+*/
+
 }
