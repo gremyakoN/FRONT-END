@@ -889,7 +889,9 @@ app-root {
 
               > [search] {
                 display: flex;
+                flex-wrap: wrap;
                 flex-grow: 1;
+                margin: 0 4px 4px 0;
               }
 
               > [search-submit], > [edit-filters] {
@@ -1152,7 +1154,7 @@ table-sort {
 }
 
 
-search-filters, search-payments-filters {
+search-filters {
   display: block;
 
   .mat-expansion-panel-body {

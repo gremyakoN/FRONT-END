@@ -7,7 +7,8 @@ import {MatBottomSheet, MatDialog, MatTreeNestedDataSource} from '@angular/mater
 import {ResetPasswordComponent} from '../components/reset-password.component';
 import {
     SearchExchangeParams,
-    Exchange,
+    Exchange, CompanyRegion,
+    ExchangeType, ExchangeGroup,
 //    Article,
 //    Assignment,
 //    CalendarEvent,
@@ -31,7 +32,7 @@ import {Utils} from '../providers/utils';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listMonthPlugin from '@fullcalendar/list';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import {FullCalendarComponent} from '@fullcalendar/angular';
+//import {FullCalendarComponent} from '@fullcalendar/angular';
 //import {AddEventComponent} from '../components/add-event.component';
 //import {EventSelectComponent} from '../components/event-select.component';
 import * as moment from 'moment';
@@ -57,20 +58,26 @@ export class AppComponent extends StateComponent implements OnInit {
     //searchMembersBound: Function;
     //searchPaymentsBound: Function;
 
+    minInsertedParamBound: Function;
+    maxInsertedParamBound: Function;
+
     searchExchangesBound: Function;
+
 
     selectedMembersActionChangedBound: Function;
     calendarPlugins = [dayGridPlugin, listMonthPlugin, timeGridPlugin];
     addEventWithDateBound: Function;
 
 
-    @ViewChild(FullCalendarComponent) eventsCalendar: FullCalendarComponent;
+    //@ViewChild(FullCalendarComponent) eventsCalendar: FullCalendarComponent;
 
     constructor(private app: ApplicationRef, public states: States, private utils: Utils, private server: Server, private bottomSheet: MatBottomSheet, private dialog: MatDialog, changeDetectorRef: ChangeDetectorRef) {
         super(changeDetectorRef);
         this.runTickBound = this.runTick.bind(this);
         //this.committeeHasChildrenBound = this.committeeHasChildren.bind(this);
 
+        this.minInsertedParamBound = this.minInsertedParam.bind(this);
+        this.maxInsertedParamBound = this.maxInsertedParam.bind(this);
         this.searchExchangesBound = this.searchExchanges.bind(this);
 
         //this.searchMembersBound = this.searchMembers.bind(this);
@@ -89,7 +96,8 @@ export class AppComponent extends StateComponent implements OnInit {
             this.states.lang,
             this.states.initComplete,
             this.states.loginErrorVisible,
-            this.states.selectedMenu
+            this.states.selectedMenu,
+            this.states.exchanges
             //this.states.committees,
             //this.states.assignmentsByLevel,
             //this.states.categories,
@@ -221,15 +229,16 @@ export class AppComponent extends StateComponent implements OnInit {
         this.server.token = loginResponse.token;
 
         // update all dicts!
+        this.updateCompanyRegion(loginResponse.companyregion || []);
+        this.updateExchangeGroups(loginResponse.exchange_groups || []);
+        this.updateExchangeTypes(loginResponse.exchange_types || []);
+        //this.menuItems.push('qwe');
         //this.updateHierarchy(loginResponse.committees || [], loginResponse.primary_organizations || []);
         //this.updateAssignments(loginResponse.assignments || []);
         //this.updateCategories(loginResponse.categories || []);
         //this.updatePromotions(loginResponse.promotions || []);
         //this.updateStatuses(loginResponse.statuses || []);
         //this.updateCardTypes(loginResponse.card_types || []);
-        // loginResponse.user.is_admin = false;
-        // loginResponse.user.hierarchy_level = 1;
-        // loginResponse.user.work_committee_id = 3;
         //this.states.searchParams.setField('page_size', this.states.config.value.searchPageSize);
         //this.states.searchParams.subscribe(this.searchMembersBound);
         //this.states.searchPaymentsParams.setField('page_size', this.states.config.value.searchPageSize);
@@ -310,164 +319,207 @@ export class AppComponent extends StateComponent implements OnInit {
             alert(this.states.texts.value.forms.email.required[this.states.lang.value]);
         }
     }
-/*
-    updateHierarchy(committees: Array<Committee> = null, primaryOrganizations: Array<PrimaryOrganization> = null) {
-        if (primaryOrganizations) {
-            const primaryOrganizationsByID: Array<PrimaryOrganization> = [];
-            const primaryOrganizationsByCommittee: Array<PrimaryOrganization> = [];
-            primaryOrganizations.forEach(po => {
-                if (!primaryOrganizationsByCommittee[po.committee_id]) {
-                    primaryOrganizationsByCommittee[po.committee_id] = [];
-                }
-                primaryOrganizationsByCommittee[po.committee_id].push(po);
-                primaryOrganizationsByID[po.id] = po;
-            });
-            this.states.primaryOrganizations.set(primaryOrganizations);
-            this.states.primaryOrganizationsByID.set(primaryOrganizationsByID);
-            this.states.primaryOrganizationsByCommittee.set(primaryOrganizationsByCommittee);
-        }
-        if (committees) {
-            const flattenCommittees: Array<Committee> = this.flattenTree(committees);
-            const committeesByID: Array<Committee> = [];
-            flattenCommittees.forEach(committee => {
-                committeesByID[committee.id] = committee;
-            });
-            this.states.committees.set(flattenCommittees);
-            this.states.committeesByID.set(committeesByID);
-            this.hierarchyDataSource.data = committees;
-            this.hierarchyTreeControl.expand(this.hierarchyDataSource.data[0]);
-        }
+
+    updateCompanyRegion(companyRegion) {
+        const companyRegionByID: Array<CompanyRegion> = [];
+        companyRegion.forEach(companyRegion => {
+            companyRegionByID[companyRegion.id] = companyRegion;
+            //this.menuItems.push(companyregion.id.toString());
+        });
+        this.states.companyRegionByID.set(companyRegionByID);
+        this.states.companyRegion.set(companyRegion);
     }
 
-    flattenTree(obj, arr = []): Array<Committee> {
-        if (Array.isArray(obj)) {
-            obj.forEach(element => {
-                this.flattenTree(element, arr);
-            });
-        } else {
-            arr[obj.id] = obj;
-            if (obj.children && obj.children.length) {
-                this.flattenTree(obj.children, arr);
+    updateExchangeGroups(exchangeGroups) {
+        const exchangeGroupsByID: Array<ExchangeGroup> = [];
+        exchangeGroups.forEach(exchangeGroup => {
+            exchangeGroupsByID[exchangeGroup.ID] = exchangeGroup;
+        });
+        this.states.exchangeGroupsByID.set(exchangeGroupsByID);
+        this.states.exchangeGroups.set(exchangeGroups);
+    }
+
+    updateExchangeTypes(exchangeTypes) {
+        const exchangeTypesByID: Array<ExchangeType> = [];
+        const exchangeTypesByGroupID: Array<Array<ExchangeType>> = [];
+        exchangeTypes.forEach(exchangeType => {
+            exchangeTypesByID[exchangeType.ID] = exchangeType;
+            if (!exchangeTypesByGroupID[exchangeType.GROUPID]) {
+                exchangeTypesByGroupID[exchangeType.GROUPID] = [];
             }
-        }
-        return arr;
-    }
-
-    committeeHasChildren(index: number, node: Committee): boolean {
-        return (node.children && !!node.children.length) || (this.states.primaryOrganizationsByCommittee.value[node.id.toString()]);
-    }
-
-    updateAssignments(assignments) {
-        const assignmentsByID: Array<Assignment> = [];
-        const assignmentByLevel: Array<Array<Assignment>> = [];
-        assignments.forEach(assignment => {
-            assignmentsByID[assignment.id] = assignment;
-            if (!assignmentByLevel[assignment.hierarchy_level]) {
-                assignmentByLevel[assignment.hierarchy_level] = [];
-            }
-            assignmentByLevel[assignment.hierarchy_level].push(assignment);
+            exchangeTypesByGroupID[exchangeType.GROUPID].push(exchangeType);
         });
-        this.states.assignments.set(assignments);
-        this.states.assignmentsByLevel.set(assignmentByLevel);
-        this.states.assignmentsByID.set(assignmentsByID);
+        this.states.exchangeTypesByID.set(exchangeTypesByID);
+        this.states.exchangeTypesByGroupID.set(exchangeTypesByGroupID);
+        this.states.exchangeTypes.set(exchangeTypes);
     }
 
-    updateCategories(categories) {
-        const categoriesByID: Array<Category> = [];
-        categories.forEach(category => {
-            categoriesByID[category.id] = category;
-        });
-        this.states.categoriesByID.set(categoriesByID);
-        this.states.categories.set(categories);
+    minInsertedParam(date: Moment): boolean {
+        return true; //this.states.searchExchangeParams.valuefromdate ? (date.toDate().getTime() < this.states.searchExchangeParams.fromdate.toDate().getTime()) : true;
     }
 
-    updatePromotions(promotions) {
-        const promotionsByID: Array<Promotion> = [];
-        promotions.forEach(promotion => {
-            promotionsByID[promotion.id] = promotion;
-        });
-        this.states.promotionsByID.set(promotionsByID);
-        this.states.promotions.set(promotions);
+    maxInsertedParam(date: Moment): boolean {
+        return true; //this.states.searchExchangeParams.todate ? (date.toDate().getTime() > this.states.searchExchangeParams.todate.toDate().getTime()) : true;
     }
 
-    updateStatuses(statuses) {
-        const statusesByID: Array<Promotion> = [];
-        statuses.forEach(status => {
-            statusesByID[status.id] = status;
-        });
-        this.states.statusesByID.set(statusesByID);
-        this.states.statuses.set(statuses);
-    }
-
-    updateCardTypes(cardTypes) {
-        const cardTypesByID: Array<Promotion> = [];
-        cardTypes.forEach(status => {
-            cardTypesByID[status.id] = status;
-        });
-        this.states.cardTypesByID.set(cardTypesByID);
-        this.states.cardTypes.set(cardTypes);
-    }
-
-    showCommitteeDetails(committee = null) {
-        this.dialog.open(CommitteeDetailsComponent, {
-            disableClose: true,
-            panelClass: 'big-popup',
-            data: committee ? JSON.parse(JSON.stringify(committee)) : null
-        }).afterClosed().subscribe(committees => {
-            if (committees) {
-                this.updateHierarchy(committees);
-            }
-        });
-    }
-
-    showPrimaryOrganizationDetails(primaryOrganization = null) {
-        this.dialog.open(PrimaryOrganizationDetailsComponent, {
-            disableClose: true,
-            panelClass: 'big-popup',
-            data: primaryOrganization ? JSON.parse(JSON.stringify(primaryOrganization)) : null
-        }).afterClosed().subscribe(primaryOrganizations => {
+    /*
+        updateHierarchy(committees: Array<Committee> = null, primaryOrganizations: Array<PrimaryOrganization> = null) {
             if (primaryOrganizations) {
-                this.updateHierarchy(null, primaryOrganizations);
+                const primaryOrganizationsByID: Array<PrimaryOrganization> = [];
+                const primaryOrganizationsByCommittee: Array<PrimaryOrganization> = [];
+                primaryOrganizations.forEach(po => {
+                    if (!primaryOrganizationsByCommittee[po.committee_id]) {
+                        primaryOrganizationsByCommittee[po.committee_id] = [];
+                    }
+                    primaryOrganizationsByCommittee[po.committee_id].push(po);
+                    primaryOrganizationsByID[po.id] = po;
+                });
+                this.states.primaryOrganizations.set(primaryOrganizations);
+                this.states.primaryOrganizationsByID.set(primaryOrganizationsByID);
+                this.states.primaryOrganizationsByCommittee.set(primaryOrganizationsByCommittee);
             }
-        });
-    }
+            if (committees) {
+                const flattenCommittees: Array<Committee> = this.flattenTree(committees);
+                const committeesByID: Array<Committee> = [];
+                flattenCommittees.forEach(committee => {
+                    committeesByID[committee.id] = committee;
+                });
+                this.states.committees.set(flattenCommittees);
+                this.states.committeesByID.set(committeesByID);
+                this.hierarchyDataSource.data = committees;
+                this.hierarchyTreeControl.expand(this.hierarchyDataSource.data[0]);
+            }
+        }
 
-    showAssignmentEdit(assignment = null) {
-        this.dialog.open(AssignmentEditComponent, {
-            disableClose: true,
-            panelClass: 'big-popup',
-            data: assignment ? JSON.parse(JSON.stringify(assignment)) : null
-        }).afterClosed().subscribe(assignments => {
-            if (assignments !== undefined) {
-                this.updateAssignments(assignments || []);
+        flattenTree(obj, arr = []): Array<Committee> {
+            if (Array.isArray(obj)) {
+                obj.forEach(element => {
+                    this.flattenTree(element, arr);
+                });
+            } else {
+                arr[obj.id] = obj;
+                if (obj.children && obj.children.length) {
+                    this.flattenTree(obj.children, arr);
+                }
             }
-        });
-    }
+            return arr;
+        }
 
-    showCategoryEdit(category = null) {
-        this.dialog.open(CategoryEditComponent, {
-            disableClose: true,
-            panelClass: 'big-popup',
-            data: category ? JSON.parse(JSON.stringify(category)) : null
-        }).afterClosed().subscribe(categories => {
-            if (categories !== undefined) {
-                this.updateCategories(categories || []);
-            }
-        });
-    }
+        committeeHasChildren(index: number, node: Committee): boolean {
+            return (node.children && !!node.children.length) || (this.states.primaryOrganizationsByCommittee.value[node.id.toString()]);
+        }
 
-    showPromotionEdit(promotion = null) {
-        this.dialog.open(PromotionEditComponent, {
-            disableClose: true,
-            panelClass: 'big-popup',
-            data: promotion ? JSON.parse(JSON.stringify(promotion)) : null
-        }).afterClosed().subscribe(promotions => {
-            if (promotions !== undefined) {
-                this.updatePromotions(promotions || []);
-            }
-        });
-    }
-*/
+        updateAssignments(assignments) {
+            const assignmentsByID: Array<Assignment> = [];
+            const assignmentByLevel: Array<Array<Assignment>> = [];
+            assignments.forEach(assignment => {
+                assignmentsByID[assignment.id] = assignment;
+                if (!assignmentByLevel[assignment.hierarchy_level]) {
+                    assignmentByLevel[assignment.hierarchy_level] = [];
+                }
+                assignmentByLevel[assignment.hierarchy_level].push(assignment);
+            });
+            this.states.assignments.set(assignments);
+            this.states.assignmentsByLevel.set(assignmentByLevel);
+            this.states.assignmentsByID.set(assignmentsByID);
+        }
+
+        updateCategories(categories) {
+            const categoriesByID: Array<Category> = [];
+            categories.forEach(category => {
+                categoriesByID[category.id] = category;
+            });
+            this.states.categoriesByID.set(categoriesByID);
+            this.states.categories.set(categories);
+        }
+
+        updatePromotions(promotions) {
+            const promotionsByID: Array<Promotion> = [];
+            promotions.forEach(promotion => {
+                promotionsByID[promotion.id] = promotion;
+            });
+            this.states.promotionsByID.set(promotionsByID);
+            this.states.promotions.set(promotions);
+        }
+
+        updateStatuses(statuses) {
+            const statusesByID: Array<Promotion> = [];
+            statuses.forEach(status => {
+                statusesByID[status.id] = status;
+            });
+            this.states.statusesByID.set(statusesByID);
+            this.states.statuses.set(statuses);
+        }
+
+        updateCardTypes(cardTypes) {
+            const cardTypesByID: Array<Promotion> = [];
+            cardTypes.forEach(status => {
+                cardTypesByID[status.id] = status;
+            });
+            this.states.cardTypesByID.set(cardTypesByID);
+            this.states.cardTypes.set(cardTypes);
+        }
+
+        showCommitteeDetails(committee = null) {
+            this.dialog.open(CommitteeDetailsComponent, {
+                disableClose: true,
+                panelClass: 'big-popup',
+                data: committee ? JSON.parse(JSON.stringify(committee)) : null
+            }).afterClosed().subscribe(committees => {
+                if (committees) {
+                    this.updateHierarchy(committees);
+                }
+            });
+        }
+
+        showPrimaryOrganizationDetails(primaryOrganization = null) {
+            this.dialog.open(PrimaryOrganizationDetailsComponent, {
+                disableClose: true,
+                panelClass: 'big-popup',
+                data: primaryOrganization ? JSON.parse(JSON.stringify(primaryOrganization)) : null
+            }).afterClosed().subscribe(primaryOrganizations => {
+                if (primaryOrganizations) {
+                    this.updateHierarchy(null, primaryOrganizations);
+                }
+            });
+        }
+
+        showAssignmentEdit(assignment = null) {
+            this.dialog.open(AssignmentEditComponent, {
+                disableClose: true,
+                panelClass: 'big-popup',
+                data: assignment ? JSON.parse(JSON.stringify(assignment)) : null
+            }).afterClosed().subscribe(assignments => {
+                if (assignments !== undefined) {
+                    this.updateAssignments(assignments || []);
+                }
+            });
+        }
+
+        showCategoryEdit(category = null) {
+            this.dialog.open(CategoryEditComponent, {
+                disableClose: true,
+                panelClass: 'big-popup',
+                data: category ? JSON.parse(JSON.stringify(category)) : null
+            }).afterClosed().subscribe(categories => {
+                if (categories !== undefined) {
+                    this.updateCategories(categories || []);
+                }
+            });
+        }
+
+        showPromotionEdit(promotion = null) {
+            this.dialog.open(PromotionEditComponent, {
+                disableClose: true,
+                panelClass: 'big-popup',
+                data: promotion ? JSON.parse(JSON.stringify(promotion)) : null
+            }).afterClosed().subscribe(promotions => {
+                if (promotions !== undefined) {
+                    this.updatePromotions(promotions || []);
+                }
+            });
+        }
+    */
     updateSearchInputWithEnter(event) {
         if (event.key === 'Enter') {
             this.updateSearchInput(event.target.value);
@@ -475,7 +527,7 @@ export class AppComponent extends StateComponent implements OnInit {
     }
 
     updateSearchInput(value: string) {
-        this.states.searchExchangeParams.setField('search_like', value);
+        this.states.searchExchangeParams.setField('fromdate', value);
         this.searchExchanges();
     }
 

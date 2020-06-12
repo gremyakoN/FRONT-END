@@ -1,0 +1,36 @@
+<mat-expansion-panel *ngIf="states.user.value" class="mat-elevation-z0" [expanded]="states.searchExchangeFiltersExpanded.value">
+    <div line>
+        <mat-form-field appearance="outline">
+            <mat-label>{{states.texts.value.searchExchangeParams.exchange_typeid[states.lang.value]}}</mat-label>
+            <mat-select (selectionChange)="setField('exchange_typeid', $event.source.selected ? $event.source.selected.value : null)"
+                        [formControl]="formControls['exchange_typeid']">
+                <mat-option>{{states.texts.value.forms.clear[states.lang.value]}}</mat-option>
+                <mat-optgroup *ngFor="let group of states.exchangeGroups.value">
+                    {{group.NAME}}
+                    <mat-option *ngFor="let type of states.exchangeTypesByGroupID.value[group.ID]"
+                                [value]="type.ID">
+                        {{type.NAME}}
+                    </mat-option>
+                </mat-optgroup>
+            </mat-select>
+        </mat-form-field>
+
+
+
+    </div>
+    <div buttons>
+        <button mat-stroked-button color="primary" (click)="clearAllSearchParams()" [disabled]="cleared.value">
+            <text-label id="forms.clearFilters"></text-label>
+        </button>
+        <button mat-flat-button color="primary" (click)="applySearchParams()" [disabled]="!changed.value">
+            <text-label id="forms.apply"></text-label>
+        </button>
+    </div>
+</mat-expansion-panel>
+<mat-chip-list>
+    <mat-chip *ngIf="states.searchExchangeParams.value.exchange_typeid != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('exchange_typeid')">
+        {{states.exchangeTypesByID.value[states.searchExchangeParams.value.exchange_typeid].NAME}}
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+</mat-chip-list>

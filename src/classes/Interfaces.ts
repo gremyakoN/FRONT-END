@@ -9,6 +9,18 @@ export interface User {
     is_admin: boolean;
 }
 
+export interface ExchangeGroup {
+    ID: number;
+    NAME: string;
+}
+
+export interface ExchangeType {
+    ID: number;
+    NAME: string;
+    CODE: string;
+    GROUPID: number;
+}
+
 export interface Exchange {
     id: number;
     regionId: number;
@@ -23,12 +35,16 @@ export interface Exchange {
 }
 
 export interface SearchExchangeParams {
+    fromdate: Moment;
+    fromdate_str: string;
+    todate: Moment;
+    todate_str: string;
+    exchange_groupid: number;
+    exchange_typeid: number;
     page_number: number;
     page_size: number;
     order_by: string;
     order_type: string;
-    fromdate: Moment;
-    todate: Moment;
 }
 
 export interface SearchResultExchange {
@@ -70,6 +86,14 @@ export interface File {
     processStateId: number;
     fileSize: number;
 }
+
+export interface CompanyRegion {
+    id: number;
+    regionid: number;
+    companyid: number;
+    name: string;
+}
+
 /*
 export interface Assignment {
     id: string;

@@ -2,7 +2,9 @@ import {Injectable} from '@angular/core';
 import {State} from '../classes/State';
 import {
     Exchange, SearchExchangeParams, SearchExchangeResult,
+    ExchangeGroup, ExchangeType,
     File,
+    CompanyRegion,
     //Assignment,
     //CalendarEvent,
     //CardType,
@@ -33,8 +35,17 @@ export class States {
     files: State<Array<File>> = new State<Array<File>>(null);
     searchExchangeParams: State<SearchExchangeParams> = new State<SearchExchangeParams>(null);
     searchExchangeResult: State<SearchExchangeResult> = new State<SearchExchangeResult>(null);
-
+    searchExchangeFiltersExpanded: State<boolean> = new State<boolean>(false);
     loggedIn: State<boolean> = new State<boolean>(false);
+
+    companyRegion: State<Array<CompanyRegion>> = new State<Array<CompanyRegion>>(null);
+    companyRegionByID: State<Array<CompanyRegion>> = new State<Array<CompanyRegion>>(null);
+    exchangeGroups: State<Array<ExchangeGroup>> = new State<Array<ExchangeGroup>>(null);
+    exchangeGroupsByID: State<Array<ExchangeGroup>> = new State<Array<ExchangeGroup>>(null);
+    exchangeTypes: State<Array<ExchangeType>> = new State<Array<ExchangeType>>(null);
+    exchangeTypesByID: State<Array<ExchangeType>> = new State<Array<ExchangeType>>(null);
+    exchangeTypesByGroupID: State<Array<Array<ExchangeType>>> = new State<Array<Array<ExchangeType>>>(null);
+
 
     //events: State<Array<FullCalendarEvent>> = new State<Array<FullCalendarEvent>>(null);
     //eventsByID: State<Array<CalendarEvent>> = new State<Array<CalendarEvent>>([]);
@@ -51,7 +62,7 @@ export class States {
     //categoriesByID: State<Array<Category>> = new State<Array<Category>>(null);
     //promotions: State<Array<Promotion>> = new State<Array<Promotion>>(null);
     //promotionsByID: State<Array<Promotion>> = new State<Array<Promotion>>(null);
-    searchFiltersExpanded: State<boolean> = new State<boolean>(false);
+
     //searchParams: State<SearchParams> = new State<SearchParams>(null);
     //searchPaymentsFiltersExpanded: State<boolean> = new State<boolean>(false);
     //searchPaymentsParams: State<SearchPaymentsParams> = new State<SearchPaymentsParams>(null);

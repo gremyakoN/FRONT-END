@@ -77,8 +77,47 @@
             <div exchanges [class.inactive]="states.selectedMenu.value != 'exchanges'">
                 <mat-card>
                     <div top>
+                            <mat-form-field search appearance="outline">
+                                <mat-label>{{states.texts.value.searchExchangeParams.fromdate[states.lang.value]}}</mat-label>
+                                <input matInput [matDatepickerFilter]="minInsertedParamBound" [matDatepicker]="minInsertedDatePicker"
+                                       (dateChange)="setField('fromdate', $event.value)">
+                                <mat-datepicker-toggle matSuffix [for]="minInsertedDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #minInsertedDatePicker></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field search appearance="outline">
+                                <mat-label>{{states.texts.value.searchExchangeParams.todate[states.lang.value]}}</mat-label>
+                                <input matInput [matDatepickerFilter]="maxInsertedParamBound" [matDatepicker]="maxInsertedDatePicker"
+                                       (dateChange)="setField('todate', $event.value)">
+                                <mat-datepicker-toggle matSuffix [for]="maxInsertedDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #maxInsertedDatePicker></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field search appearance="outline">
+                                <mat-label>{{states.texts.value.searchExchangeParams.exchange_groupid[states.lang.value]}}</mat-label>
+                                <mat-select (selectionChange)="setField('exchange_groupid', $event.source.selected ? $event.source.selected.value : null)">
+                                    <mat-option>{{states.texts.value.forms.clear[states.lang.value]}}</mat-option>
+                                    <mat-option *ngFor="let group of states.exchangeGroups.value" [value]="group.ID">
+                                        {{group.NAME}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        <button search-submit mat-stroked-button (click)="updateSearchInput(searchInput.value)">
+                            <mat-icon>search</mat-icon>
+                        </button>
+                        <button edit-filters mat-stroked-button [class.selected]="states.searchExchangeFiltersExpanded.value"
+                                (click)="states.searchExchangeFiltersExpanded.set(!states.searchExchangeFiltersExpanded.value)">
+                            <mat-icon>filter_list</mat-icon>
+                        </button>
+                    </div>
+                    <search-filters></search-filters>
+                </mat-card>
+                <!-- <search-results [resultState]="states.searchResult" [paramsState]="states.searchParams" [searchingState]="states.searching"></search-results> -->
+            </div>
+            <div exchanges_orig [class.inactive]="states.selectedMenu.value != 'exchanges_orig'">
+                <mat-card>
+                    <div top>
                         <mat-form-field search appearance="outline">
-                            <mat-label>{{states.texts.value.members.search[states.lang.value]}}</mat-label>
+                            <mat-label>{{states.texts.value.exchanges.search[states.lang.value]}}</mat-label>
                             <input #searchInput matInput type="search" (keyup)="updateSearchInputWithEnter($event)"/>
                             <button mat-button *ngIf="searchInput.value" matSuffix mat-icon-button
                                     (click)="updateSearchInput(''); searchInput.value = ''">
@@ -88,8 +127,8 @@
                         <button search-submit mat-stroked-button (click)="updateSearchInput(searchInput.value)">
                             <mat-icon>search</mat-icon>
                         </button>
-                        <button edit-filters mat-stroked-button [class.selected]="states.searchFiltersExpanded.value"
-                                (click)="states.searchFiltersExpanded.set(!states.searchFiltersExpanded.value)">
+                        <button edit-filters mat-stroked-button [class.selected]="states.searchExchangeFiltersExpanded.value"
+                                (click)="states.searchExchangeFiltersExpanded.set(!states.searchExchangeFiltersExpanded.value)">
                             <mat-icon>filter_list</mat-icon>
                         </button>
                     </div>

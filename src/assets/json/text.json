@@ -18,62 +18,18 @@
   "itemsPerPage": {
     "ru": "Показывать по "
   },
-  "searchParams": {
-    "primary_organization_id": {
-      "ru": "Первичная организация"
+  "searchExchangeParams": {
+    "fromdate": {
+      "ru": "Дата с"
     },
-    "assignment_id": {
-      "ru": "Назначение"
+    "todate": {
+      "ru": "Дата по"
     },
-    "status": {
-      "ru": "Статус"
+    "exchange_groupid": {
+      "ru": "Группа"
     },
-    "card_type": {
-      "ru": "Тип билета"
-    },
-    "min_age": {
-      "ru": "Возраст от"
-    },
-    "max_age": {
-      "ru": "Возраст до"
-    },
-    "min_inserted_date": {
-      "ru": "Регистрация с"
-    },
-    "max_inserted_date": {
-      "ru": "Регистрация по"
-    },
-    "with_photo": {
-      "ru": "С фото"
-    },
-    "with_passport": {
-      "ru": "С паспортом"
-    },
-    "is_transfer": {
-      "ru": "Запрошена передвижка"
-    },
-    "is_debtor": {
-      "ru": "Должники"
-    },
-    "min_mark": {
-      "ru": "Баллов от"
-    },
-    "max_mark": {
-      "ru": "Баллов до"
-    },
-    "category_id": {
-      "ru": "Категория"
-    }
-  },
-  "searchPaymentsParams": {
-    "committee_id": {
-      "ru": "Комитет"
-    },
-    "period": {
-      "ru": "Период"
-    },
-    "is_erip": {
-      "ru": "Оплата через ЕРИП"
+    "exchange_typeid": {
+      "ru": "Тип пакета"
     }
   },
   "forms": {
@@ -125,7 +81,7 @@
       "ru": "Забыли пароль?"
     },
     "signin": {
-      "ru": "Войти"
+      "ru": "ВОЙТИ"
     },
     "username": {
       "placeholder": {
@@ -150,200 +106,15 @@
   "menu": {
     "exchanges": {
       "ru": "Пакеты"
-    },
-    "members": {
-      "ru": "Члены БРСМ"
-    },
-    "payments": {
-      "ru": "Взносы"
-    },
-    "events": {
-      "ru": "Мероприятия"
-    },
-    "news": {
-      "ru": "Новости"
-    },
-    "hierarchy": {
-      "ru": "Иерархия"
-    },
-    "assignments": {
-      "ru": "Назначения"
-    },
-    "categories": {
-      "ru": "Категории"
-    },
-    "promotions": {
-      "ru": "Поощрения"
     }
   },
-  "events": {
-    "month": {
-      "ru": "Месяц"
-    },
-    "week": {
-      "ru": "Неделя"
-    },
-    "day": {
-      "ru": "День"
-    },
-    "noEvents": {
-      "ru": "Нет мероприятий"
-    },
-    "name": {
-      "ru": "Название"
-    },
-    "address": {
-      "ru": "Адрес"
-    },
-    "date_from": {
-      "ru": "Начало"
-    },
-    "date_to": {
-      "ru": "Окончание"
-    },
-    "hours": {
-      "ru": "Часы"
-    },
-    "minutes": {
-      "ru": "Минуты"
-    },
-    "additional_info": {
-      "ru": "Информация"
-    },
-    "mark": {
-      "ru": "Баллов за участие"
-    },
-    "committee_id": {
-      "ru": "Комитет"
-    },
-    "apply_event_mark": {
-      "ru": "Начислить баллы"
-    },
-    "addEvent": {
-      "ru": "Добавить мероприятие"
-    }
-  },
-  "news": {
-    "addArticle": {
-      "ru": "Добавить новость"
-    },
-    "title": {
-      "ru": "Заголовок"
-    },
-    "link": {
-      "ru": "Ссылка"
-    },
-    "text": {
-      "ru": "Текст"
-    },
-    "committee_id": {
-      "ru": "Комитет"
-    }
-  },
-  "hierarchy": {
-    "addCommittee": {
-      "ru": "Добавить комитет"
-    },
-    "addPrimaryOrganization": {
-      "ru": "Добавить первичную организацию"
-    },
-    "committee_id": {
-      "ru": "Комитет"
-    },
-    "parent_id": {
-      "ru": "Родительский комитет"
-    },
-    "unp": {
-      "ru": "УНП"
-    },
-    "name": {
-      "ru": "Название"
-    },
-    "address": {
-      "ru": "Адрес"
-    },
-    "phone": {
-      "ru": "Телефон"
-    },
-    "email": {
-      "ru": "Электронная почта"
-    },
-    "iban": {
-      "ru": "Номер счёта"
-    },
-    "bic": {
-      "ru": "BIC"
-    },
-    "service_no": {
-      "ru": "Номер услуги"
-    },
-    "unicode": {
-      "ru": "Номер ТК в билете"
-    }
-  },
-  "assignments": {
-    "0": {
-      "ru": "Первичная организация"
-    },
-    "1": {
-      "ru": "Районный (городской) комитет"
-    },
-    "2": {
-      "ru": "Областной (г. Минск) комитет"
-    },
-    "3": {
-      "ru": "Центральный комитет"
-    },
-    "4": {
-      "ru": "Суперпользователь"
-    },
-    "admin": {
-      "ru": "Администратор"
-    },
-    "addAssignment": {
-      "ru": "Добавить назначение"
-    },
-    "name": {
-      "ru": "Назначение"
-    },
-    "hierarchy_level": {
-      "ru": "Уровень"
-    }
-  },
-  "categories": {
-    "addCategory": {
-      "ru": "Добавить категорию"
-    },
-    "name": {
-      "ru": "Название"
-    },
-    "amount": {
-      "ru": "Тариф"
-    }
-  },
-  "promotions": {
-    "noPromotions": {
-      "ru": "Нет поощрений"
-    },
-    "addPromotion": {
-      "ru": "Добавить поощрение"
-    },
-    "name": {
-      "ru": "Название"
-    },
-    "min_value": {
-      "ru": "Минимум баллов"
-    },
-    "max_value": {
-      "ru": "Максимум баллов"
-    }
-  },
-  "members": {
+  "exchanges": {
+
     "search": {
       "ru": "Поиск"
     },
     "noResults": {
-      "ru": "По заданным поисковым параметрам никто не найден"
+      "ru": "По заданным поисковым параметрам пакетов не найдено"
     },
     "selectAction": {
       "ru": "Выбрать действие"
@@ -369,158 +140,7 @@
       }
     }
   },
-  "payments": {
-    "search": {
-      "ru": "Поиск"
-    },
-    "noResults": {
-      "ru": "По заданным поисковым параметрам ничего не найдено"
-    }
-  },
-  "member": {
-    "addPhoto": {
-      "ru": "Добавить фото"
-    },
-    "addPassport": {
-      "ru": "Добавить паспорт"
-    },
-    "loadPassport": {
-      "ru": "Посмотреть паспорт"
-    },
-    "changePhoto": {
-      "ru": "Изменить фото"
-    },
-    "changePassport": {
-      "ru": "Изменить паспорт"
-    },
-    "changeCommittee": {
-      "ru": "Передвижка в %1"
-    },
-    "surname": {
-      "ru": "Фамилия"
-    },
-    "firstname": {
-      "ru": "Имя"
-    },
-    "patronymic": {
-      "ru": "Отчество"
-    },
-    "date_of_birth": {
-      "ru": "Дата рождения"
-    },
-    "identification_number": {
-      "ru": "Личный номер"
-    },
-    "phone": {
-      "ru": "Телефон"
-    },
-    "email": {
-      "ru": "Электронная почта"
-    },
-    "address": {
-      "ru": "Адрес"
-    },
-    "study_place": {
-      "ru": "Место учёбы"
-    },
-    "study_division": {
-      "ru": "Подразделение места учёбы"
-    },
-    "work_place": {
-      "ru": "Место работы"
-    },
-    "work_division": {
-      "ru": "Подразделение места работы"
-    },
-    "work_position": {
-      "ru": "Должность"
-    },
-    "additional_info": {
-      "ru": "Дополнительная информация"
-    },
-    "committee_id": {
-      "ru": "Комитет"
-    },
-    "primary_organization_id": {
-      "ru": "Первичная организация"
-    },
-    "status": {
-      "ru": "Статус"
-    },
-    "assignment_id": {
-      "ru": "Назначение"
-    },
-    "card_number": {
-      "ru": "Номер билета (создастся автоматически, если не введен)"
-    },
-    "card_number_old": {
-      "ru": "Номер билета старого образца"
-    },
-    "card_date_of_issue": {
-      "ru": "Выдан"
-    },
-    "card_issued_by": {
-      "ru": "Место выдачи"
-    },
-    "parentsAgreed": {
-      "ru": "Согласие родителей на вступление"
-    },
-    "rating": {
-      "ru": "Баллы: %1"
-    },
-    "category_id": {
-      "ru": "Текущий тариф"
-    },
-    "entryFee": {
-      "ru": "Оплачен вступительный взнос (РК/ГК)"
-    },
-    "entryFee2": {
-      "ru": "Оплачен вступительный взнос (ОК)"
-    },
-    "ratingHistory": {
-      "mark": {
-        "ru": "Баллы"
-      },
-      "reason": {
-        "ru": "Основание"
-      },
-      "user": {
-        "ru": "Кем начислено"
-      },
-      "inserted": {
-        "ru": "Дата"
-      }
-    },
-    "paymentsHistory": {
-      "period": {
-        "ru": "Период"
-      },
-      "amount": {
-        "ru": "Сумма"
-      },
-      "transaction_result": {
-        "ru": "Дата"
-      },
-      "initiator": {
-        "ru": "Место"
-      }
-    },
-    "transferHistory": {
-      "from": {
-        "ru": "Откуда"
-      },
-      "to": {
-        "ru": "Куда"
-      },
-      "date": {
-        "ru": "Дата"
-      }
-    },
-    "transfers": {
-      "ru": "Передвижки"
-    }
-  },
-  "searchResults": {
+   "searchResults": {
     "id": {
       "ru": "ID"
     },
@@ -588,15 +208,6 @@
     "period": {
       "ru": "Период"
     }
-  },
-  "event": {
-    "ru": "Мероприятие"
-  },
-  "promotion": {
-    "ru": "Поощрение"
-  },
-  "category": {
-    "ru": "Категория"
   },
   "pagination": {
     "ru": "%1 - %2 из %3"
