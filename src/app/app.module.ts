@@ -30,7 +30,7 @@ import {Utils} from '../providers/utils';
 import {MAT_MOMENT_DATE_FORMATS} from '@angular/material-moment-adapter';
 //import {AddArticleComponent} from '../components/add-article.component';
 import {FullCalendarModule} from '@fullcalendar/angular';
-import {ColorPickerComponent} from '../components/color-picker.component';
+//import {ColorPickerComponent} from '../components/color-picker.component';
 //import {AddEventComponent} from '../components/add-event.component';
 //import {EventSelectComponent} from '../components/event-select.component';
 //import {CommitteeSelectComponent} from '../components/committee-select.component';
@@ -70,7 +70,7 @@ import {RuDateAdapter} from '../classes/RuDateAdapter';
         //ExportDialogComponent,
         //MemberDetailsComponent,
         //AddArticleComponent,
-        ColorPickerComponent,
+        //ColorPickerComponent,
         //AddEventComponent,
         //EventSelectComponent,
         //CommitteeSelectComponent,
@@ -101,7 +101,7 @@ import {RuDateAdapter} from '../classes/RuDateAdapter';
         //ExportDialogComponent,
         //MemberDetailsComponent,
         //AddArticleComponent,
-        ColorPickerComponent,
+        //ColorPickerComponent,
         //AddEventComponent,
         //EventSelectComponent,
         //CommitteeSelectComponent,

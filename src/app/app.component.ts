@@ -38,7 +38,6 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import * as moment from 'moment';
 import {Moment} from 'moment';
 
-
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html'
@@ -58,16 +57,12 @@ export class AppComponent extends StateComponent implements OnInit {
     //searchMembersBound: Function;
     //searchPaymentsBound: Function;
 
-    minInsertedParamBound: Function;
-    maxInsertedParamBound: Function;
+    fromDateDefault: string;
+    toDateDefault: string;
 
-    searchExchangesBound: Function;
-
-
-    selectedMembersActionChangedBound: Function;
-    calendarPlugins = [dayGridPlugin, listMonthPlugin, timeGridPlugin];
-    addEventWithDateBound: Function;
-
+    minDateParamBound: Function;
+    maxDateParamBound: Function;
+    //searchExchangesBound: Function;
 
     //@ViewChild(FullCalendarComponent) eventsCalendar: FullCalendarComponent;
 
@@ -76,9 +71,9 @@ export class AppComponent extends StateComponent implements OnInit {
         this.runTickBound = this.runTick.bind(this);
         //this.committeeHasChildrenBound = this.committeeHasChildren.bind(this);
 
-        this.minInsertedParamBound = this.minInsertedParam.bind(this);
-        this.maxInsertedParamBound = this.maxInsertedParam.bind(this);
-        this.searchExchangesBound = this.searchExchanges.bind(this);
+        this.minDateParamBound = this.minDateParam.bind(this);
+        this.maxDateParamBound = this.maxDateParam.bind(this);
+        //this.searchExchangesBound = this.searchExchanges.bind(this);
 
         //this.searchMembersBound = this.searchMembers.bind(this);
         //this.searchPaymentsBound = this.searchPayments.bind(this);
@@ -136,59 +131,32 @@ export class AppComponent extends StateComponent implements OnInit {
         this.passwordFormControl = new FormControl('', [
             Validators.required
         ]);
-        // this.emailFormControl = new FormControl('e.tihomirov@besmart.by', [
-        //     Validators.required,
-        //     Validators.email,
-        // ]);
-        // this.passwordFormControl = new FormControl('password', [
-        //     Validators.required
-        // ]);
-        // this.emailFormControl = new FormControl('v.korneev@besmart.by', [
-        //     Validators.required,
-        //     Validators.email,
-        // ]);
-        // this.passwordFormControl = new FormControl('v@lent1n', [
-        //     Validators.required
-        // ]);
+
+        this.usernameFormControl = new FormControl('gremyako', [
+            Validators.required,
+        ]);
+        this.passwordFormControl = new FormControl('pocv1bvq', [
+            Validators.required
+        ]);
 
         //this.hierarchyTreeControl = new NestedTreeControl<Committee>(node => {
         //    return node.children;
         //});
         //this.hierarchyDataSource = new MatTreeNestedDataSource<Committee>();
-        //this.states.assignmentsLevels.set(['4', '3', '2', '1', '0']);
-/*
-        this.states.searchParams.set({
-            page_number: 1,
-            page_size: 0,
-            primary_organization_id: null,
-            assignment_id: null,
-            status: null,
-            card_type: null,
-            min_age: null,
-            max_age: null,
-            min_inserted: null,
-            max_inserted: null,
-            min_inserted_date: null,
-            max_inserted_date: null,
-            with_photo: null,
-            with_passport: null,
-            is_debtor: null,
-            min_mark: null,
-            max_mark: null,
-            category_id: null
-        } as SearchParams);
-        this.states.searchPaymentsParams.set({
-            page_number: 1,
-            page_size: 0,
-            committee_id: null,
-            period: null,
-            is_erip: null
-        } as SearchPaymentsParams);
-*/
+
         this.states.searchExchangeParams.set({
+            fromdate: null,
+            fromdate_moment: null,
+            todate: null,
+            todate_moment: null,
+            exchange_groupid: null,
+            exchange_typeid: null,
+            order_by: null,
+            order_type: null,
             page_number: 1,
             page_size: 0
         } as SearchExchangeParams);
+
         document.body.appendChild(document.body.querySelector('div[curtain]'));
         this.states.selectedMenu.set('exchanges');
     }
@@ -239,13 +207,25 @@ export class AppComponent extends StateComponent implements OnInit {
         //this.updatePromotions(loginResponse.promotions || []);
         //this.updateStatuses(loginResponse.statuses || []);
         //this.updateCardTypes(loginResponse.card_types || []);
-        //this.states.searchParams.setField('page_size', this.states.config.value.searchPageSize);
-        //this.states.searchParams.subscribe(this.searchMembersBound);
+
         //this.states.searchPaymentsParams.setField('page_size', this.states.config.value.searchPageSize);
         //this.states.searchPaymentsParams.subscribe(this.searchPaymentsBound);
         //this.states.selectedMembersAction.subscribe(this.selectedMembersActionChangedBound);
         //this.states.news.set(loginResponse.news || []);
         //this.updateEvents(loginResponse.events || []);
+
+        this.states.searchExchangeParams.setField('page_size', this.states.config.value.searchPageSize);
+
+        this.fromDateDefault = this.utils.convertToJAVADate(moment().add(-this.states.config.value.searchDays, 'days'));
+        this.toDateDefault = this.utils.convertToJAVADate(moment());
+        this.states.searchExchangeParams.setField('fromdate_moment', moment().add(-this.states.config.value.searchDays, 'days'));
+        this.states.searchExchangeParams.setField('fromdate', this.fromDateDefault);
+        this.states.searchExchangeParams.setField('todate_moment', moment());
+        this.states.searchExchangeParams.setField('todate', this.toDateDefault);
+
+
+        //this.states.searchExchangeParams.subscribe(this.searchExchangesBound());
+
         this.states.user.set(loginResponse.user);
         window.requestAnimationFrame(() => {
             //this.updateCalendarSize();
@@ -354,12 +334,12 @@ export class AppComponent extends StateComponent implements OnInit {
         this.states.exchangeTypes.set(exchangeTypes);
     }
 
-    minInsertedParam(date: Moment): boolean {
-        return true; //this.states.searchExchangeParams.valuefromdate ? (date.toDate().getTime() < this.states.searchExchangeParams.fromdate.toDate().getTime()) : true;
+    minDateParam(date: Moment): boolean {
+        return this.states.searchExchangeParams.value.todate_moment ? (date.toDate().getTime() < this.states.searchExchangeParams.value.todate_moment.toDate().getTime()) : true;
     }
 
-    maxInsertedParam(date: Moment): boolean {
-        return true; //this.states.searchExchangeParams.todate ? (date.toDate().getTime() > this.states.searchExchangeParams.todate.toDate().getTime()) : true;
+    maxDateParam(date: Moment): boolean {
+        return this.states.searchExchangeParams.value.fromdate_moment ? (date.toDate().getTime() > this.states.searchExchangeParams.value.fromdate_moment.toDate().getTime()) : true;
     }
 
     /*
@@ -407,57 +387,6 @@ export class AppComponent extends StateComponent implements OnInit {
 
         committeeHasChildren(index: number, node: Committee): boolean {
             return (node.children && !!node.children.length) || (this.states.primaryOrganizationsByCommittee.value[node.id.toString()]);
-        }
-
-        updateAssignments(assignments) {
-            const assignmentsByID: Array<Assignment> = [];
-            const assignmentByLevel: Array<Array<Assignment>> = [];
-            assignments.forEach(assignment => {
-                assignmentsByID[assignment.id] = assignment;
-                if (!assignmentByLevel[assignment.hierarchy_level]) {
-                    assignmentByLevel[assignment.hierarchy_level] = [];
-                }
-                assignmentByLevel[assignment.hierarchy_level].push(assignment);
-            });
-            this.states.assignments.set(assignments);
-            this.states.assignmentsByLevel.set(assignmentByLevel);
-            this.states.assignmentsByID.set(assignmentsByID);
-        }
-
-        updateCategories(categories) {
-            const categoriesByID: Array<Category> = [];
-            categories.forEach(category => {
-                categoriesByID[category.id] = category;
-            });
-            this.states.categoriesByID.set(categoriesByID);
-            this.states.categories.set(categories);
-        }
-
-        updatePromotions(promotions) {
-            const promotionsByID: Array<Promotion> = [];
-            promotions.forEach(promotion => {
-                promotionsByID[promotion.id] = promotion;
-            });
-            this.states.promotionsByID.set(promotionsByID);
-            this.states.promotions.set(promotions);
-        }
-
-        updateStatuses(statuses) {
-            const statusesByID: Array<Promotion> = [];
-            statuses.forEach(status => {
-                statusesByID[status.id] = status;
-            });
-            this.states.statusesByID.set(statusesByID);
-            this.states.statuses.set(statuses);
-        }
-
-        updateCardTypes(cardTypes) {
-            const cardTypesByID: Array<Promotion> = [];
-            cardTypes.forEach(status => {
-                cardTypesByID[status.id] = status;
-            });
-            this.states.cardTypesByID.set(cardTypesByID);
-            this.states.cardTypes.set(cardTypes);
         }
 
         showCommitteeDetails(committee = null) {
@@ -520,20 +449,23 @@ export class AppComponent extends StateComponent implements OnInit {
             });
         }
     */
-    updateSearchInputWithEnter(event) {
-        if (event.key === 'Enter') {
-            this.updateSearchInput(event.target.value);
-        }
-    }
-
-    updateSearchInput(value: string) {
-        this.states.searchExchangeParams.setField('fromdate', value);
-        this.searchExchanges();
-    }
 
     searchExchanges(): Promise<any> {
         return new Promise(resolve => {
             this.states.searching.set(true);
+            /*
+            alert('3!'+JSON.stringify(this.states.searchExchangeParams.value));
+            try {
+                alert(this.states.searchExchangeParams.value.fromdate_moment);
+                this.states.searchExchangeParams.value.fromdate = this.utils.convertToJAVADate(this.states.searchExchangeParams.value.fromdate_moment);
+            }
+            catch (e) {
+                alert(e.message);
+            }
+            */
+            this.states.searchExchangeParams.value.fromdate = this.states.searchExchangeParams.value.fromdate_moment ? this.utils.convertToJAVADate(this.states.searchExchangeParams.value.fromdate_moment) : null;
+            this.states.searchExchangeParams.value.todate = this.states.searchExchangeParams.value.todate_moment ? this.utils.convertToJAVADate(this.states.searchExchangeParams.value.todate_moment) : null;
+            //alert('4!'+JSON.stringify(this.states.searchExchangeParams.value));
             const searchParams = JSON.stringify(this.states.searchExchangeParams.value);
             this.server.getExchanges(this.states.searchExchangeParams.value).then(response => {
                 if (searchParams === JSON.stringify(this.states.searchExchangeParams.value)) {

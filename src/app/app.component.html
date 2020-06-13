@@ -77,23 +77,23 @@
             <div exchanges [class.inactive]="states.selectedMenu.value != 'exchanges'">
                 <mat-card>
                     <div top>
-                            <mat-form-field search appearance="outline">
+                        <mat-form-field search appearance="outline">
                                 <mat-label>{{states.texts.value.searchExchangeParams.fromdate[states.lang.value]}}</mat-label>
-                                <input matInput [matDatepickerFilter]="minInsertedParamBound" [matDatepicker]="minInsertedDatePicker"
-                                       (dateChange)="setField('fromdate', $event.value)">
-                                <mat-datepicker-toggle matSuffix [for]="minInsertedDatePicker"></mat-datepicker-toggle>
-                                <mat-datepicker #minInsertedDatePicker></mat-datepicker>
+                                <input matInput [matDatepickerFilter]="minDateParamBound" [matDatepicker]="minDatePicker"
+                                       [value]="fromDateDefault" (dateChange)="this.states.searchExchangeParams.setField('fromdate_moment', $event.value)">
+                                <mat-datepicker-toggle matSuffix [for]="minDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #minDatePicker></mat-datepicker>
                             </mat-form-field>
                             <mat-form-field search appearance="outline">
                                 <mat-label>{{states.texts.value.searchExchangeParams.todate[states.lang.value]}}</mat-label>
-                                <input matInput [matDatepickerFilter]="maxInsertedParamBound" [matDatepicker]="maxInsertedDatePicker"
-                                       (dateChange)="setField('todate', $event.value)">
-                                <mat-datepicker-toggle matSuffix [for]="maxInsertedDatePicker"></mat-datepicker-toggle>
-                                <mat-datepicker #maxInsertedDatePicker></mat-datepicker>
+                                <input matInput [matDatepickerFilter]="maxDateParamBound" [matDatepicker]="maxDatePicker"
+                                       [value]="toDateDefault" (dateChange)="this.states.searchExchangeParams.setField('todate_moment', $event.value)">
+                                <mat-datepicker-toggle matSuffix [for]="maxDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #maxDatePicker></mat-datepicker>
                             </mat-form-field>
                             <mat-form-field search appearance="outline">
                                 <mat-label>{{states.texts.value.searchExchangeParams.exchange_groupid[states.lang.value]}}</mat-label>
-                                <mat-select (selectionChange)="setField('exchange_groupid', $event.source.selected ? $event.source.selected.value : null)">
+                                <mat-select (selectionChange)="this.states.searchExchangeParams.setField('exchange_groupid', $event.source.selected ? $event.source.selected.value : null)">
                                     <mat-option>{{states.texts.value.forms.clear[states.lang.value]}}</mat-option>
                                     <mat-option *ngFor="let group of states.exchangeGroups.value" [value]="group.ID">
                                         {{group.NAME}}
@@ -101,7 +101,7 @@
                                 </mat-select>
                             </mat-form-field>
 
-                        <button search-submit mat-stroked-button (click)="updateSearchInput(searchInput.value)">
+                        <button search-submit mat-stroked-button (click)="searchExchanges()">
                             <mat-icon>search</mat-icon>
                         </button>
                         <button edit-filters mat-stroked-button [class.selected]="states.searchExchangeFiltersExpanded.value"

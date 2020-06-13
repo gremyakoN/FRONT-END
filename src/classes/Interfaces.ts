@@ -35,10 +35,10 @@ export interface Exchange {
 }
 
 export interface SearchExchangeParams {
-    fromdate: Moment;
-    fromdate_str: string;
-    todate: Moment;
-    todate_str: string;
+    fromdate: string;
+    fromdate_moment: Moment;
+    todate: string;
+    todate_moment: Moment;
     exchange_groupid: number;
     exchange_typeid: number;
     page_number: number;
