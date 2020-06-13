@@ -26,6 +26,8 @@ export class Server {
     requestID = 0;
     logid: string;
     token: string;
+    companyid: string;
+    regionid: string;
 
     constructor(public http: HttpClient, public states: States) {
     }
@@ -51,6 +53,8 @@ export class Server {
         if (this.logid != null) {
             paramsCopy.logid = this.logid;
             paramsCopy.token = this.token;
+            paramsCopy.companyid = this.companyid;
+            paramsCopy.regionid = this.regionid;
         }
         return new Promise((resolve, reject) => {
             this.http.post(this.states.config.value.serverURL, {
@@ -63,27 +67,32 @@ export class Server {
             }).subscribe(response => {
                 if (responseType === 'json') {
                     if (response['error']) {
-                        if (response['error'].code === -32001) {
+                        if (response['error'].code === -20001) {
                             if (this.states.loggedIn.value) {
                                 alert(response['error'].message);
                                 this.states.loggedIn.set(false);
                             }
                             this.states.curtainVisible.set(false);
                         } else {
+                            alert('ERROR:' + response['error'].message);
                             reject(response['error']);
                         }
                     } else {
-                        if (method === 'Login') {
-                            //alert(response['result'].token);
+                        if (method === 'Login' || method === 'Refresh') {
                             this.logid = response['result'].logid;
                             this.token = response['result'].token;
+                            this.companyid = response['result'].user.companyid;
+                            this.regionid = response['result'].user.regionid;
                         }
+                        //alert(JSON.stringify(response));
                         resolve(response['result']);
                     }
                 } else {
+                    alert('SOME ERROR:' + response['error'].message);
                     resolve(response);
                 }
             }, error => {
+                alert('SOME BAD ERROR:' + error.message);
                 reject({code: -1});
 //       reject({code: -32005});
             });
@@ -148,7 +157,7 @@ export class Server {
                 resolve([]);
             });
         } else {
-            return this.request('GetExchanges', params);
+            return this.request('Exchanges', params);
         }
     }
 

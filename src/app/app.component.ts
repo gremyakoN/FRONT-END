@@ -6,18 +6,9 @@ import {FormControl, Validators} from '@angular/forms';
 import {MatBottomSheet, MatDialog, MatTreeNestedDataSource} from '@angular/material';
 import {ResetPasswordComponent} from '../components/reset-password.component';
 import {
-    SearchExchangeParams,
-    Exchange, CompanyRegion,
+    CompanyRegion,
     ExchangeType, ExchangeGroup,
-//    Article,
-//    Assignment,
-//    CalendarEvent,
-//    Category,
-//    Committee,
-//    PrimaryOrganization,
-//    Promotion,
-    //SearchParams,
-    //SearchPaymentsParams
+    SearchExchangeParams
 } from '../classes/Interfaces';
 import {NestedTreeControl} from '@angular/cdk/tree';
 //import {CommitteeDetailsComponent} from '../components/committee-details.component';
@@ -37,6 +28,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 //import {EventSelectComponent} from '../components/event-select.component';
 import * as moment from 'moment';
 import {Moment} from 'moment';
+import {error} from '@angular/compiler/src/util';
 
 @Component({
     selector: 'app-root',
@@ -111,15 +103,23 @@ export class AppComponent extends StateComponent implements OnInit {
             this.states.initComplete.set(true);
             const savedLogId: string = window.localStorage.getItem('logid');
             const savedToken: string = window.localStorage.getItem('token');
+            const savedCompanyId: string = window.localStorage.getItem('companyid');
+            const savedRegionId: string = window.localStorage.getItem('regionid');
             // const savedToken = null;
             if (savedLogId != null) {
                 this.states.curtainVisible.set(true);
                 this.server.logid = savedLogId;
                 this.server.token = savedToken;
+                this.server.companyid = savedCompanyId;
+                this.server.regionid = savedRegionId;
                 window.localStorage.removeItem('logid');
                 window.localStorage.removeItem('token');
+                window.localStorage.removeItem('companyid');
+                window.localStorage.removeItem('regionid');
                 this.server.refresh().then(response => {
                     this.afterLogin(response);
+                }).catch(error => {
+                    alert(error.message);
                 }).finally(() => {
                     this.states.curtainVisible.set(false);
                 });
@@ -195,6 +195,10 @@ export class AppComponent extends StateComponent implements OnInit {
         this.server.logid = loginResponse.logid;
         window.localStorage.setItem('token', loginResponse.token);
         this.server.token = loginResponse.token;
+        window.localStorage.setItem('companyid', loginResponse.user.companyid);
+        this.server.companyid = loginResponse.user.companyid;
+        window.localStorage.setItem('regionid', loginResponse.user.regionid);
+        this.server.regionid = loginResponse.user.regionid;
 
         // update all dicts!
         this.updateCompanyRegion(loginResponse.companyregion || []);
@@ -215,14 +219,13 @@ export class AppComponent extends StateComponent implements OnInit {
         //this.updateEvents(loginResponse.events || []);
 
         this.states.searchExchangeParams.setField('page_size', this.states.config.value.searchPageSize);
-
+        this.states.searchExchangeParams.setField('exchange_groupid', this.states.config.value.defaultGroupId);
         this.fromDateDefault = this.utils.convertToJAVADate(moment().add(-this.states.config.value.searchDays, 'days'));
         this.toDateDefault = this.utils.convertToJAVADate(moment());
         this.states.searchExchangeParams.setField('fromdate_moment', moment().add(-this.states.config.value.searchDays, 'days'));
         this.states.searchExchangeParams.setField('fromdate', this.fromDateDefault);
         this.states.searchExchangeParams.setField('todate_moment', moment());
         this.states.searchExchangeParams.setField('todate', this.toDateDefault);
-
 
         //this.states.searchExchangeParams.subscribe(this.searchExchangesBound());
 

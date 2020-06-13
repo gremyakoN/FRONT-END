@@ -22,16 +22,17 @@ export interface ExchangeType {
 }
 
 export interface Exchange {
-    id: number;
-    regionId: number;
-    name: string;
-    code: string;
-    exchangeDate: string;
-    fileCount: string;
-    fileFormed: string;
-    recCount: string;
-    parentId: number;
-    children: Array<Exchange>;
+    ID: number;
+    REGIONID: number;
+    NAME: string;
+    CODE: string;
+    EXCHANGEDATE: string;
+    EXCHANGETYPEID: number;
+    FILECOUNT: number;
+    FILEFORMED: number;
+    RECCOUNT: number;
+    PARENTID: number;
+    // children: Array<Exchange>;
 }
 
 export interface SearchExchangeParams {
@@ -47,16 +48,9 @@ export interface SearchExchangeParams {
     order_type: string;
 }
 
-export interface SearchResultExchange {
-    id: string;
-
-}
-
 export interface SearchExchangeResult {
-    exchanges: Array<SearchResultExchange>;
-    count: number;
+    Exchanges: Array<Exchange>;
 }
-
 
 export interface File {
     id: number;
@@ -80,9 +74,9 @@ export interface File {
     isAck2: number;
     errChecked: number;
     parentId: number;
-    children: Array<File>;
+    //children: Array<File>;
     parent_exchangeId: number;
-    childrenExch: Array<Exchange>;
+    //childrenExch: Array<Exchange>;
     processStateId: number;
     fileSize: number;
 }

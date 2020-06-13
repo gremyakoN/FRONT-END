@@ -1,11 +1,10 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {StateComponent} from '../classes/StateComponent';
-import {ExchangeType, SearchExchangeParams} from '../classes/Interfaces';
+import {SearchExchangeParams} from '../classes/Interfaces';
 import {States} from '../providers/states';
 import {FormControl} from '@angular/forms';
 import {State} from '../classes/State';
 import {Utils} from '../providers/utils';
-import {Moment} from 'moment';
 
 @Component({
     selector: 'search-filters',
@@ -15,10 +14,7 @@ import {Moment} from 'moment';
 
 export class SearchFiltersComponent extends StateComponent implements OnInit {
 
-    //filteredPrimaryOrganizations: Array<PrimaryOrganization>;
-    filteredExchangeTypes: Array<ExchangeType>;
     formControls: Array<FormControl>;
-    //searchFiltersFieldNames: Array<string> = ['primary_organization_id', 'assignment_id', 'status', 'card_type', 'min_age', 'max_age', 'min_inserted_date', 'max_inserted_date', 'with_photo', 'with_passport', 'is_transfer', 'is_debtor', 'min_mark', 'max_mark', 'category_id'];
     searchFiltersFieldNames: Array<string> = ['exchange_typeid'/*, 'exchangeid', 'fileid', 'filename'*/];
     data: SearchExchangeParams = {} as SearchExchangeParams;
     changed: State<boolean> = new State<boolean>(false);

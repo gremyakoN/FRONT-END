@@ -19,8 +19,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material'
 //import {PromotionEditComponent} from '../components/promotion-edit.component';
 import {TableSortComponent} from '../components/table-sort.component';
 import {SearchFiltersComponent} from '../components/search-filters.component';
-
-//import {SearchResultsComponent} from '../components/search-results.component';
+import {SearchResultsComponent} from '../components/search-results.component';
 //import {SelectedMembersComponent} from '../components/selected-members.component';
 //import {PromotionSelectComponent} from '../components/promotion-select.component';
 //import {CategorySelectComponent} from '../components/category-select.component';
@@ -63,7 +62,7 @@ import {RuDateAdapter} from '../classes/RuDateAdapter';
         //PromotionEditComponent,
         TableSortComponent,
         SearchFiltersComponent,
-        //SearchResultsComponent,
+        SearchResultsComponent,
         //SelectedMembersComponent,
         //PromotionSelectComponent,
         //CategorySelectComponent,

@@ -93,7 +93,7 @@
                             </mat-form-field>
                             <mat-form-field search appearance="outline">
                                 <mat-label>{{states.texts.value.searchExchangeParams.exchange_groupid[states.lang.value]}}</mat-label>
-                                <mat-select (selectionChange)="this.states.searchExchangeParams.setField('exchange_groupid', $event.source.selected ? $event.source.selected.value : null)">
+                                <mat-select [(ngModel)]="this.states.config.value.defaultGroupId" (selectionChange)="this.states.searchExchangeParams.setField('exchange_groupid', $event.source.selected ? $event.source.selected.value : null)">
                                     <mat-option>{{states.texts.value.forms.clear[states.lang.value]}}</mat-option>
                                     <mat-option *ngFor="let group of states.exchangeGroups.value" [value]="group.ID">
                                         {{group.NAME}}
@@ -111,7 +111,7 @@
                     </div>
                     <search-filters></search-filters>
                 </mat-card>
-                <!-- <search-results [resultState]="states.searchResult" [paramsState]="states.searchParams" [searchingState]="states.searching"></search-results> -->
+                <search-results [resultState]="states.searchExchangeResult" [paramsState]="states.searchExchangeParams" [searchingState]="states.searching"></search-results>
             </div>
             <div exchanges_orig [class.inactive]="states.selectedMenu.value != 'exchanges_orig'">
                 <mat-card>

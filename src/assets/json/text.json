@@ -140,73 +140,27 @@
       }
     }
   },
-   "searchResults": {
-    "id": {
+   "searchExchangeResults": {
+    "ID": {
       "ru": "ID"
     },
-    "surname": {
-      "ru": "Фамилия"
+    "NAME": {
+      "ru": "Тип"
     },
-    "firstname": {
-      "ru": "Имя"
-    },
-    "patronymic": {
-      "ru": "Отчество"
-    },
-    "age": {
-      "ru": "Возраст"
-    },
-    "phone": {
-      "ru": "Телефон"
-    },
-    "email": {
-      "ru": "Электронная почта"
-    },
-    "status": {
-      "ru": "Статус"
-    },
-    "assignment_id": {
-      "ru": "Назначение"
-    },
-    "primary_organization_id": {
-      "ru": "Первичная организация"
-    },
-    "mark": {
-      "ru": "Баллы"
-    },
-    "category_id": {
-      "ru": "Категория"
-    }
-  },
-  "searchPaymentsResults": {
-    "card_number": {
-      "ru": "Лицевой счёт / Номер билета"
-    },
-    "full_name": {
-      "ru": "ФИО"
-    },
-    "committee_id": {
-      "ru": "Комитет"
-    },
-    "amount": {
-      "ru": "Сумма"
-    },
-    "period": {
-      "ru": "Период"
-    },
-    "transaction_result": {
+    "EXCHANGEDATE": {
       "ru": "Дата"
     },
-    "transaction_id": {
-      "ru": "Учётный № в ЕРИП"
+    "FILECOUNT": {
+      "ru": "Файлов"
     },
-    "initiator": {
-      "ru": "Платёж принял"
-    }
-  },
-  "paymentsReport": {
-    "period": {
-      "ru": "Период"
+    "FILEFORMED": {
+      "ru": "Сформировано"
+    },
+    "RECCOUNT": {
+      "ru": "Ошибок"
+    },
+    "PARENTID": {
+      "ru": "Исходный пакет"
     }
   },
   "pagination": {

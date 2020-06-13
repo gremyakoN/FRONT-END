@@ -7,5 +7,6 @@
   "serverURL": "https://api.reso-med.com:8043/ords/rest/api/rpc/",
   "XserverFileURL": "http://82.209.233.254/ords/api/file/v1",
   "searchPageSize": 20,
-  "searchDays": 5
+  "searchDays": 1,
+  "defaultGroupId": 1
 }
