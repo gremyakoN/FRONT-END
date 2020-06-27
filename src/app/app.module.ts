@@ -20,7 +20,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material'
 import {TableSortComponent} from '../components/table-sort.component';
 import {SearchFiltersComponent} from '../components/search-filters.component';
 import {SearchResultsComponent} from '../components/search-results.component';
-//import {SelectedMembersComponent} from '../components/selected-members.component';
+import {SelectedExchangesComponent} from '../components/selected-exchanges.component';
 //import {PromotionSelectComponent} from '../components/promotion-select.component';
 //import {CategorySelectComponent} from '../components/category-select.component';
 //import {ExportDialogComponent} from '../components/export-dialog.component';
@@ -63,7 +63,7 @@ import {RuDateAdapter} from '../classes/RuDateAdapter';
         TableSortComponent,
         SearchFiltersComponent,
         SearchResultsComponent,
-        //SelectedMembersComponent,
+        SelectedExchangesComponent,
         //PromotionSelectComponent,
         //CategorySelectComponent,
         //ExportDialogComponent,
@@ -94,7 +94,7 @@ import {RuDateAdapter} from '../classes/RuDateAdapter';
         //AssignmentEditComponent,
         //CategoryEditComponent,
         //PromotionEditComponent,
-        //SelectedMembersComponent,
+        SelectedExchangesComponent,
         //PromotionSelectComponent,
         //CategorySelectComponent,
         //ExportDialogComponent,

@@ -17,11 +17,16 @@ export class SearchResultsComponent extends StateComponent implements OnInit, On
 
     sortableColumns = [
         'ID',
+        'NAME',
+        'EXCHANGEDATE',
+        'FILECOUNT',
+        'FILEFORMED',
+        'RECCOUNT',
         'PARENTID'
     ];
 
     updateColumnsBound: Function;
-    //memberEditedBound: any;
+    // memberEditedBound: any;
     columns: State<Array<string>> = new State<Array<string>>(null);
 
     @Input() allColumns: Array<string> = [
@@ -45,7 +50,7 @@ export class SearchResultsComponent extends StateComponent implements OnInit, On
     constructor(changeDetectorRef: ChangeDetectorRef, public states: States, private server: Server, private dialog: MatDialog) {
         super(changeDetectorRef);
         this.updateColumnsBound = this.updateColumns.bind(this);
-        //this.memberEditedBound = this.memberEdited.bind(this);
+        // this.memberEditedBound = this.memberEdited.bind(this);
     }
 
     ngOnInit() {
@@ -72,6 +77,7 @@ export class SearchResultsComponent extends StateComponent implements OnInit, On
 
     sortData(event) {
         const searchParams = JSON.parse(JSON.stringify(this.paramsState.value));
+        alert(JSON.stringify(this.paramsState.value));
         if (event.direction) {
             searchParams.order_by = event.active;
             searchParams.order_type = event.direction;
@@ -90,9 +96,10 @@ export class SearchResultsComponent extends StateComponent implements OnInit, On
         }).afterClosed().subscribe(this.memberEditedBound);
         */
     }
-/*
+
     rowClicked(event, row) {
         if (event.target.tagName === 'TD') {
+            /*
             this.states.curtainVisible.set(true);
             this.server.getMember(row.id).then(result => {
                 this.dialog.open(MemberDetailsComponent, {
@@ -105,9 +112,10 @@ export class SearchResultsComponent extends StateComponent implements OnInit, On
             }).finally(() => {
                 this.states.curtainVisible.set(false);
             });
+            */
         }
     }
-*/
+
 
 /*
 
@@ -132,15 +140,16 @@ export class SearchResultsComponent extends StateComponent implements OnInit, On
 
 
 */
+
     checkboxChanged(element, checked) {
         const arr = this.states.selectedExchangesIDs.value;
         if (checked) {
-            if (arr.indexOf(element.id) === -1) {
-                arr.push(element.id);
+            if (arr.indexOf(element.ID) === -1) {
+                arr.push(element.ID);
             }
         } else {
-            if (arr.indexOf(element.id) !== -1) {
-                arr.splice(arr.indexOf(element.id), 1);
+            if (arr.indexOf(element.ID) !== -1) {
+                arr.splice(arr.indexOf(element.ID), 1);
             }
         }
         this.states.selectedExchangesIDs.emit();

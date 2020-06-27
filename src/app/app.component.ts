@@ -11,24 +11,24 @@ import {
     SearchExchangeParams
 } from '../classes/Interfaces';
 import {NestedTreeControl} from '@angular/cdk/tree';
-//import {CommitteeDetailsComponent} from '../components/committee-details.component';
-//import {PrimaryOrganizationDetailsComponent} from '../components/primary-organization-details.component';
-//import {AssignmentEditComponent} from '../components/assignment-edit.component';
-//import {CategoryEditComponent} from '../components/category-edit.component';
-//import {PromotionEditComponent} from '../components/promotion-edit.component';
-//import {PromotionSelectComponent} from '../components/promotion-select.component';
-//import {CategorySelectComponent} from '../components/category-select.component';
+// import {CommitteeDetailsComponent} from '../components/committee-details.component';
+// import {PrimaryOrganizationDetailsComponent} from '../components/primary-organization-details.component';
+// import {AssignmentEditComponent} from '../components/assignment-edit.component';
+// import {CategoryEditComponent} from '../components/category-edit.component';
+// import {PromotionEditComponent} from '../components/promotion-edit.component';
+// import {PromotionSelectComponent} from '../components/promotion-select.component';
+// import {CategorySelectComponent} from '../components/category-select.component';
 import {Utils} from '../providers/utils';
-//import {AddArticleComponent} from '../components/add-article.component';
-import dayGridPlugin from '@fullcalendar/daygrid';
+// import {AddArticleComponent} from '../components/add-article.component';
+// import dayGridPlugin from '@fullcalendar/daygrid';
 import listMonthPlugin from '@fullcalendar/list';
 import timeGridPlugin from '@fullcalendar/timegrid';
-//import {FullCalendarComponent} from '@fullcalendar/angular';
-//import {AddEventComponent} from '../components/add-event.component';
-//import {EventSelectComponent} from '../components/event-select.component';
+// import {FullCalendarComponent} from '@fullcalendar/angular';
+// import {AddEventComponent} from '../components/add-event.component';
+// import {EventSelectComponent} from '../components/event-select.component';
 import * as moment from 'moment';
 import {Moment} from 'moment';
-import {error} from '@angular/compiler/src/util';
+// import {error} from '@angular/compiler/src/util';
 
 @Component({
     selector: 'app-root',
@@ -37,24 +37,25 @@ import {error} from '@angular/compiler/src/util';
 
 export class AppComponent extends StateComponent implements OnInit {
 
-    //menuItems: Array<string> = [/*'exchanges', */'members', 'payments', null, 'events', 'news', null, 'hierarchy', 'assignments', 'categories', 'promotions'];
+    // menuItems: Array<string> = [/*'exchanges', */'members', 'payments', null, 'events', 'news', null, 'hierarchy', 'assignments', 'categories', 'promotions'];
     menuItems: Array<string> = ['exchanges'];
 
     runTickBound: FrameRequestCallback;
     usernameFormControl: FormControl;
     passwordFormControl: FormControl;
-    //hierarchyTreeControl: NestedTreeControl<Committee>;
-    //hierarchyDataSource: MatTreeNestedDataSource<Committee>;
-    //committeeHasChildrenBound: Function;
-    //searchMembersBound: Function;
-    //searchPaymentsBound: Function;
+    // hierarchyTreeControl: NestedTreeControl<Committee>;
+    // hierarchyDataSource: MatTreeNestedDataSource<Committee>;
+    // committeeHasChildrenBound: Function;
+    // searchMembersBound: Function;
+    // searchPaymentsBound: Function;
 
     fromDateDefault: string;
     toDateDefault: string;
 
     minDateParamBound: Function;
     maxDateParamBound: Function;
-    //searchExchangesBound: Function;
+    searchExchangesBound: Function;
+    selectedExchangesActionChangedBound: Function;
 
     //@ViewChild(FullCalendarComponent) eventsCalendar: FullCalendarComponent;
 
@@ -65,11 +66,10 @@ export class AppComponent extends StateComponent implements OnInit {
 
         this.minDateParamBound = this.minDateParam.bind(this);
         this.maxDateParamBound = this.maxDateParam.bind(this);
-        //this.searchExchangesBound = this.searchExchanges.bind(this);
+        this.searchExchangesBound = this.searchExchanges.bind(this);
+        this.selectedExchangesActionChangedBound = this.selectedExchangesActionChanged.bind(this);
 
-        //this.searchMembersBound = this.searchMembers.bind(this);
         //this.searchPaymentsBound = this.searchPayments.bind(this);
-        //this.selectedMembersActionChangedBound = this.selectedMembersActionChanged.bind(this);
         //this.addEventWithDateBound = this.addEventWithDate.bind(this);
         history.pushState(null, null, location.href);
         window.onpopstate = () => history.go(1);
@@ -84,11 +84,11 @@ export class AppComponent extends StateComponent implements OnInit {
             this.states.initComplete,
             this.states.loginErrorVisible,
             this.states.selectedMenu,
-            this.states.exchanges
+            this.states.exchanges,
             //this.states.committees,
             //this.states.assignmentsByLevel,
             //this.states.categories,
-            //this.states.selectedMembersIDs,
+            this.states.selectedExchangesIDs
             //this.states.news,
             //this.states.eventsCalendarTitle,
             //this.states.events
@@ -214,7 +214,7 @@ export class AppComponent extends StateComponent implements OnInit {
 
         //this.states.searchPaymentsParams.setField('page_size', this.states.config.value.searchPageSize);
         //this.states.searchPaymentsParams.subscribe(this.searchPaymentsBound);
-        //this.states.selectedMembersAction.subscribe(this.selectedMembersActionChangedBound);
+        this.states.selectedExchangesAction.subscribe(this.selectedExchangesActionChangedBound);
         //this.states.news.set(loginResponse.news || []);
         //this.updateEvents(loginResponse.events || []);
 
@@ -227,7 +227,7 @@ export class AppComponent extends StateComponent implements OnInit {
         this.states.searchExchangeParams.setField('todate_moment', moment());
         this.states.searchExchangeParams.setField('todate', this.toDateDefault);
 
-        //this.states.searchExchangeParams.subscribe(this.searchExchangesBound());
+        this.states.searchExchangeParams.subscribe(this.searchExchangesBound());
 
         this.states.user.set(loginResponse.user);
         window.requestAnimationFrame(() => {
@@ -456,6 +456,7 @@ export class AppComponent extends StateComponent implements OnInit {
     searchExchanges(): Promise<any> {
         return new Promise(resolve => {
             this.states.searching.set(true);
+            this.states.selectedExchangesIDs.set([]);
             /*
             alert('3!'+JSON.stringify(this.states.searchExchangeParams.value));
             try {
@@ -468,7 +469,7 @@ export class AppComponent extends StateComponent implements OnInit {
             */
             this.states.searchExchangeParams.value.fromdate = this.states.searchExchangeParams.value.fromdate_moment ? this.utils.convertToJAVADate(this.states.searchExchangeParams.value.fromdate_moment) : null;
             this.states.searchExchangeParams.value.todate = this.states.searchExchangeParams.value.todate_moment ? this.utils.convertToJAVADate(this.states.searchExchangeParams.value.todate_moment) : null;
-            //alert('4!'+JSON.stringify(this.states.searchExchangeParams.value));
+            // alert('4!'+JSON.stringify(this.states.searchExchangeParams.value));
             const searchParams = JSON.stringify(this.states.searchExchangeParams.value);
             this.server.getExchanges(this.states.searchExchangeParams.value).then(response => {
                 if (searchParams === JSON.stringify(this.states.searchExchangeParams.value)) {
@@ -538,7 +539,30 @@ export class AppComponent extends StateComponent implements OnInit {
         });
     }
 */
-
+    selectedExchangesActionChanged() {
+        switch (this.states.selectedExchangesAction.value) {
+            case 'delete':
+                alert(this.states.selectedExchangesIDs.value);
+                /*this.dialog.open(CategorySelectComponent, {
+                    disableClose: true,
+                    panelClass: 'small-popup'
+                }).afterClosed().subscribe(category => {
+                    if (category) {
+                        this.states.curtainVisible.set(true);
+                        this.server.changeCategory(this.states.selectedMembersIDs.value, category.id).then(() => {
+                        }).catch(error => {
+                            alert(error.message);
+                        }).finally(() => {
+                            this.searchMembers().then(() => {
+                                this.states.curtainVisible.set(false);
+                            });
+                        });
+                    }
+                });
+                */
+                break;
+        }
+    }
 /*
     selectedMembersActionChanged() {
         switch (this.states.selectedMembersAction.value) {

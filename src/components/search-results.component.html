@@ -24,7 +24,7 @@
         </button>
     </div>
 </div>
-<!-- <selected-exchanges *ngIf="showSelectedExchanges"></selected-exchanges> -->
+<selected-exchanges *ngIf="showSelectedExchanges"></selected-exchanges>
 <mat-progress-bar [class.active]="searchingState.value" mode="indeterminate"></mat-progress-bar>
 <mat-card>
     <table mat-table matSort *ngIf="resultState.value"
