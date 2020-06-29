@@ -4,8 +4,9 @@ import {States} from '../providers/states';
 import {Server} from '../providers/server';
 import {MatDialog} from '@angular/material';
 // import {ExportDialogComponent} from './export-dialog.component';
-// import {MemberDetailsComponent} from './member-details.component';
 import {State} from '../classes/State';
+import {SearchFilesResultComponent} from './search-files-result.component';
+import {SearchExchangeParams} from '../classes/Interfaces';
 
 @Component({
     selector: 'search-results',
@@ -26,7 +27,7 @@ export class SearchResultsComponent extends StateComponent implements OnInit, On
     ];
 
     updateColumnsBound: Function;
-    // memberEditedBound: any;
+    filesEditedBound: any;
     columns: State<Array<string>> = new State<Array<string>>(null);
 
     @Input() allColumns: Array<string> = [
@@ -50,7 +51,7 @@ export class SearchResultsComponent extends StateComponent implements OnInit, On
     constructor(changeDetectorRef: ChangeDetectorRef, public states: States, private server: Server, private dialog: MatDialog) {
         super(changeDetectorRef);
         this.updateColumnsBound = this.updateColumns.bind(this);
-        // this.memberEditedBound = this.memberEdited.bind(this);
+        this.filesEditedBound = this.filesEdited.bind(this);
     }
 
     ngOnInit() {
@@ -99,32 +100,27 @@ export class SearchResultsComponent extends StateComponent implements OnInit, On
 
     rowClicked(event, row) {
         if (event.target.tagName === 'TD') {
-            /*
             this.states.curtainVisible.set(true);
-            this.server.getMember(row.id).then(result => {
-                this.dialog.open(MemberDetailsComponent, {
+            this.server.getExchangeFiles(row.ID).then(response => {
+                // this.states.exchangeFilesResult.set(response);
+                response.exchangeId = row.ID;
+                this.dialog.open(SearchFilesResultComponent, {
                     disableClose: true,
                     panelClass: 'big-popup',
-                    data: result
-                }).afterClosed().subscribe(this.memberEditedBound);
+                    data: response
+                }).afterClosed().subscribe(this.filesEditedBound);
             }).catch(error => {
                 alert(error.message);
             }).finally(() => {
                 this.states.curtainVisible.set(false);
             });
-            */
         }
     }
 
 
-/*
-
-
-    memberEdited(member) {
-        if (member) {
-            this.paramsState.set(this.paramsState.value);
-            if (member.id === this.states.user.value.user_id) {
-                this.server.getUser().then(userResult => {
+    filesEdited() {
+        /*
+        this.server.getExchanges(SearchExchangeParams).then(userResult => {
                     if (userResult.user.photo_id) {
                         this.server.loadImage(userResult.user.photo_id).then(response => {
                             userResult.user.photo = response.image;
@@ -136,10 +132,8 @@ export class SearchResultsComponent extends StateComponent implements OnInit, On
                 });
             }
         }
+        */
     }
-
-
-*/
 
     checkboxChanged(element, checked) {
         const arr = this.states.selectedExchangesIDs.value;

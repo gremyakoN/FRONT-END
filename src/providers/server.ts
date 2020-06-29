@@ -84,7 +84,7 @@ export class Server {
                             this.companyid = response['result'].user.companyid;
                             this.regionid = response['result'].user.regionid;
                         }
-                        //alert(JSON.stringify(response));
+                        // alert(JSON.stringify(response));
                         resolve(response['result']);
                     }
                 } else {
@@ -161,388 +161,398 @@ export class Server {
         }
     }
 
-/*
-
-    updateCommittee(committee: Committee): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('UpdateCommittee', committee);
-        }
-    }
-
-    deleteCommittee(committee: Committee): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('DeleteCommittee', {id: committee.id});
-        }
-    }
-
-    addCommittee(committee: Committee): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('InsertCommittee', committee);
-        }
-    }
-
-    updatePrimaryOrganization(primaryOrganization: PrimaryOrganization): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('UpdatePrimaryOrganization', primaryOrganization);
-        }
-    }
-
-    deletePrimaryOrganization(primaryOrganization: PrimaryOrganization): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('DeletePrimaryOrganization', {id: primaryOrganization.id});
-        }
-    }
-
-    addPrimaryOrganization(primaryOrganization: PrimaryOrganization): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('InsertPrimaryOrganization', primaryOrganization);
-        }
-    }
-
-    updateAssignment(assignment: Assignment): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('UpdateAssignment', assignment);
-        }
-    }
-
-    deleteAssignment(assignment: Assignment): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('DeleteAssignment', {id: assignment.id});
-        }
-    }
-
-    addAssignment(assignment: Assignment): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('InsertAssignment', assignment);
-        }
-    }
-
-    updateCategory(category: Category): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('UpdateCategory', category);
-        }
-    }
-
-    deleteCategory(category: Category): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('DeleteCategory', {id: category.id});
-        }
-    }
-
-    addCategory(category: Category): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('InsertCategory', category);
-        }
-    }
-
-    updatePromotion(promotion: Promotion): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('UpdatePromotion', promotion);
-        }
-    }
-
-    deletePromotion(promotion: Promotion): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('DeletePromotion', {id: promotion.id});
-        }
-    }
-
-    addPromotion(promotion: Promotion): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('InsertPromotion', promotion);
-        }
-    }
-
-    getMembers(params: any): Promise<any> {
+    getExchangeFiles(exchangeid: number): Promise<any> {
         if (this.mock) {
             return new Promise(resolve => {
                 resolve([]);
             });
         } else {
-            return this.request('GetMembers', params);
+            return this.request('Files', {exchangeid: exchangeid});
         }
     }
 
-    getPayments(params: any): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve([]);
-            });
-        } else {
-            return this.request('GetPayments', params);
-        }
-    }
+    /*
 
-    payedWithCash(membersIDs: Array<string>): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('PayInCash', {payment_members: membersIDs});
+        updateCommittee(committee: Committee): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('UpdateCommittee', committee);
+            }
         }
-    }
 
-    applyPromotion(membersIDs: Array<string>, promotionID: string, value: number): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('SetMark', {promotion_members: membersIDs, promotion_id: promotionID, value: value});
+        deleteCommittee(committee: Committee): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('DeleteCommittee', {id: committee.id});
+            }
         }
-    }
 
-    changeCategory(membersIDs: Array<string>, categoryID: string): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('ChangeCategory', {category_members: membersIDs, category_id: categoryID});
+        addCommittee(committee: Committee): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('InsertCommittee', committee);
+            }
         }
-    }
 
-    exportMembers(params: SearchParams): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve('');
-            });
-        } else {
-            return this.request('ExportMembers', params, 'text');
+        updatePrimaryOrganization(primaryOrganization: PrimaryOrganization): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('UpdatePrimaryOrganization', primaryOrganization);
+            }
         }
-    }
 
-    exportPayments(params: SearchPaymentsParams): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve('');
-            });
-        } else {
-            return this.request('ExportPayments', params, 'text');
+        deletePrimaryOrganization(primaryOrganization: PrimaryOrganization): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('DeletePrimaryOrganization', {id: primaryOrganization.id});
+            }
         }
-    }
 
-    getMember(id: string): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve({});
-            });
-        } else {
-            return this.request('GetMember', {id: id});
+        addPrimaryOrganization(primaryOrganization: PrimaryOrganization): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('InsertPrimaryOrganization', primaryOrganization);
+            }
         }
-    }
 
-    loadImage(id: string): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve('');
-            });
-        } else {
-            return this.request('GetImage', {id: id});
+        updateAssignment(assignment: Assignment): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('UpdateAssignment', assignment);
+            }
         }
-    }
 
-    addMember(params: any): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve({});
-            });
-        } else {
-            return this.request('InsertMember', params);
+        deleteAssignment(assignment: Assignment): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('DeleteAssignment', {id: assignment.id});
+            }
         }
-    }
 
-    updateMember(params: any): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve({});
-            });
-        } else {
-            return this.request('UpdateMember', params);
+        addAssignment(assignment: Assignment): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('InsertAssignment', assignment);
+            }
         }
-    }
 
-    changeAssignment(id: string, assignmentID: string): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('ChangeAssignment', {id: id, assignment_id: assignmentID});
+        updateCategory(category: Category): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('UpdateCategory', category);
+            }
         }
-    }
 
-    addArticle(article: Article): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('InsertNews', article);
+        deleteCategory(category: Category): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('DeleteCategory', {id: category.id});
+            }
         }
-    }
 
-    updateArticle(article: Article): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('UpdateNews', article);
+        addCategory(category: Category): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('InsertCategory', category);
+            }
         }
-    }
 
-    deleteArticle(articleID: string): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('DeleteNews', {id: articleID});
+        updatePromotion(promotion: Promotion): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('UpdatePromotion', promotion);
+            }
         }
-    }
 
-    addEvent(event: CalendarEvent): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('InsertEvent', event);
+        deletePromotion(promotion: Promotion): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('DeletePromotion', {id: promotion.id});
+            }
         }
-    }
 
-    updateEvent(event: CalendarEvent): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('UpdateEvent', event);
+        addPromotion(promotion: Promotion): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('InsertPromotion', promotion);
+            }
         }
-    }
 
-    deleteEvent(eventID: string): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('DeleteEvent', {id: eventID});
+        getMembers(params: any): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve([]);
+                });
+            } else {
+                return this.request('GetMembers', params);
+            }
         }
-    }
 
-    applyEventMark(eventID: string): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('SetMarkByCheckIn', {event_id: eventID});
+        getPayments(params: any): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve([]);
+                });
+            } else {
+                return this.request('GetPayments', params);
+            }
         }
-    }
 
-    checkIn(members: Array<string>, eventID: string): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('CheckIn', {event_id: eventID, event_members: members});
+        payedWithCash(membersIDs: Array<string>): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('PayInCash', {payment_members: membersIDs});
+            }
         }
-    }
 
-    changeCommittee(members: Array<string>, accepted: boolean): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('ChangeCommittee', {id: members, accept: accepted});
+        applyPromotion(membersIDs: Array<string>, promotionID: string, value: number): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('SetMark', {promotion_members: membersIDs, promotion_id: promotionID, value: value});
+            }
         }
-    }
 
-    getReport(from: string, to: string): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('GetReport', {date_from: from, date_to: to});
+        changeCategory(membersIDs: Array<string>, categoryID: string): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('ChangeCategory', {category_members: membersIDs, category_id: categoryID});
+            }
         }
-    }
 
-    acceptEntryFee(id: string): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve(true);
-            });
-        } else {
-            return this.request('AcceptEntryFee', {id: id});
+        exportMembers(params: SearchParams): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve('');
+                });
+            } else {
+                return this.request('ExportMembers', params, 'text');
+            }
         }
-    }
-*/
+
+        exportPayments(params: SearchPaymentsParams): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve('');
+                });
+            } else {
+                return this.request('ExportPayments', params, 'text');
+            }
+        }
+
+        getMember(id: string): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve({});
+                });
+            } else {
+                return this.request('GetMember', {id: id});
+            }
+        }
+
+        loadImage(id: string): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve('');
+                });
+            } else {
+                return this.request('GetImage', {id: id});
+            }
+        }
+
+        addMember(params: any): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve({});
+                });
+            } else {
+                return this.request('InsertMember', params);
+            }
+        }
+
+        updateMember(params: any): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve({});
+                });
+            } else {
+                return this.request('UpdateMember', params);
+            }
+        }
+
+        changeAssignment(id: string, assignmentID: string): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('ChangeAssignment', {id: id, assignment_id: assignmentID});
+            }
+        }
+
+        addArticle(article: Article): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('InsertNews', article);
+            }
+        }
+
+        updateArticle(article: Article): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('UpdateNews', article);
+            }
+        }
+
+        deleteArticle(articleID: string): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('DeleteNews', {id: articleID});
+            }
+        }
+
+        addEvent(event: CalendarEvent): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('InsertEvent', event);
+            }
+        }
+
+        updateEvent(event: CalendarEvent): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('UpdateEvent', event);
+            }
+        }
+
+        deleteEvent(eventID: string): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('DeleteEvent', {id: eventID});
+            }
+        }
+
+        applyEventMark(eventID: string): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('SetMarkByCheckIn', {event_id: eventID});
+            }
+        }
+
+        checkIn(members: Array<string>, eventID: string): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('CheckIn', {event_id: eventID, event_members: members});
+            }
+        }
+
+        changeCommittee(members: Array<string>, accepted: boolean): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('ChangeCommittee', {id: members, accept: accepted});
+            }
+        }
+
+        getReport(from: string, to: string): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('GetReport', {date_from: from, date_to: to});
+            }
+        }
+
+        acceptEntryFee(id: string): Promise<any> {
+            if (this.mock) {
+                return new Promise(resolve => {
+                    resolve(true);
+                });
+            } else {
+                return this.request('AcceptEntryFee', {id: id});
+            }
+        }
+    */
     proxy(url: string): Promise<any> {
         if (this.mock) {
             return new Promise(resolve => {

@@ -22,6 +22,7 @@ export class BigPopupComponent implements OnInit {
         if (!this.formControls) {
             this.formControls = [];
         }
+        /*
         this.FIELDS.forEach(field => {
             if (!this.formControls[field]) {
                 this.formControls[field] = new FormControl('');
@@ -31,6 +32,7 @@ export class BigPopupComponent implements OnInit {
                 this.error = null;
             });
         });
+        */
     }
 
     cancel() {

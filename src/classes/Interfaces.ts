@@ -53,33 +53,39 @@ export interface SearchExchangeResult {
 }
 
 export interface File {
-    id: number;
-    name: string;
-    code: string;
-    fileName: string;
-    fileDate: string;
-    modifDate: string;
-    fileType: string;
-    exchType: string;
-    fileFormed: number;
-    fileCategoryId: number;
-    mailId: number;
-    mailName: string;
-    mailText: string;
-    flkId: number;
-    recCount: number;
-    directionId: number;
-    errCount: number;
-    isAck1: number;
-    isAck2: number;
-    errChecked: number;
-    parentId: number;
+    ID: number;
+    NAME: string;
+    CODE: string;
+    FILENAME: string;
+    FILEDATE: string;
+    MODIFDATE: string;
+    FILETYPE: string;
+    EXCHTYPE: string;
+    FILEFORMED: number;
+    FILECATEGORYID: number;
+    MAILID: number;
+    MAILNAME: string;
+    MAILTEXT: string;
+    FLKID: number;
+    RECCOUNT: number;
+    DIRECTIONID: number;
+    ERRCOUNTCount: number;
+    ISACK1: number;
+    ISACK2: number;
+    ERRCHECKED: number;
+    PARENTID: number;
     //children: Array<File>;
-    parent_exchangeId: number;
+    PARENT_EXCHANGEID: number;
     //childrenExch: Array<Exchange>;
-    processStateId: number;
-    fileSize: number;
+    PROCESSSTATEID: number;
+    FILESIZE: number;
 }
+
+/*
+export interface ExchangeFilesResult {
+    Files: Array<File>;
+}
+*/
 
 export interface CompanyRegion {
     id: number;

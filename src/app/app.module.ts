@@ -24,7 +24,7 @@ import {SelectedExchangesComponent} from '../components/selected-exchanges.compo
 //import {PromotionSelectComponent} from '../components/promotion-select.component';
 //import {CategorySelectComponent} from '../components/category-select.component';
 //import {ExportDialogComponent} from '../components/export-dialog.component';
-//import {MemberDetailsComponent} from '../components/member-details.component';
+import {SearchFilesResultComponent} from '../components/search-files-result.component';
 import {Utils} from '../providers/utils';
 import {MAT_MOMENT_DATE_FORMATS} from '@angular/material-moment-adapter';
 //import {AddArticleComponent} from '../components/add-article.component';
@@ -67,7 +67,7 @@ import {RuDateAdapter} from '../classes/RuDateAdapter';
         //PromotionSelectComponent,
         //CategorySelectComponent,
         //ExportDialogComponent,
-        //MemberDetailsComponent,
+        SearchFilesResultComponent,
         //AddArticleComponent,
         //ColorPickerComponent,
         //AddEventComponent,
@@ -98,7 +98,7 @@ import {RuDateAdapter} from '../classes/RuDateAdapter';
         //PromotionSelectComponent,
         //CategorySelectComponent,
         //ExportDialogComponent,
-        //MemberDetailsComponent,
+        SearchFilesResultComponent,
         //AddArticleComponent,
         //ColorPickerComponent,
         //AddEventComponent,

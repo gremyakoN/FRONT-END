@@ -3,6 +3,7 @@ import {State} from '../classes/State';
 import {
     Exchange, SearchExchangeParams, SearchExchangeResult,
     ExchangeGroup, ExchangeType,
+    //ExchangeFilesResult,
     File,
     CompanyRegion,
     //Assignment,
@@ -34,6 +35,7 @@ export class States {
     files: State<Array<File>> = new State<Array<File>>(null);
     searchExchangeParams: State<SearchExchangeParams> = new State<SearchExchangeParams>(null);
     searchExchangeResult: State<SearchExchangeResult> = new State<SearchExchangeResult>(null);
+    // exchangeFilesResult: State<ExchangeFilesResult> = new State<ExchangeFilesResult>(null);
     searchExchangeFiltersExpanded: State<boolean> = new State<boolean>(false);
     loggedIn: State<boolean> = new State<boolean>(false);
 
