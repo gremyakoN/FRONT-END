@@ -1,0 +1,23 @@
+<button close mat-icon-button (click)="cancel()">
+    <mat-icon>close</mat-icon>
+</button>
+
+<div form [class.disabled]="!editable">
+    <ng-container>
+        <mat-form-field search appearance="outline">
+            <mat-label>{{states.texts.value.uploadFileParams.file_typeid[states.lang.value]}}</mat-label>
+            <mat-select [(ngModel)]="this.states.config.value.defaultGroupId" (selectionChange)="this.states.uploadFileParams.setField('file_typeid', $event.source.selected ? $event.source.selected.value : null)">
+                <mat-option>{{states.texts.value.forms.clear[states.lang.value]}}</mat-option>
+                <mat-option *ngFor="let filetype of states.fileTypes.value" [value]="filetype.ID">
+                    {{filetype.CODE+" / "+filetype.NAME}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </ng-container>
+</div>
+<div buttons *ngIf="states.user.value.is_admin">
+    <button upload mat-flat-button color="primary" (click)="doitdoit()">
+        <text-label id="forms.upload"></text-label>
+    </button>
+</div>
+

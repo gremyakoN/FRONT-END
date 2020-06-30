@@ -6,6 +6,8 @@ import {
     //ExchangeFilesResult,
     File,
     CompanyRegion,
+    UploadFileParams,
+    FileType,
     //Assignment,
     //CalendarEvent,
     //CardType,
@@ -49,6 +51,10 @@ export class States {
     selectedExchangesIDs: State<Array<string>> = new State<Array<string>>([]);
     selectedExchangesAction: State<string> = new State<string>(null);
     searching: State<boolean> = new State<boolean>(false);
+
+    fileTypes: State<Array<FileType>> = new State<Array<FileType>>(null);
+    fileTypesByID: State<Array<FileType>> = new State<Array<FileType>>(null);
+    uploadFileParams: State<UploadFileParams> = new State<UploadFileParams>(null);
 
     //events: State<Array<FullCalendarEvent>> = new State<Array<FullCalendarEvent>>(null);
     //eventsByID: State<Array<CalendarEvent>> = new State<Array<CalendarEvent>>([]);

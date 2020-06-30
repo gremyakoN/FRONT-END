@@ -4,40 +4,29 @@ import {States} from '../providers/states';
 import {Server} from '../providers/server';
 import {BigPopupComponent} from './big-popup.component';
 import {Utils} from '../providers/utils';
-import {Moment} from 'moment';
-import {UploadFileComponent} from './upload-file.component';
+// import {Moment} from 'moment';
+import {FileType} from '../classes/Interfaces';
 
 @Component({
-    selector: 'search-files-result',
-    templateUrl: 'search-files-result.component.html'
+    selector: 'upload-file',
+    templateUrl: 'upload-file.component.html'
 })
 
-export class SearchFilesResultComponent extends BigPopupComponent implements OnInit {
-
-    allColumns = ['ID',
-            //'NAME',
-            'CODE',
-            'FILENAME',
-            'FILEDATE',
-            'MODIFDATE',
-            'FILETYPE',
-            //'EXCHTYPE',
-            //'FILECATEGORYID',
-            //'MAILID',
-            //'MAILNAME',
-            //'MAILTEXT',
-            //'FLKID',
-            'RECCOUNT',
-            //'DIRECTIONID',
-            'ERRCOUNT'
-            //'ISACK1',
-            //'ISACK2',
-            //'ERRCHECKED',
-            //'PARENTID',
-            //'PARENT_EXCHANGEID',
-            //'PROCESSSTATEID',
-            //'FILESIZE'
-          ];
+export class UploadFileComponent extends BigPopupComponent implements OnInit {
+/*
+    allColumns = [
+        'ID',
+        'TYPE',
+        'NAME',
+        'CODE',
+        'PARAMS',
+        'PARAMCAPTIONS',
+        'EXTENSION',
+        'STORAGETYPEID',
+        'TIP',
+        'DICTID'
+    ];
+*/
 /*
     INFO_FIELDS: Array<Array<Array<string>>>;
     SELECT_FIELDS: Array<string>;
@@ -67,7 +56,10 @@ export class SearchFilesResultComponent extends BigPopupComponent implements OnI
 
     ngOnInit() {
         super.ngOnInit();
-        //alert(JSON.stringify(this.data));
+        alert(JSON.stringify(this.data));
+        // states.fileTypes
+        this.updateFileTypes(this.data.file_types || []);
+
         // this.adding = true;
 
 /*
@@ -85,12 +77,20 @@ export class SearchFilesResultComponent extends BigPopupComponent implements OnI
         // this.updateMemberCard();
     }
 
+    updateFileTypes(fileTypes) {
+        const fileTypesByID: Array<FileType> = [];
+        fileTypes.forEach(fileType => {
+            fileTypesByID[fileType.ID] = fileType;
+        });
+        this.states.fileTypesByID.set(fileTypesByID);
+        this.states.fileTypes.set(fileTypes);
+    }
+
+    doitdoit() {
+        //
+    }
+
     upload() {
-
-
-
-
-        /* работает выбор файла
         let fileInput = document.createElement('input');
         fileInput.type = 'file';
         fileInput.addEventListener('change', event => {
@@ -102,7 +102,6 @@ export class SearchFilesResultComponent extends BigPopupComponent implements OnI
             fileInput = null;
         });
         fileInput.click();
-        */
         /*
         this.addFile().then(result => {
             this.states.curtainVisible.set(true);

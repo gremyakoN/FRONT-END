@@ -171,6 +171,25 @@ export class Server {
         }
     }
 
+    uploadFile(id: string): Promise<any> {
+        if (this.mock) {
+            return new Promise(resolve => {
+                resolve('');
+            });
+        } else {
+            return this.request('UploadFile', {id: id});
+        }
+    }
+
+    getFileTypes(exchangetypeid: number): Promise<any> {
+        if (this.mock) {
+            return new Promise(resolve => {
+                resolve([]);
+            });
+        } else {
+            return this.request('File_Types', {exchange_typeid: exchangetypeid});
+        }
+    }
     /*
 
         updateCommittee(committee: Committee): Promise<any> {
@@ -403,15 +422,7 @@ export class Server {
             }
         }
 
-        loadImage(id: string): Promise<any> {
-            if (this.mock) {
-                return new Promise(resolve => {
-                    resolve('');
-                });
-            } else {
-                return this.request('GetImage', {id: id});
-            }
-        }
+
 
         addMember(params: any): Promise<any> {
             if (this.mock) {

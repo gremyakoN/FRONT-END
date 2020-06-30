@@ -32,6 +32,11 @@
       "ru": "Тип пакета"
     }
   },
+  "uploadFileParams": {
+    "file_typeid": {
+      "ru": "Тип файла"
+    }
+  },
   "forms": {
     "error": {
       "-1": {

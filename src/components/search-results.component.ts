@@ -7,6 +7,7 @@ import {MatDialog} from '@angular/material';
 import {State} from '../classes/State';
 import {SearchFilesResultComponent} from './search-files-result.component';
 import {SearchExchangeParams} from '../classes/Interfaces';
+import {UploadFileComponent} from './upload-file.component';
 
 @Component({
     selector: 'search-results',
@@ -100,6 +101,21 @@ export class SearchResultsComponent extends StateComponent implements OnInit, On
 
     rowClicked(event, row) {
         if (event.target.tagName === 'TD') {
+
+            this.states.curtainVisible.set(true);
+            this.server.getFileTypes(row.EXCHANGETYPEID).then(response => {
+                // this.states.exchangeFilesResult.set(response);
+                this.dialog.open(UploadFileComponent, {
+                    disableClose: true,
+                    panelClass: 'big-popup',
+                    data: response
+                }).afterClosed().subscribe(this.filesEditedBound);
+            }).catch(error => {
+                alert(error.message);
+            }).finally(() => {
+                this.states.curtainVisible.set(false);
+            });
+            /*
             this.states.curtainVisible.set(true);
             this.server.getExchangeFiles(row.ID).then(response => {
                 // this.states.exchangeFilesResult.set(response);
@@ -114,6 +130,7 @@ export class SearchResultsComponent extends StateComponent implements OnInit, On
             }).finally(() => {
                 this.states.curtainVisible.set(false);
             });
+            */
         }
     }
 

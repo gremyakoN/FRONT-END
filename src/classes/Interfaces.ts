@@ -93,7 +93,25 @@ export interface CompanyRegion {
     companyid: number;
     name: string;
 }
+export interface FileType {
+            ID: number;
+            TYPE: string;
+            NAME: string;
+            CODE: string;
+            PARAMS: string;
+            PARAMCAPTIONS: string;
+            EXTENSION: string;
+            STORAGETYPEID: number;
+            TIP: number;
+            DICTID: number;
+            }
 
+export interface UploadFileParams {
+    file_typeid: number;
+    param1: string;
+    param2: string;
+    param3: string;
+}
 /*
 export interface Assignment {
     id: string;
