@@ -7,15 +7,15 @@ import {State} from '../classes/State';
 import {Utils} from '../providers/utils';
 
 @Component({
-    selector: 'search-filters',
-    templateUrl: 'search-filters.component.html',
+    selector: 'search-exchange-filters',
+    templateUrl: 'search-exchange-filters.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class SearchFiltersComponent extends StateComponent implements OnInit {
+export class SearchExchangeFiltersComponent extends StateComponent implements OnInit {
 
     formControls: Array<FormControl>;
-    searchFiltersFieldNames: Array<string> = ['exchange_typeid'/*, 'exchangeid', 'fileid', 'filename'*/];
+    searchExchangeFiltersFieldNames: Array<string> = ['exchange_typeid'/*, 'exchangeid', 'fileid', 'filename'*/];
     data: SearchExchangeParams = {} as SearchExchangeParams;
     changed: State<boolean> = new State<boolean>(false);
     cleared: State<boolean> = new State<boolean>(true);
@@ -26,7 +26,7 @@ export class SearchFiltersComponent extends StateComponent implements OnInit {
 
     ngOnInit() {
         this.formControls = [];
-        this.searchFiltersFieldNames.forEach(searchFilterFieldName => {
+        this.searchExchangeFiltersFieldNames.forEach(searchFilterFieldName => {
             this.formControls[searchFilterFieldName] = new FormControl();
             this.data[searchFilterFieldName] = null;
         });
@@ -41,7 +41,7 @@ export class SearchFiltersComponent extends StateComponent implements OnInit {
     updateStates() {
         let changed = false;
         let cleared = true;
-        this.searchFiltersFieldNames.forEach(checkingFieldName => {
+        this.searchExchangeFiltersFieldNames.forEach(checkingFieldName => {
             if (this.data[checkingFieldName] !== this.states.searchExchangeParams.value[checkingFieldName]) {
                 changed = true;
             }
@@ -68,14 +68,14 @@ export class SearchFiltersComponent extends StateComponent implements OnInit {
     }
 
     clearAllSearchParams() {
-        this.searchFiltersFieldNames.forEach(searchParamFieldName => {
+        this.searchExchangeFiltersFieldNames.forEach(searchParamFieldName => {
             this.removeSearchParam(searchParamFieldName, false);
         });
         this.updateStates();
     }
 
     applySearchParams() {
-        this.searchFiltersFieldNames.forEach(searchParamFieldName => {
+        this.searchExchangeFiltersFieldNames.forEach(searchParamFieldName => {
             this.states.searchExchangeParams.setField(searchParamFieldName, this.data[searchParamFieldName]);
         });
         this.updateStates();

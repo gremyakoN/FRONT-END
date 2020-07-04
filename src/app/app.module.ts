@@ -10,33 +10,21 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TextLabelComponent} from '../components/text-label';
 import {ResetPasswordComponent} from '../components/reset-password.component';
-//import {CommitteeDetailsComponent} from '../components/committee-details.component';
-//import {PrimaryOrganizationDetailsComponent} from '../components/primary-organization-details.component';
 import {UserInfoComponent} from '../components/user-info.component';
-//import {AssignmentEditComponent} from '../components/assignment-edit.component';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material';
-//import {CategoryEditComponent} from '../components/category-edit.component';
-//import {PromotionEditComponent} from '../components/promotion-edit.component';
 import {TableSortComponent} from '../components/table-sort.component';
-import {SearchFiltersComponent} from '../components/search-filters.component';
-import {SearchResultsComponent} from '../components/search-results.component';
+
+import {SearchExchangeFiltersComponent} from '../components/search-exchange-filters.component';
+import {SearchExchangeResultsComponent} from '../components/search-exchange-results.component';
 import {SelectedExchangesComponent} from '../components/selected-exchanges.component';
-//import {PromotionSelectComponent} from '../components/promotion-select.component';
-//import {CategorySelectComponent} from '../components/category-select.component';
-//import {ExportDialogComponent} from '../components/export-dialog.component';
-import {SearchFilesResultComponent} from '../components/search-files-result.component';
+
+import {SearchFileFiltersComponent} from '../components/search-file-filters.component';
+import {SearchFileResultsComponent} from '../components/search-file-results.component';
+import {SelectedFilesComponent} from '../components/selected-files.component';
 import {UploadFileComponent} from '../components/upload-file.component';
+
 import {Utils} from '../providers/utils';
 import {MAT_MOMENT_DATE_FORMATS} from '@angular/material-moment-adapter';
-//import {AddArticleComponent} from '../components/add-article.component';
-//import {FullCalendarModule} from '@fullcalendar/angular';
-//import {ColorPickerComponent} from '../components/color-picker.component';
-//import {AddEventComponent} from '../components/add-event.component';
-//import {EventSelectComponent} from '../components/event-select.component';
-//import {CommitteeSelectComponent} from '../components/committee-select.component';
-//import {SearchPaymentsFiltersComponent} from '../components/search-payments-filters.component';
-//import {SearchPaymentsResultsComponent} from '../components/search-payments-results.component';
-//import {PaymentsReportComponent} from '../components/payments-report.component';
 import {ChangePasswordComponent} from '../components/change-password.component';
 import {LinkPreviewComponent} from '../components/link-preview.component';
 import {RuDateAdapter} from '../classes/RuDateAdapter';
@@ -49,37 +37,24 @@ import {RuDateAdapter} from '../classes/RuDateAdapter';
         MaterialModule,
         FormsModule,
         ReactiveFormsModule
-        //FullCalendarModule
     ],
     declarations: [
         AppComponent,
         TextLabelComponent,
+        LinkPreviewComponent,
         ResetPasswordComponent,
-        //CommitteeDetailsComponent,
-        //PrimaryOrganizationDetailsComponent,
         UserInfoComponent,
-        //AssignmentEditComponent,
-        //CategoryEditComponent,
-        //PromotionEditComponent,
-        TableSortComponent,
-        SearchFiltersComponent,
-        SearchResultsComponent,
-        SelectedExchangesComponent,
-        //PromotionSelectComponent,
-        //CategorySelectComponent,
-        //ExportDialogComponent,
-        SearchFilesResultComponent,
-        UploadFileComponent,
-        //AddArticleComponent,
-        //ColorPickerComponent,
-        //AddEventComponent,
-        //EventSelectComponent,
-        //CommitteeSelectComponent,
-        //SearchPaymentsFiltersComponent,
-        //SearchPaymentsResultsComponent,
-        //PaymentsReportComponent,
         ChangePasswordComponent,
-        LinkPreviewComponent
+        TableSortComponent,
+
+        SearchExchangeFiltersComponent,
+        SearchExchangeResultsComponent,
+        SelectedExchangesComponent,
+
+        SearchFileFiltersComponent,
+        SearchFileResultsComponent,
+        SelectedFilesComponent,
+        UploadFileComponent
     ],
     providers: [
         States,
@@ -91,24 +66,10 @@ import {RuDateAdapter} from '../classes/RuDateAdapter';
     ],
     entryComponents: [
         ResetPasswordComponent,
-        //CommitteeDetailsComponent,
-        //PrimaryOrganizationDetailsComponent,
-        //AssignmentEditComponent,
-        //CategoryEditComponent,
-        //PromotionEditComponent,
+        ChangePasswordComponent,
         SelectedExchangesComponent,
-        //PromotionSelectComponent,
-        //CategorySelectComponent,
-        //ExportDialogComponent,
-        SearchFilesResultComponent,
-        UploadFileComponent,
-        //AddArticleComponent,
-        //ColorPickerComponent,
-        //AddEventComponent,
-        //EventSelectComponent,
-        //CommitteeSelectComponent,
-        //PaymentsReportComponent,
-        ChangePasswordComponent
+        SelectedFilesComponent,
+        UploadFileComponent
     ],
     bootstrap: [AppComponent]
 })

@@ -161,13 +161,13 @@ export class Server {
         }
     }
 
-    getExchangeFiles(exchangeid: number): Promise<any> {
+    getFiles(params: any): Promise<any> {
         if (this.mock) {
             return new Promise(resolve => {
                 resolve([]);
             });
         } else {
-            return this.request('Files', {exchangeid: exchangeid});
+            return this.request('Files', params);
         }
     }
 
@@ -181,13 +181,13 @@ export class Server {
         }
     }
 
-    getFileTypes(exchangetypeid: number): Promise<any> {
+    getFileTypes(exchangeid: number): Promise<any> {
         if (this.mock) {
             return new Promise(resolve => {
                 resolve([]);
             });
         } else {
-            return this.request('File_Types', {exchange_typeid: exchangetypeid});
+            return this.request('File_Types', {exchangeid: exchangeid});
         }
     }
     /*

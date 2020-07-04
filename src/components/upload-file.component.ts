@@ -13,42 +13,9 @@ import {FileType} from '../classes/Interfaces';
 })
 
 export class UploadFileComponent extends BigPopupComponent implements OnInit {
-/*
-    allColumns = [
-        'ID',
-        'TYPE',
-        'NAME',
-        'CODE',
-        'PARAMS',
-        'PARAMCAPTIONS',
-        'EXTENSION',
-        'STORAGETYPEID',
-        'TIP',
-        'DICTID'
-    ];
-*/
-/*
-    INFO_FIELDS: Array<Array<Array<string>>>;
-    SELECT_FIELDS: Array<string>;
-    TEXTAREA_FIELDS: Array<string>;
-*/
-    // adding: boolean;
+
     editable: boolean;
-    exchangeId: number;
-/*
-    bigImage: string;
-    is18: boolean;
-    paymentsHistoryColumns = ['period', 'amount', 'transaction_result', 'initiator'];
-    ratingHistoryColumns = ['mark', 'reason', 'user', 'inserted'];
-    transferHistoryColumns = ['from', 'arrow', 'to', 'date'];
-    initialOption1Enabled: boolean;
-    initialOption2Enabled: boolean;
-    initialOption4Enabled: boolean;
-    initialCommitteeID: string;
-    initialAssignmentID: string;
-    acceptEntryFee: boolean;
-*/
-    // @ViewChild('bigImageElement') bigImageElement: ElementRef;
+    fileToUpload: File = null;
 
     constructor(public dialogRef: MatDialogRef<any>, public states: States, private server: Server, public utils: Utils, @Inject(MAT_DIALOG_DATA) public data: any) {
         super(dialogRef);
@@ -56,25 +23,13 @@ export class UploadFileComponent extends BigPopupComponent implements OnInit {
 
     ngOnInit() {
         super.ngOnInit();
-        alert(JSON.stringify(this.data));
+        // alert(JSON.stringify(this.data));
         // states.fileTypes
         this.updateFileTypes(this.data.file_types || []);
 
         // this.adding = true;
-
-/*
-        if (!this.data) {
-            this.data = {
-                Files: {
-                    ID: 0
-                }
-            };
-
-        }
-*/
         this.editable = this.states.user.value.is_admin;
         // this.editable = false;
-        // this.updateMemberCard();
     }
 
     updateFileTypes(fileTypes) {
@@ -86,22 +41,26 @@ export class UploadFileComponent extends BigPopupComponent implements OnInit {
         this.states.fileTypes.set(fileTypes);
     }
 
-    doitdoit() {
-        //
+    handleFileInput(files: FileList) {
+        this.fileToUpload = files.item(0);
     }
 
-    upload() {
-        let fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.addEventListener('change', event => {
+    doitdoit() {
+        let input = document.createElement('input');
+        input.type = 'file';
+        input.addEventListener('change', event => {
             const target = event.target as HTMLInputElement;
             const selectedFile = target.files[0];
             const uploadData = new FormData();
             uploadData.append('upload_file', selectedFile, selectedFile.name);
             // непосредственно отправить файл (post запрос)
-            fileInput = null;
+            input = null;
         });
-        fileInput.click();
+        input.click();
+    }
+
+    upload() {
+
         /*
         this.addFile().then(result => {
             this.states.curtainVisible.set(true);

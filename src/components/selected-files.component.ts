@@ -5,38 +5,38 @@ import {States} from '../providers/states';
 import {State} from '../classes/State';
 
 @Component({
-    selector: 'selected-exchanges',
-    templateUrl: 'selected-exchanges.component.html',
+    selector: 'selected-files',
+    templateUrl: 'selected-files.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class SelectedExchangesComponent extends StateComponent implements OnInit {
+export class SelectedFilesComponent extends StateComponent implements OnInit {
 
     actions: Array<string> = [];
     actionsVisible: State<boolean> = new State<boolean>(false);
-    selectedExchangesIDsChangedBound: Function;
+    selectedFilesIDsChangedBound: Function;
 
     constructor(private server: Server, public states: States, changeDetectorRef: ChangeDetectorRef) {
         super(changeDetectorRef);
-        this.selectedExchangesIDsChangedBound = this.selectedExchangesIDsChanged.bind(this);
+        this.selectedFilesIDsChangedBound = this.selectedFilesIDsChanged.bind(this);
     }
 
     ngOnInit() {
-        this.renderStates([this.actionsVisible, this.states.selectedExchangesIDs]);
-        this.states.selectedExchangesIDs.subscribe(this.selectedExchangesIDsChangedBound);
+        this.renderStates([this.actionsVisible, this.states.selectedFilesIDs]);
+        this.states.selectedFilesIDs.subscribe(this.selectedFilesIDsChangedBound);
     }
 
-    selectedExchangesIDsChanged() {
+    selectedFilesIDsChanged() {
         this.actions = [];
         this.actions.push('delete');
     }
 
-    clearExchanges() {
-        this.states.selectedExchangesIDs.set([]);
+    clearFiles() {
+        this.states.selectedFilesIDs.set([]);
     }
 
     actionSelected(action: string) {
-        this.states.selectedExchangesAction.set(action);
+        this.states.selectedFilesAction.set(action);
     }
 
 }

@@ -32,6 +32,26 @@
       "ru": "Тип пакета"
     }
   },
+  "searchFileParams": {
+    "fromdate": {
+      "ru": "Дата с"
+    },
+    "todate": {
+      "ru": "Дата по"
+    },
+    "exchange_groupid": {
+      "ru": "Группа"
+    },
+    "exchange_typeid": {
+      "ru": "Тип пакета"
+    },
+    "exchangeid": {
+      "ru": "ID пакета"
+    },
+    "fileid": {
+      "ru": "ID файла"
+    }
+  },
   "uploadFileParams": {
     "file_typeid": {
       "ru": "Тип файла"
@@ -120,6 +140,9 @@
   "menu": {
     "exchanges": {
       "ru": "Пакеты"
+    },
+    "files": {
+      "ru": "Файлы"
     }
   },
   "exchanges": {
@@ -144,30 +167,27 @@
       }
     }
   },
-   "searchExchangeResults": {
-    "ID": {
-      "ru": "ID"
-    },
-    "NAME": {
-      "ru": "Тип"
-    },
-    "EXCHANGEDATE": {
-      "ru": "Дата"
-    },
-    "FILECOUNT": {
-      "ru": "Файлов"
-    },
-    "FILEFORMED": {
-      "ru": "Сформировано"
-    },
-    "RECCOUNT": {
-      "ru": "Ошибок"
-    },
-    "PARENTID": {
-      "ru": "Исходный пакет"
-    }
-  },
   "files": {
+    "search": {
+      "ru": "Поиск"
+    },
+    "noResults": {
+      "ru": "По заданным поисковым параметрам файлов не найдено"
+    },
+    "selectAction": {
+      "ru": "Выбрать действие"
+    },
+    "hideActions": {
+      "ru": "Скрыть действия"
+    },
+    "clear": {
+      "ru": "Отменить выбор"
+    },
+    "actions": {
+      "delete": {
+        "ru": "Удалить"
+      }
+    },
     "label": {
       "ru": "Файлы"
     },
@@ -196,6 +216,52 @@
       "ERRCOUNT": {
         "ru": "Ошибок"
       }
+    }
+  },
+  "searchExchangeResults": {
+    "ID": {
+      "ru": "ID"
+    },
+    "NAME": {
+      "ru": "Тип"
+    },
+    "EXCHANGEDATE": {
+      "ru": "Дата"
+    },
+    "FILECOUNT": {
+      "ru": "Файлов"
+    },
+    "FILEFORMED": {
+      "ru": "Сформировано"
+    },
+    "RECCOUNT": {
+      "ru": "Ошибок"
+    },
+    "PARENTID": {
+      "ru": "Исходный пакет"
+    }
+  },
+  "searchFileResults": {
+    "ID": {
+      "ru": "ID"
+    },
+    "NAME": {
+      "ru": "Тип"
+    },
+    "EXCHANGEDATE": {
+      "ru": "Дата"
+    },
+    "FILECOUNT": {
+      "ru": "Файлов"
+    },
+    "FILEFORMED": {
+      "ru": "Сформировано"
+    },
+    "RECCOUNT": {
+      "ru": "Ошибок"
+    },
+    "PARENTID": {
+      "ru": "Исходный пакет"
     }
   },
   "pagination": {

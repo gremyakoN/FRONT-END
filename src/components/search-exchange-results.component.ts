@@ -3,19 +3,16 @@ import {StateComponent} from '../classes/StateComponent';
 import {States} from '../providers/states';
 import {Server} from '../providers/server';
 import {MatDialog} from '@angular/material';
-// import {ExportDialogComponent} from './export-dialog.component';
 import {State} from '../classes/State';
-import {SearchFilesResultComponent} from './search-files-result.component';
-import {SearchExchangeParams} from '../classes/Interfaces';
-import {UploadFileComponent} from './upload-file.component';
+import {SearchFileParams} from '../classes/Interfaces';
 
 @Component({
-    selector: 'search-results',
-    templateUrl: 'search-results.component.html',
+    selector: 'search-exchange-results',
+    templateUrl: 'search-exchange-results.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class SearchResultsComponent extends StateComponent implements OnInit, OnDestroy {
+export class SearchExchangeResultsComponent extends StateComponent implements OnInit, OnDestroy {
 
     sortableColumns = [
         'ID',
@@ -27,11 +24,10 @@ export class SearchResultsComponent extends StateComponent implements OnInit, On
         'PARENTID'
     ];
 
-    updateColumnsBound: Function;
-    filesEditedBound: any;
+    updateExchangeColumnsBound: Function;
     columns: State<Array<string>> = new State<Array<string>>(null);
 
-    @Input() allColumns: Array<string> = [
+    @Input() colExchanges: Array<string> = [
         'checkbox',
         'ID',
         'NAME',
@@ -51,25 +47,24 @@ export class SearchResultsComponent extends StateComponent implements OnInit, On
 
     constructor(changeDetectorRef: ChangeDetectorRef, public states: States, private server: Server, private dialog: MatDialog) {
         super(changeDetectorRef);
-        this.updateColumnsBound = this.updateColumns.bind(this);
-        this.filesEditedBound = this.filesEdited.bind(this);
+        this.updateExchangeColumnsBound = this.updateExchangeColumns.bind(this);
     }
 
     ngOnInit() {
         this.renderStates([this.columns, this.states.user, this.resultState, this.searchingState, this.states.selectedExchangesIDs]);
-        this.states.user.subscribe(this.updateColumnsBound);
-        this.updateColumns();
+        this.states.user.subscribe(this.updateExchangeColumnsBound);
+        this.updateExchangeColumns();
     }
 
     ngOnDestroy() {
         super.ngOnDestroy();
-        this.states.user.unsubscribe(this.updateColumnsBound);
+        this.states.user.unsubscribe(this.updateExchangeColumnsBound);
     }
 
-    updateColumns() {
+    updateExchangeColumns() {
         if (this.states.user.value) {
-            const checkboxIndex: number = this.allColumns.indexOf('checkbox');
-            const columns = JSON.parse(JSON.stringify(this.allColumns));
+            const checkboxIndex: number = this.colExchanges.indexOf('checkbox');
+            const columns = JSON.parse(JSON.stringify(this.colExchanges));
             if (!this.states.user.value.is_admin && (checkboxIndex !== -1)) {
                 columns.splice(checkboxIndex, 1);
             }
@@ -101,55 +96,30 @@ export class SearchResultsComponent extends StateComponent implements OnInit, On
 
     rowClicked(event, row) {
         if (event.target.tagName === 'TD') {
-
             this.states.curtainVisible.set(true);
-            this.server.getFileTypes(row.EXCHANGETYPEID).then(response => {
-                // this.states.exchangeFilesResult.set(response);
-                this.dialog.open(UploadFileComponent, {
-                    disableClose: true,
-                    panelClass: 'big-popup',
-                    data: response
-                }).afterClosed().subscribe(this.filesEditedBound);
+            this.states.searchFileParams.set({
+                fromdate: null,
+                fromdate_moment: null,
+                todate: null,
+                todate_moment: null,
+                exchange_groupid: null,
+                exchange_typeid: null,
+                exchangeid: row.ID,
+                fileid: null,
+                order_by: null,
+                order_type: null,
+                page_number: 1,
+                page_size: 0
+            } as SearchFileParams);
+            this.server.getFiles(this.states.searchFileParams.value).then(response => {
+                this.states.searchFileResult.set(response);
+                this.states.selectedMenu.set('files');
             }).catch(error => {
                 alert(error.message);
             }).finally(() => {
                 this.states.curtainVisible.set(false);
             });
-            /*
-            this.states.curtainVisible.set(true);
-            this.server.getExchangeFiles(row.ID).then(response => {
-                // this.states.exchangeFilesResult.set(response);
-                response.exchangeId = row.ID;
-                this.dialog.open(SearchFilesResultComponent, {
-                    disableClose: true,
-                    panelClass: 'big-popup',
-                    data: response
-                }).afterClosed().subscribe(this.filesEditedBound);
-            }).catch(error => {
-                alert(error.message);
-            }).finally(() => {
-                this.states.curtainVisible.set(false);
-            });
-            */
         }
-    }
-
-
-    filesEdited() {
-        /*
-        this.server.getExchanges(SearchExchangeParams).then(userResult => {
-                    if (userResult.user.photo_id) {
-                        this.server.loadImage(userResult.user.photo_id).then(response => {
-                            userResult.user.photo = response.image;
-                            this.states.user.set(userResult.user);
-                        });
-                    } else {
-                        this.states.user.set(userResult.user);
-                    }
-                });
-            }
-        }
-        */
     }
 
     checkboxChanged(element, checked) {

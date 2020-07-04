@@ -188,7 +188,7 @@ reset-password {
 }
 
 primary-organization-details, assignment-edit, category-edit, promotion-edit, promotion-select, category-select, export-dialog, member-details, add-article, add-event, event-select, committee-select, payments-report,
-change-password, search-files-result, upload-file {
+change-password, search-exchange-results, search-file-results, upload-file {
   position: relative;
   display: block;
 
@@ -310,7 +310,7 @@ user-info {
   }
 }
 
-search-files-result {
+qwe-details {
 
   > [form] {
     > mat-card {
@@ -737,7 +737,7 @@ app-root {
           }
         }
 
-        &[exchanges] {
+        &[exchanges], &[files] {
           padding: 16px;
 
           .mat-form-field-wrapper {
@@ -871,7 +871,7 @@ table-sort {
 }
 
 
-search-filters {
+search-exchange-filters, search-file-filters {
   display: block;
 
   .mat-expansion-panel-body {
@@ -940,7 +940,7 @@ search-filters {
   }
 }
 
-search-results {
+search-exchange-results, search-file-results {
   display: block;
 
   mat-progress-bar {
@@ -1024,7 +1024,7 @@ search-results {
   }
 }
 
-search-results {
+search-exchange-results, search-file-results {
   mat-card {
     table {
       [checkbox-cell] {
@@ -1051,7 +1051,7 @@ search-results {
   }
 }
 
-selected-exchanges {
+selected-exchanges, selected-files {
   display: flex;
 
   > mat-expansion-panel {

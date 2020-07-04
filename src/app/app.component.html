@@ -79,17 +79,17 @@
                     <div top>
                         <mat-form-field search appearance="outline">
                                 <mat-label>{{states.texts.value.searchExchangeParams.fromdate[states.lang.value]}}</mat-label>
-                                <input matInput [matDatepickerFilter]="minDateParamBound" [matDatepicker]="minDatePicker"
+                                <input matInput [matDatepickerFilter]="minDateExchangesParamBound" [matDatepicker]="minDateExchangesPicker"
                                        [value]="fromDateDefault" (dateChange)="this.states.searchExchangeParams.setField('fromdate_moment', $event.value)">
-                                <mat-datepicker-toggle matSuffix [for]="minDatePicker"></mat-datepicker-toggle>
-                                <mat-datepicker #minDatePicker></mat-datepicker>
+                                <mat-datepicker-toggle matSuffix [for]="minDateExchangesPicker"></mat-datepicker-toggle>
+                                <mat-datepicker #minDateExchangesPicker></mat-datepicker>
                             </mat-form-field>
                             <mat-form-field search appearance="outline">
                                 <mat-label>{{states.texts.value.searchExchangeParams.todate[states.lang.value]}}</mat-label>
-                                <input matInput [matDatepickerFilter]="maxDateParamBound" [matDatepicker]="maxDatePicker"
+                                <input matInput [matDatepickerFilter]="maxDateExchangesParamBound" [matDatepicker]="maxDateExchangesPicker"
                                        [value]="toDateDefault" (dateChange)="this.states.searchExchangeParams.setField('todate_moment', $event.value)">
-                                <mat-datepicker-toggle matSuffix [for]="maxDatePicker"></mat-datepicker-toggle>
-                                <mat-datepicker #maxDatePicker></mat-datepicker>
+                                <mat-datepicker-toggle matSuffix [for]="maxDateExchangesPicker"></mat-datepicker-toggle>
+                                <mat-datepicker #maxDateExchangesPicker></mat-datepicker>
                             </mat-form-field>
                             <mat-form-field search appearance="outline">
                                 <mat-label>{{states.texts.value.searchExchangeParams.exchange_groupid[states.lang.value]}}</mat-label>
@@ -109,32 +109,48 @@
                             <mat-icon>filter_list</mat-icon>
                         </button>
                     </div>
-                    <search-filters></search-filters>
+                    <search-exchange-filters></search-exchange-filters>
                 </mat-card>
-                <search-results [resultState]="states.searchExchangeResult" [paramsState]="states.searchExchangeParams" [searchingState]="states.searching"></search-results>
+                <search-exchange-results [resultState]="states.searchExchangeResult" [paramsState]="states.searchExchangeParams" [searchingState]="states.searchingExchanges"></search-exchange-results>
             </div>
-            <div exchanges_orig [class.inactive]="states.selectedMenu.value != 'exchanges_orig'">
+            <div files [class.inactive]="states.selectedMenu.value != 'files'">
                 <mat-card>
                     <div top>
                         <mat-form-field search appearance="outline">
-                            <mat-label>{{states.texts.value.exchanges.search[states.lang.value]}}</mat-label>
-                            <input #searchInput matInput type="search" (keyup)="updateSearchInputWithEnter($event)"/>
-                            <button mat-button *ngIf="searchInput.value" matSuffix mat-icon-button
-                                    (click)="updateSearchInput(''); searchInput.value = ''">
-                                <mat-icon>close</mat-icon>
-                            </button>
+                            <mat-label>{{states.texts.value.searchFileParams.fromdate[states.lang.value]}}</mat-label>
+                            <input matInput [matDatepickerFilter]="minDateFilesParamBound" [matDatepicker]="minDateFilesPicker"
+                                   [value]="fromDateDefault" (dateChange)="this.states.searchFileParams.setField('fromdate_moment', $event.value)">
+                            <mat-datepicker-toggle matSuffix [for]="minDateFilesPicker"></mat-datepicker-toggle>
+                            <mat-datepicker #minDateFilesPicker></mat-datepicker>
                         </mat-form-field>
-                        <button search-submit mat-stroked-button (click)="updateSearchInput(searchInput.value)">
+                        <mat-form-field search appearance="outline">
+                            <mat-label>{{states.texts.value.searchFileParams.todate[states.lang.value]}}</mat-label>
+                            <input matInput [matDatepickerFilter]="maxDateFilesParamBound" [matDatepicker]="maxDateFilesPicker"
+                                   [value]="toDateDefault" (dateChange)="this.states.searchFileParams.setField('todate_moment', $event.value)">
+                            <mat-datepicker-toggle matSuffix [for]="maxDateFilesPicker"></mat-datepicker-toggle>
+                            <mat-datepicker #maxDateFilesPicker></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field search appearance="outline">
+                            <mat-label>{{states.texts.value.searchFileParams.exchange_groupid[states.lang.value]}}</mat-label>
+                            <mat-select [(ngModel)]="this.states.config.value.defaultGroupId" (selectionChange)="this.states.searchFileParams.setField('exchange_groupid', $event.source.selected ? $event.source.selected.value : null)">
+                                <mat-option>{{states.texts.value.forms.clear[states.lang.value]}}</mat-option>
+                                <mat-option *ngFor="let group of states.exchangeGroups.value" [value]="group.ID">
+                                    {{group.NAME}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <button search-submit mat-stroked-button (click)="searchFiles()">
                             <mat-icon>search</mat-icon>
                         </button>
-                        <button edit-filters mat-stroked-button [class.selected]="states.searchExchangeFiltersExpanded.value"
-                                (click)="states.searchExchangeFiltersExpanded.set(!states.searchExchangeFiltersExpanded.value)">
+                        <button edit-filters mat-stroked-button [class.selected]="states.searchFileFiltersExpanded.value"
+                                (click)="states.searchFileFiltersExpanded.set(!states.searchFileFiltersExpanded.value)">
                             <mat-icon>filter_list</mat-icon>
                         </button>
                     </div>
-                    <!-- <search-filters></search-filters> -->
+                    <search-file-filters></search-file-filters>
                 </mat-card>
-                <!-- <search-results [resultState]="states.searchResult" [paramsState]="states.searchParams" [searchingState]="states.searching"></search-results> -->
+                <search-file-results [resultState]="states.searchFileResult" [paramsState]="states.searchFileParams" [searchingState]="states.searchingFiles"></search-file-results>
             </div>
         </div>
     </div>

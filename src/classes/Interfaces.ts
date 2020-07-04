@@ -81,11 +81,24 @@ export interface File {
     FILESIZE: number;
 }
 
-/*
-export interface ExchangeFilesResult {
+export interface SearchFileParams {
+    fromdate: string;
+    fromdate_moment: Moment;
+    todate: string;
+    todate_moment: Moment;
+    exchange_groupid: number;
+    exchange_typeid: number;
+    exchangeid: number;
+    fileid: number;
+    page_number: number;
+    page_size: number;
+    order_by: string;
+    order_type: string;
+}
+
+export interface SearchFileResult {
     Files: Array<File>;
 }
-*/
 
 export interface CompanyRegion {
     id: number;
@@ -94,17 +107,17 @@ export interface CompanyRegion {
     name: string;
 }
 export interface FileType {
-            ID: number;
-            TYPE: string;
-            NAME: string;
-            CODE: string;
-            PARAMS: string;
-            PARAMCAPTIONS: string;
-            EXTENSION: string;
-            STORAGETYPEID: number;
-            TIP: number;
-            DICTID: number;
-            }
+    ID: number;
+    TYPE: string;
+    NAME: string;
+    CODE: string;
+    PARAMS: string;
+    PARAMCAPTIONS: string;
+    EXTENSION: string;
+    STORAGETYPEID: number;
+    TIP: number;
+    DICTID: number;
+}
 
 export interface UploadFileParams {
     file_typeid: number;

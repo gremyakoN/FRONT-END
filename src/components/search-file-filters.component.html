@@ -1,0 +1,59 @@
+<mat-expansion-panel *ngIf="states.user.value" class="mat-elevation-z0" [expanded]="states.searchFileFiltersExpanded.value">
+    <div line>
+        <mat-form-field appearance="outline">
+            <mat-label>{{states.texts.value.searchFileParams.exchange_typeid[states.lang.value]}}</mat-label>
+            <mat-select (selectionChange)="setField('exchange_typeid', $event.source.selected ? $event.source.selected.value : null)"
+                        [formControl]="formControls['exchange_typeid']">
+                <mat-option>{{states.texts.value.forms.clear[states.lang.value]}}</mat-option>
+                <mat-optgroup *ngFor="let group of states.exchangeGroups.value">
+                    {{group.NAME}}
+                    <mat-option *ngFor="let type of states.exchangeTypesByGroupID.value[group.ID]"
+                                [value]="type.ID">
+                        {{type.NAME}}
+                    </mat-option>
+                </mat-optgroup>
+            </mat-select>
+        </mat-form-field>
+        <div double>
+            <mat-form-field appearance="outline">
+                <mat-label>{{states.texts.value.searchFileParams.exchangeid[states.lang.value]}}</mat-label>
+                <input type="number" step="1" matInput
+                       (change)="setField('exchangeid', $event.target.value)"
+                       [formControl]="formControls['exchangeid']"/>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>{{states.texts.value.searchFileParams.fileid[states.lang.value]}}</mat-label>
+                <input type="number" step="1" matInput
+                       (change)="setField('fileid', $event.target.value)"
+                       [formControl]="formControls['fileid']"/>
+            </mat-form-field>
+        </div>
+    </div>
+    <div buttons>
+        <button mat-stroked-button color="primary" (click)="clearAllSearchParams()" [disabled]="cleared.value">
+            <text-label id="forms.clearFilters"></text-label>
+        </button>
+        <button mat-flat-button color="primary" (click)="applySearchParams()" [disabled]="!changed.value">
+            <text-label id="forms.apply"></text-label>
+        </button>
+    </div>
+</mat-expansion-panel>
+<mat-chip-list>
+    <mat-chip *ngIf="states.searchFileParams.value.exchange_typeid != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('exchange_typeid')">
+        {{states.exchangeTypesByID.value[states.searchFileParams.value.exchange_typeid].NAME}}
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+    <mat-chip *ngIf="states.searchFileParams.value.exchangeid != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('exchangeid')">
+        <text-label id="searchFileParams.exchangeid"></text-label>
+        &nbsp;{{states.searchFileParams.value.exchangeid}}
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+    <mat-chip *ngIf="states.searchFileParams.value.fileid != null" [removable]="true" [selectable]="false"
+              (removed)="removeSearchParam('fileid')">
+        <text-label id="searchFileParams.fileid"></text-label>
+        &nbsp;{{states.searchFileParams.value.fileid}}
+        <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+</mat-chip-list>
