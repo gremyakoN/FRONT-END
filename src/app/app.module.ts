@@ -15,7 +15,6 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material'
 import {MAT_MOMENT_DATE_FORMATS} from '@angular/material-moment-adapter';
 import {TableSortComponent} from '../components/table-sort.component';
 import {Utils} from '../providers/utils';
-import {LinkPreviewComponent} from '../components/link-preview.component';
 import {RuDateAdapter} from '../classes/RuDateAdapter';
 
 import {SearchExchangeFiltersComponent} from '../components/search-exchange-filters.component';
@@ -42,7 +41,6 @@ import {ExportDialogComponent} from '../components/export-dialog.component';
     declarations: [
         AppComponent,
         TextLabelComponent,
-        LinkPreviewComponent,
         ResetPasswordComponent,
         UserInfoComponent,
         ChangePasswordComponent,

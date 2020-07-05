@@ -111,7 +111,7 @@ export class SearchFileResultsComponent extends StateComponent implements OnInit
         this.server.getFileTypes(this.states.searchFileParams.value.exchangeid).then(response => {
             this.dialog.open(UploadFileComponent, {
                 disableClose: true,
-                panelClass: 'big-popup',
+                panelClass: 'small-popup',
                 data: response
             }).afterClosed().subscribe(this.filesEditedBound);
         }).catch(error => {
@@ -203,9 +203,8 @@ export class SearchFileResultsComponent extends StateComponent implements OnInit
     }
 
     exportList() {
-        /*
         this.states.curtainVisible.set(true);
-        this.server.exportFilelist(this.paramsState.value).then(result => {
+        this.server.exportFilesList(this.paramsState.value).then(result => {
             const a = document.createElement('a') as any;
             a.style = 'display: none';
             a.href = window.URL.createObjectURL(new Blob(['\ufeff' + result], {type: 'text/csv;charset=UTF-8'}));
@@ -216,6 +215,5 @@ export class SearchFileResultsComponent extends StateComponent implements OnInit
             document.body.removeChild(a);
             this.states.curtainVisible.set(false);
         });
-        */
     }
 }

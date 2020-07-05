@@ -165,9 +165,8 @@ export class SearchExchangeResultsComponent extends StateComponent implements On
     }
 
     exportList() {
-        /*
         this.states.curtainVisible.set(true);
-        this.server.exportFilelist(this.paramsState.value).then(result => {
+        this.server.exportExchangesList(this.paramsState.value).then(result => {
             const a = document.createElement('a') as any;
             a.style = 'display: none';
             a.href = window.URL.createObjectURL(new Blob(['\ufeff' + result], {type: 'text/csv;charset=UTF-8'}));
@@ -178,6 +177,5 @@ export class SearchExchangeResultsComponent extends StateComponent implements On
             document.body.removeChild(a);
             this.states.curtainVisible.set(false);
         });
-        */
     }
 }
