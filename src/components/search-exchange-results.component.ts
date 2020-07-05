@@ -5,6 +5,7 @@ import {Server} from '../providers/server';
 import {MatDialog} from '@angular/material';
 import {State} from '../classes/State';
 import {SearchFileParams} from '../classes/Interfaces';
+import {ExportDialogComponent} from './export-dialog.component';
 
 @Component({
     selector: 'search-exchange-results',
@@ -97,6 +98,7 @@ export class SearchExchangeResultsComponent extends StateComponent implements On
     rowClicked(event, row) {
         if (event.target.tagName === 'TD') {
             this.states.curtainVisible.set(true);
+            this.states.selectedFilesIDs.set([]);
             this.states.searchFileParams.set({
                 fromdate: null,
                 fromdate_moment: null,
@@ -152,33 +154,30 @@ export class SearchExchangeResultsComponent extends StateComponent implements On
     }
 
     export() {
-        /*
         this.dialog.open(ExportDialogComponent, {
             disableClose: true,
             panelClass: 'small-popup'
         }).afterClosed().subscribe(result => {
             if (result) {
-                this.exportMembers();
+                this.exportList();
             }
         });
-        */
     }
-/*
 
-
-    exportMembers() {
+    exportList() {
+        /*
         this.states.curtainVisible.set(true);
-        this.server.exportMembers(this.paramsState.value).then(result => {
+        this.server.exportFilelist(this.paramsState.value).then(result => {
             const a = document.createElement('a') as any;
             a.style = 'display: none';
             a.href = window.URL.createObjectURL(new Blob(['\ufeff' + result], {type: 'text/csv;charset=UTF-8'}));
             const date = new Date();
-            a.download = 'ExportMembers_' + date.toLocaleDateString('ru').replace('.', '_') + '_' + date.toLocaleTimeString('ru').replace(':', '_') + '.csv';
+            a.download = 'FileList_' + date.toLocaleDateString('ru').replace('.', '_') + '_' + date.toLocaleTimeString('ru').replace(':', '_') + '.csv';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             this.states.curtainVisible.set(false);
         });
+        */
     }
-*/
 }

@@ -22,7 +22,7 @@ import {Moment} from 'moment';
 
 export class AppComponent extends StateComponent implements OnInit {
 
-    menuItems: Array<string> = ['exchanges', 'files'];
+    menuItems: Array<string> = ['exchanges','files'/*,'compregion'*/];
 
     runTickBound: FrameRequestCallback;
 
@@ -203,7 +203,7 @@ export class AppComponent extends StateComponent implements OnInit {
         this.states.searchExchangeParams.setField('fromdate', this.fromDateDefault);
         this.states.searchExchangeParams.setField('todate_moment', moment());
         this.states.searchExchangeParams.setField('todate', this.toDateDefault);
-        //this.states.searchExchangeParams.subscribe(this.searchExchangesBound());
+        // this.states.searchExchangeParams.subscribe(this.searchExchangesBound());
         this.states.selectedExchangesAction.subscribe(this.selectedExchangesActionChangedBound);
 
         this.states.searchFileParams.setField('page_size', this.states.config.value.searchPageSize);
@@ -212,7 +212,7 @@ export class AppComponent extends StateComponent implements OnInit {
         this.states.searchFileParams.setField('fromdate', this.fromDateDefault);
         this.states.searchFileParams.setField('todate_moment', moment());
         this.states.searchFileParams.setField('todate', this.toDateDefault);
-        //this.states.searchFileParams.subscribe(this.searchFilesBound());
+        // this.states.searchFileParams.subscribe(this.searchFilesBound());
         this.states.selectedFilesAction.subscribe(this.selectedFilesActionChangedBound);
 
         this.states.user.set(loginResponse.user);
@@ -256,7 +256,6 @@ export class AppComponent extends StateComponent implements OnInit {
         const companyRegionByID: Array<CompanyRegion> = [];
         companyRegions.forEach(companyRegion => {
             companyRegionByID[companyRegion.id] = companyRegion;
-            // this.menuItems.push(companyRegion.id.toString());
         });
         this.states.companyRegionByID.set(companyRegionByID);
         this.states.companyRegion.set(companyRegions);

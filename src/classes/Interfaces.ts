@@ -6,6 +6,8 @@ export interface User {
     name: string;
     regionid: number;
     companyid: number;
+    compregid: number;
+    compregname: string;
     is_admin: boolean;
 }
 

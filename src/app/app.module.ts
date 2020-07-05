@@ -12,7 +12,11 @@ import {TextLabelComponent} from '../components/text-label';
 import {ResetPasswordComponent} from '../components/reset-password.component';
 import {UserInfoComponent} from '../components/user-info.component';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material';
+import {MAT_MOMENT_DATE_FORMATS} from '@angular/material-moment-adapter';
 import {TableSortComponent} from '../components/table-sort.component';
+import {Utils} from '../providers/utils';
+import {LinkPreviewComponent} from '../components/link-preview.component';
+import {RuDateAdapter} from '../classes/RuDateAdapter';
 
 import {SearchExchangeFiltersComponent} from '../components/search-exchange-filters.component';
 import {SearchExchangeResultsComponent} from '../components/search-exchange-results.component';
@@ -21,13 +25,10 @@ import {SelectedExchangesComponent} from '../components/selected-exchanges.compo
 import {SearchFileFiltersComponent} from '../components/search-file-filters.component';
 import {SearchFileResultsComponent} from '../components/search-file-results.component';
 import {SelectedFilesComponent} from '../components/selected-files.component';
-import {UploadFileComponent} from '../components/upload-file.component';
 
-import {Utils} from '../providers/utils';
-import {MAT_MOMENT_DATE_FORMATS} from '@angular/material-moment-adapter';
 import {ChangePasswordComponent} from '../components/change-password.component';
-import {LinkPreviewComponent} from '../components/link-preview.component';
-import {RuDateAdapter} from '../classes/RuDateAdapter';
+import {UploadFileComponent} from '../components/upload-file.component';
+import {ExportDialogComponent} from '../components/export-dialog.component';
 
 @NgModule({
     imports: [
@@ -54,7 +55,8 @@ import {RuDateAdapter} from '../classes/RuDateAdapter';
         SearchFileFiltersComponent,
         SearchFileResultsComponent,
         SelectedFilesComponent,
-        UploadFileComponent
+        UploadFileComponent,
+        ExportDialogComponent
     ],
     providers: [
         States,
@@ -69,7 +71,8 @@ import {RuDateAdapter} from '../classes/RuDateAdapter';
         ChangePasswordComponent,
         SelectedExchangesComponent,
         SelectedFilesComponent,
-        UploadFileComponent
+        UploadFileComponent,
+        ExportDialogComponent
     ],
     bootstrap: [AppComponent]
 })

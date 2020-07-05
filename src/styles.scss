@@ -187,8 +187,8 @@ reset-password {
   }
 }
 
-primary-organization-details, assignment-edit, category-edit, promotion-edit, promotion-select, category-select, export-dialog, member-details, add-article, add-event, event-select, committee-select, payments-report,
-change-password, search-exchange-results, search-file-results, upload-file {
+primary-organization-details, assignment-edit, category-edit, promotion-edit, promotion-select, category-select, member-details, add-article, add-event, event-select, committee-select, payments-report,
+change-password, search-exchange-results, search-file-results, upload-file, export-dialog {
   position: relative;
   display: block;
 
@@ -273,9 +273,9 @@ change-password, search-exchange-results, search-file-results, upload-file {
   > [buttons] {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    flex-direction: row;
-    // flex-direction: row-reverse;
+    justify-content: space-between;
+    flex-direction: row-reverse
+    // flex-direction: row;
   }
 }
 
