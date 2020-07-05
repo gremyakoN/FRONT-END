@@ -408,6 +408,14 @@ export class AppComponent extends StateComponent implements OnInit {
                 });
                 */
                 break;
+            case 'download':
+                this.states.curtainVisible.set(true);
+                this.server.downloadFile(this.states.selectedFilesIDs.value[0]).then(() => {
+                }).catch(error => {
+                    alert(error.message);
+                }).finally(() => {
+                    this.states.curtainVisible.set(false);
+                });
         }
     }
 }

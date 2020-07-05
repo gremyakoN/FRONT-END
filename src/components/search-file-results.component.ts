@@ -33,11 +33,11 @@ export class SearchFileResultsComponent extends StateComponent implements OnInit
     @Input() colFiles: Array<string> = [
             'checkbox',
             'ID',
-            //'NAME',
-            'CODE',
+            'NAME',
+            //'CODE',
             'FILENAME',
             'FILEDATE',
-            'MODIFDATE',
+            //'MODIFDATE',
             'FILETYPE',
             //'EXCHTYPE',
             //'FILECATEGORYID',
@@ -110,7 +110,7 @@ export class SearchFileResultsComponent extends StateComponent implements OnInit
         this.server.getFileTypes(this.states.searchFileParams.value.exchangeid).then(response => {
             this.dialog.open(UploadFileComponent, {
                 disableClose: true,
-                panelClass: 'small-popup',
+                panelClass: 'big-popup',
                 data: response
             }).afterClosed().subscribe(this.filesEditedBound);
         }).catch(error => {

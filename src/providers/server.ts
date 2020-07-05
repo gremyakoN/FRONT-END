@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import {States} from './states';
 /*
 import {
@@ -17,6 +17,8 @@ import {
 } from '../classes/Interfaces';
 */
 import { md5b64 } from '../providers/md5b64';
+import {Observable} from 'rxjs';
+import {tap} from 'rxjs/operators';
 
 @Injectable()
 export class Server {
@@ -48,6 +50,12 @@ export class Server {
         });
     }
 
+    fullRequest(body: any = {}, responseType: any): Observable<HttpResponse<Object>> {
+        return this.http.post<HttpResponse<Object>>(this.states.config.value.serverURL, body, {observe: 'response', responseType: responseType}).pipe(
+            tap(resp => console.log('response', resp))
+        );
+    }
+
     request(method: string, params: any = {}, responseType: any = 'json'): Promise<any> {
         const paramsCopy = JSON.parse(JSON.stringify(params));
         if (this.logid != null) {
@@ -57,44 +65,69 @@ export class Server {
             paramsCopy.regionid = this.regionid;
         }
         return new Promise((resolve, reject) => {
-            this.http.post(this.states.config.value.serverURL, {
+            this.fullRequest({
                 jsonrpc: '2.0',
                 method: method,
                 params: paramsCopy,
                 id: this.requestID++
-            }, {
-                responseType: responseType
-            }).subscribe(response => {
+            }, responseType
+            ).subscribe(response => {
                 if (responseType === 'json') {
-                    if (response['error']) {
-                        if (response['error'].code === -20001) {
+                    if (response.body['error']) {
+                        if (response.body['error'].code === -20001) {
                             if (this.states.loggedIn.value) {
-                                alert(response['error'].message);
+                                alert(response.body['error'].message);
                                 this.states.loggedIn.set(false);
                             }
                             this.states.curtainVisible.set(false);
                         } else {
-                            alert('ERROR:' + response['error'].message);
-                            reject(response['error']);
+                            alert('ERROR:' + response.body['error'].message);
+                            reject(response.body['error']);
                         }
                     } else {
                         if (method === 'Login' || method === 'Refresh') {
-                            this.logid = response['result'].logid;
-                            this.token = response['result'].token;
-                            this.companyid = response['result'].user.companyid;
-                            this.regionid = response['result'].user.regionid;
+                            this.logid = response.body['result'].logid;
+                            this.token = response.body['result'].token;
+                            this.companyid = response.body['result'].user.companyid;
+                            this.regionid = response.body['result'].user.regionid;
                         }
                         // alert(JSON.stringify(response));
-                        resolve(response['result']);
+                        resolve(response.body['result']);
                     }
-                } else {
-                    alert('SOME ERROR:' + response['error'].message);
+                }
+                else if (responseType === 'blob') {
+                    var binaryData = [];
+                    binaryData.push(response.body);
+                    var downloadLink = document.createElement('a');
+                    downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: responseType}));
+                    var filename: string;
+                    try {
+                        const contentDisposition: string = response.headers.get('Content-Disposition');
+                        //alert(contentDisposition);
+                        const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                        const matches = filenameRegex.exec(contentDisposition);
+                        //alert(matches);
+                        if (matches != null && matches[1]) {
+                            filename = matches[1].replace(/['"]/g, '');
+                            downloadLink.setAttribute('download', filename);
+                        }
+                    }
+                    catch (e) {
+                        alert(e.message);
+                    }
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    resolve(response);
+                }
+                else {
+                    alert(responseType);
+                    //alert('SOME ERROR:' + response['error'].message);
                     resolve(response);
                 }
             }, error => {
                 alert('SOME BAD ERROR:' + error.message);
-                reject({code: -1});
-//       reject({code: -32005});
+       //         reject({code: -1});
+       // reject({code: -32005});
             });
         });
     }
@@ -171,13 +204,13 @@ export class Server {
         }
     }
 
-    uploadFile(id: string): Promise<any> {
+    downloadFile(fileid: string): Promise<any> {
         if (this.mock) {
             return new Promise(resolve => {
                 resolve('');
             });
         } else {
-            return this.request('UploadFile', {id: id});
+            return this.request('FileBlob', {fileid: fileid}, 'blob');
         }
     }
 

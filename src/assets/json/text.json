@@ -55,6 +55,9 @@
   "uploadFileParams": {
     "file_typeid": {
       "ru": "Тип файла"
+    },
+    "file_choice": {
+      "ru": "Выбор файла для загрузки"
     }
   },
   "forms": {
@@ -186,6 +189,9 @@
     "actions": {
       "delete": {
         "ru": "Удалить"
+      },
+      "download": {
+        "ru": "Скачать"
       }
     },
     "label": {
@@ -235,7 +241,7 @@
       "ru": "Сформировано"
     },
     "RECCOUNT": {
-      "ru": "Ошибок"
+      "ru": "Записей"
     },
     "PARENTID": {
       "ru": "Исходный пакет"
@@ -245,23 +251,26 @@
     "ID": {
       "ru": "ID"
     },
-    "NAME": {
-      "ru": "Тип"
+    "CODE": {
+      "ru": "Код"
     },
-    "EXCHANGEDATE": {
-      "ru": "Дата"
+    "FILENAME": {
+      "ru": "Наименование"
     },
-    "FILECOUNT": {
-      "ru": "Файлов"
+    "FILEDATE": {
+      "ru": "Дата файла"
     },
-    "FILEFORMED": {
-      "ru": "Сформировано"
+    "MODIFDATE": {
+      "ru": "Дата изменения"
+    },
+    "FILETYPE": {
+      "ru": "Тип файла"
     },
     "RECCOUNT": {
-      "ru": "Ошибок"
+      "ru": "Записей"
     },
-    "PARENTID": {
-      "ru": "Исходный пакет"
+    "ERRCOUNT": {
+      "ru": "Ошибок"
     }
   },
   "pagination": {

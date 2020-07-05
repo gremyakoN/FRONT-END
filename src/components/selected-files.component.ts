@@ -29,6 +29,7 @@ export class SelectedFilesComponent extends StateComponent implements OnInit {
     selectedFilesIDsChanged() {
         this.actions = [];
         this.actions.push('delete');
+        this.actions.push('download');
     }
 
     clearFiles() {

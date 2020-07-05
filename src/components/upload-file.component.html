@@ -13,14 +13,14 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
+
+        <mat-label>{{states.texts.value.uploadFileParams.file_choice[states.lang.value]}}</mat-label>
+        <input type="file"
+               (change)="handleFileInput($event.target.files)">
+
     </ng-container>
 </div>
-<div class="form-group">
-    <label for="file">Choose File</label>
-    <input type="file"
-           id="file"
-           (change)="handleFileInput($event.target.files)">
-</div>
+
 <div buttons *ngIf="states.user.value.is_admin">
     <button upload mat-flat-button color="primary" (click)="doitdoit()">
         <text-label id="forms.upload"></text-label>

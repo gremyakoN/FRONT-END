@@ -121,6 +121,7 @@ export interface FileType {
 
 export interface UploadFileParams {
     file_typeid: number;
+    file_choice: string;
     param1: string;
     param2: string;
     param3: string;
