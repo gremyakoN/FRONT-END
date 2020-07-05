@@ -212,20 +212,20 @@ export class Server {
     exportExchangesList(params: any): Promise<any> {
         if (this.mock) {
             return new Promise(resolve => {
-                resolve([]);
+                resolve('');
             });
         } else {
-            return this.request('ExchangesExport', params);
+            return this.request('ExchangesExport', params, 'blob');
         }
     }
 
     exportFilesList(params: any): Promise<any> {
         if (this.mock) {
             return new Promise(resolve => {
-                resolve([]);
+                resolve('');
             });
         } else {
-            return this.request('FilesExport', params);
+            return this.request('FilesExport', params, 'blob');
         }
     }
 

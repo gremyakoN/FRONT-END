@@ -166,15 +166,10 @@ export class SearchExchangeResultsComponent extends StateComponent implements On
 
     exportList() {
         this.states.curtainVisible.set(true);
-        this.server.exportExchangesList(this.paramsState.value).then(result => {
-            const a = document.createElement('a') as any;
-            a.style = 'display: none';
-            a.href = window.URL.createObjectURL(new Blob(['\ufeff' + result], {type: 'text/csv;charset=UTF-8'}));
-            const date = new Date();
-            a.download = 'FileList_' + date.toLocaleDateString('ru').replace('.', '_') + '_' + date.toLocaleTimeString('ru').replace(':', '_') + '.csv';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+        this.server.exportExchangesList(this.paramsState.value).then(() => {
+        }).catch(error => {
+            alert(error.message);
+        }).finally(() => {
             this.states.curtainVisible.set(false);
         });
     }
