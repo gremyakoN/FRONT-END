@@ -52,6 +52,7 @@ $TfomsFiles-theme: mat-light-theme($TfomsFiles-primary, $TfomsFiles-accent, $Tfo
   --background-light: #{mat-color($TfomsFiles-accent, 200)};
   --background-dark: var(--accent);
   --min-width: 360px;
+  --medium-width: 720px;
   --compact-menu-height: 48px;
   --defaultEventBackground: #509000;
 }
@@ -153,7 +154,7 @@ textarea.mat-input-element.cdk-textarea-autosize {
   }
 }
 
-.big-popup, .small-popup {
+.big-popup, .small-popup, .medium-popup {
   width: 100%;
   max-width: 100% !important;
   min-width: var(--min-width);
@@ -167,6 +168,10 @@ textarea.mat-input-element.cdk-textarea-autosize {
 
 .small-popup {
   width: var(--min-width);
+}
+
+.medium-popup {
+  width: var(--medium-width);
 }
 
 reset-password {
