@@ -110,14 +110,14 @@ export class AppComponent extends StateComponent implements OnInit {
         this.passwordFormControl = new FormControl('', [
             Validators.required
         ]);
-
+/*
         this.usernameFormControl = new FormControl('gremyako', [
             Validators.required,
         ]);
         this.passwordFormControl = new FormControl('pocv1bvq', [
             Validators.required
         ]);
-
+*/
         this.states.searchExchangeParams.set({
             fromdate: null,
             fromdate_moment: null,
@@ -217,6 +217,8 @@ export class AppComponent extends StateComponent implements OnInit {
 
         this.states.user.set(loginResponse.user);
         this.states.loggedIn.set(true);
+
+        this.states.selectedMenu.set('exchanges');
 
         Promise.all([
             this.searchExchanges()

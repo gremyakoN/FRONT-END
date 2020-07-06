@@ -59,14 +59,14 @@ export class Server {
             ).subscribe(response => {
                 if (responseType === 'json') {
                     if (response.body['error']) {
-                        if (response.body['error'].code === -20001) {
+                        if (response.body['error'].code === -32001) {
                             if (this.states.loggedIn.value) {
                                 alert(response.body['error'].message);
                                 this.states.loggedIn.set(false);
                             }
                             this.states.curtainVisible.set(false);
                         } else {
-                            alert('ERROR:' + response.body['error'].message);
+                            // alert('ERROR:' + response.body['error'].message);
                             reject(response.body['error']);
                         }
                     } else {
@@ -109,7 +109,7 @@ export class Server {
                     resolve(response.body);
                 }
             }, error => {
-                alert('SOME BAD ERROR:' + error.message);
+                // alert('SOME BAD ERROR:' + error.message);
                 reject({code: -1});
        // reject({code: -32005});
             });
@@ -232,14 +232,14 @@ export class Server {
                 headers: fileHeaders
             }).subscribe(response => {
                 if (response['error']) {
-                    if (response['error'].code === -20001) {
+                    if (response['error'].code === -32001) {
                         if (this.states.loggedIn.value) {
                             alert(response['error'].message);
                             this.states.loggedIn.set(false);
                         }
                         this.states.curtainVisible.set(false);
                     } else {
-                        alert('ERROR:' + response['error'].message);
+                        // alert('ERROR:' + response['error'].message);
                         reject(response['error']);
                     }
                 } else {
@@ -247,7 +247,7 @@ export class Server {
                     resolve(response['result']);
                 }
             }, error => {
-                alert('SOME BAD ERROR:' + error.message);
+                // alert('SOME BAD ERROR:' + error.message);
                 reject({code: -1});
 //       reject({code: -32005});
             });
