@@ -5,25 +5,29 @@
 <div form [class.disabled]="!editable">
     <ng-container>
         <mat-form-field search appearance="outline">
-            <mat-label>{{states.texts.value.uploadFileParams.file_typeid[states.lang.value]}}</mat-label>
-            <mat-select [(ngModel)]="this.states.config.value.defaultGroupId" (selectionChange)="this.states.uploadFileParams.setField('file_typeid', $event.source.selected ? $event.source.selected.value : null)">
-                <mat-option>{{states.texts.value.forms.clear[states.lang.value]}}</mat-option>
+            <mat-label>{{states.texts.value.forms.uploadFiles.id[states.lang.value]}}</mat-label>
+            <mat-select [(ngModel)]="this.firstFileTypeId" (selectionChange)="this.states.uploadFileParams.setField('id', $event.source.selected ? $event.source.selected.value : null)"
+                        [formControl]="fileTypeFormControl">
+
                 <mat-option *ngFor="let filetype of states.fileTypes.value" [value]="filetype.ID">
                     {{filetype.CODE+" / "+filetype.NAME}}
                 </mat-option>
             </mat-select>
+            <mat-error *ngIf="fileTypeFormControl.hasError('required')">
+                <text-label id="forms.uploadFiles.required"></text-label>
+            </mat-error>
         </mat-form-field>
-
-        <mat-label>{{states.texts.value.uploadFileParams.file_choice[states.lang.value]}}</mat-label>
-        <input type="file"
-               (change)="handleFileInput($event.target.files)">
-
     </ng-container>
 </div>
 
 <div buttons *ngIf="states.user.value.is_admin">
-    <button upload mat-flat-button color="primary" (click)="doitdoit()">
+    <button upload mat-flat-button color="primary" (click)="upload()">
         <text-label id="forms.upload"></text-label>
     </button>
+
+    <button select-file mat-flat-button color="primary" (click)="fileInput.click()">
+        {{(filename == '') ? states.texts.value.forms.uploadFiles.choice[states.lang.value] : this.filename}}
+    </button>
+    <input hidden (change)="handleFileInput($event.target.files)" #fileInput type="file" id="file">
 </div>
 

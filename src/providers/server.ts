@@ -105,9 +105,8 @@ export class Server {
                     resolve(response);
                 }
                 else {
-                    alert(responseType);
-                    //alert('SOME ERROR:' + response['error'].message);
-                    resolve(response);
+                    alert('SOME ERROR:' + responseType);
+                    resolve(response.body);
                 }
             }, error => {
                 alert('SOME BAD ERROR:' + error.message);
@@ -196,6 +195,16 @@ export class Server {
             });
         } else {
             return this.request('FileBlob', {fileid: fileid}, 'blob');
+        }
+    }
+
+    uploadFile(params: any): Promise<any> {
+        if (this.mock) {
+            return new Promise(resolve => {
+                resolve([]);
+            });
+        } else {
+            return this.request('FileUpload', params);
         }
     }
 

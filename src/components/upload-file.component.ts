@@ -5,7 +5,8 @@ import {Server} from '../providers/server';
 import {BigPopupComponent} from './big-popup.component';
 import {Utils} from '../providers/utils';
 // import {Moment} from 'moment';
-import {FileType} from '../classes/Interfaces';
+import {FileType, UploadFileParams} from '../classes/Interfaces';
+import {FormControl, Validators} from '@angular/forms';
 
 @Component({
     selector: 'upload-file',
@@ -16,46 +17,73 @@ export class UploadFileComponent extends BigPopupComponent implements OnInit {
 
     editable: boolean;
     fileToUpload: File = null;
+    filename = '';
+    fileTypeFormControl: FormControl;
+    firstFileTypeId: number;
 
     constructor(public dialogRef: MatDialogRef<any>, public states: States, private server: Server, public utils: Utils, @Inject(MAT_DIALOG_DATA) public data: any) {
         super(dialogRef);
-        this.FIELDS = [
-            'file_typeid',
-            'file'
-
-        ];
-
+        this.FIELDS = ['file_typeid'];
     }
 
     ngOnInit() {
         super.ngOnInit();
-        // alert(JSON.stringify(this.data));
-        // states.fileTypes
         this.updateFileTypes(this.data.file_types || []);
-
-        // this.adding = true;
         this.editable = this.states.user.value.is_admin;
-        // this.editable = false;
+        this.fileTypeFormControl = new FormControl('', [
+            Validators.required
+        ]);
+        this.states.uploadFileParams.set({
+            id: null,
+            exchangeid: null,
+            filename: null,
+            dictid: null,
+            param1: null,
+            param2: null,
+            param3: null
+        } as UploadFileParams);
     }
 
     updateFileTypes(fileTypes) {
         const fileTypesByID: Array<FileType> = [];
         fileTypes.forEach(fileType => {
+            if (this.firstFileTypeId == undefined) {
+              this.firstFileTypeId = fileType.ID;
+            }
             fileTypesByID[fileType.ID] = fileType;
         });
         this.states.fileTypesByID.set(fileTypesByID);
         this.states.fileTypes.set(fileTypes);
     }
 
-    doitdoit() {
-        //this.fileToUpload.name
-    }
-
     handleFileInput(files: FileList) {
         this.fileToUpload = files.item(0);
+        this.filename = this.fileToUpload.name;
     }
 
     upload() {
+        if (this.fileTypeFormControl.valid && this.filename != '') {
+            this.states.curtainVisible.set(true);
+            this.states.uploadFileParams.set({
+                id: this.fileTypeFormControl.value,
+                exchangeid: this.states.searchFileParams.value.exchangeid,
+                filename: this.filename,
+                dictid: this.states.fileTypesByID.value[this.states.uploadFileParams.value.id].DICTID,
+                param1: null,
+                param2: null,
+                param3: null
+            } as UploadFileParams);
+            this.server.uploadFile(this.states.uploadFileParams.value).then(response => {
+                alert(response.FileUpload.fileid);
+            }).catch(error => {
+                alert(error.message);
+            }).finally(() => {
+                this.states.curtainVisible.set(false);
+                this.cancel();
+            });
+        }
+
+        /*
         let input = document.createElement('input');
         input.type = 'file';
         input.addEventListener('change', event => {
@@ -63,47 +91,10 @@ export class UploadFileComponent extends BigPopupComponent implements OnInit {
             const selectedFile = target.files[0];
             const uploadData = new FormData();
             uploadData.append('upload_file', selectedFile, selectedFile.name);
-            // непосредственно отправить файл (post запрос)
+            //post
             input = null;
         });
         input.click();
-    }
-
-    addFile(resize: boolean = false): Promise<string> {
-        return new Promise(resolve => {
-            const input: HTMLInputElement = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/jpeg';
-            input.value = null;
-            input.addEventListener('change', (event: any) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(event.target.files[0]);
-                reader.onload = () => {
-                    if (resize) {
-                        const img = new Image();
-                        img.src = reader.result.toString();
-                        img.onload = () => {
-                            const canvas = document.createElement('canvas');
-                            canvas.width = 248;
-                            canvas.height = Math.ceil((248 / img.width) * img.height);
-                            const context = canvas.getContext('2d');
-                            context.drawImage(img, 0, 0, canvas.width, canvas.height);
-                            resolve(canvas.toDataURL('image/jpeg').substring(23));
-                        };
-                    } else {
-                        resolve(reader.result.toString().substring(23));
-                    }
-                };
-            });
-            input.click();
-        });
-    }
-
-    download() {
-        //
-    }
-
-    process() {
-        //
+        */
     }
 }

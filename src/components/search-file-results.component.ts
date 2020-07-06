@@ -8,6 +8,7 @@ import {State} from '../classes/State';
 // import {SearchExchangeParams} from '../classes/Interfaces';
 import {UploadFileComponent} from './upload-file.component';
 import {ExportDialogComponent} from './export-dialog.component';
+import {SearchFileParams} from '../classes/Interfaces';
 
 @Component({
     selector: 'search-file-results',
@@ -146,20 +147,15 @@ export class SearchFileResultsComponent extends StateComponent implements OnInit
 
 
     filesEdited() {
-        /*
-        this.server.getExchanges(SearchExchangeParams).then(userResult => {
-                    if (userResult.user.photo_id) {
-                        this.server.loadImage(userResult.user.photo_id).then(response => {
-                            userResult.user.photo = response.image;
-                            this.states.user.set(userResult.user);
-                        });
-                    } else {
-                        this.states.user.set(userResult.user);
-                    }
-                });
-            }
-        }
-        */
+        this.states.curtainVisible.set(true);
+        this.states.selectedFilesIDs.set([]);
+        this.server.getFiles(this.states.searchFileParams.value).then(response => {
+            this.states.searchFileResult.set(response);
+        }).catch(error => {
+            alert(error.message);
+        }).finally(() => {
+            this.states.curtainVisible.set(false);
+        });
     }
 
     checkboxChanged(element, checked) {
