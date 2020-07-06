@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {States} from './states';
 import { md5b64 } from '../providers/md5b64';
 import {Observable} from 'rxjs';
@@ -178,6 +178,16 @@ export class Server {
         }
     }
 
+    exportExchangesList(params: any): Promise<any> {
+        if (this.mock) {
+            return new Promise(resolve => {
+                resolve('');
+            });
+        } else {
+            return this.request('ExchangesExport', params, 'blob');
+        }
+    }
+
     getFiles(params: any): Promise<any> {
         if (this.mock) {
             return new Promise(resolve => {
@@ -208,6 +218,42 @@ export class Server {
         }
     }
 
+    saveFile(fileId: number, fileBody: Blob): Promise<any> {
+        return new Promise((resolve, reject) => {
+            var fileHeaders = new HttpHeaders({
+                'fileId': fileId.toString(),
+                'logId': this.logid.toString(),
+                'token': this.token,
+                'companyId': this.companyid.toString(),
+                'regionId': this.regionid.toString()
+            });
+            this.http.post(this.states.config.value.serverFileURL, fileBody, {
+                responseType: 'json',
+                headers: fileHeaders
+            }).subscribe(response => {
+                if (response['error']) {
+                    if (response['error'].code === -20001) {
+                        if (this.states.loggedIn.value) {
+                            alert(response['error'].message);
+                            this.states.loggedIn.set(false);
+                        }
+                        this.states.curtainVisible.set(false);
+                    } else {
+                        alert('ERROR:' + response['error'].message);
+                        reject(response['error']);
+                    }
+                } else {
+                    // alert(JSON.stringify(response));
+                    resolve(response['result']);
+                }
+            }, error => {
+                alert('SOME BAD ERROR:' + error.message);
+                reject({code: -1});
+//       reject({code: -32005});
+            });
+        });
+    }
+
     getFileTypes(exchangeid: number): Promise<any> {
         if (this.mock) {
             return new Promise(resolve => {
@@ -215,16 +261,6 @@ export class Server {
             });
         } else {
             return this.request('FileTypes', {exchangeid: exchangeid});
-        }
-    }
-
-    exportExchangesList(params: any): Promise<any> {
-        if (this.mock) {
-            return new Promise(resolve => {
-                resolve('');
-            });
-        } else {
-            return this.request('ExchangesExport', params, 'blob');
         }
     }
 
@@ -237,5 +273,4 @@ export class Server {
             return this.request('FilesExport', params, 'blob');
         }
     }
-
 }

@@ -74,7 +74,7 @@ export class UploadFileComponent extends BigPopupComponent implements OnInit {
                 param3: null
             } as UploadFileParams);
             this.server.uploadFile(this.states.uploadFileParams.value).then(response => {
-                alert(response.FileUpload.fileid);
+                this.server.saveFile(response.FileUpload.fileid, this.fileToUpload.slice());
             }).catch(error => {
                 alert(error.message);
             }).finally(() => {
