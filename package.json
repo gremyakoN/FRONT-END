@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --aot=true --vendorChunk=true",
+    "start": "ng serve --aot=true --vendorChunk=true --host 0.0.0.0 --disableHostCheck true",
     "build": "ng build",
     "buildprod": "ng build --vendorChunk=true --prod --base-href",
     "test": "ng test",
