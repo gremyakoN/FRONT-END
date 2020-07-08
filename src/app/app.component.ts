@@ -365,24 +365,7 @@ export class AppComponent extends StateComponent implements OnInit {
         switch (this.states.selectedExchangesAction.value) {
             case 'delete':
                 this.states.selectedExchangesIDs.set([]);
-                //alert(this.states.selectedExchangesIDs.value);
-                /*this.dialog.open(CategorySelectComponent, {
-                    disableClose: true,
-                    panelClass: 'small-popup'
-                }).afterClosed().subscribe(category => {
-                    if (category) {
-                        this.states.curtainVisible.set(true);
-                        this.server.changeCategory(this.states.selectedMembersIDs.value, category.id).then(() => {
-                        }).catch(error => {
-                            alert(error.message);
-                        }).finally(() => {
-                            this.searchMembers().then(() => {
-                                this.states.curtainVisible.set(false);
-                            });
-                        });
-                    }
-                });
-                */
+                alert(this.states.selectedExchangesIDs.value);
                 break;
         }
     }
@@ -391,23 +374,6 @@ export class AppComponent extends StateComponent implements OnInit {
         switch (this.states.selectedFilesAction.value) {
             case 'delete':
                 alert(this.states.selectedFilesIDs.value);
-                /*this.dialog.open(CategorySelectComponent, {
-                    disableClose: true,
-                    panelClass: 'small-popup'
-                }).afterClosed().subscribe(category => {
-                    if (category) {
-                        this.states.curtainVisible.set(true);
-                        this.server.changeCategory(this.states.selectedMembersIDs.value, category.id).then(() => {
-                        }).catch(error => {
-                            alert(error.message);
-                        }).finally(() => {
-                            this.searchMembers().then(() => {
-                                this.states.curtainVisible.set(false);
-                            });
-                        });
-                    }
-                });
-                */
                 break;
             case 'download':
                 this.states.curtainVisible.set(true);

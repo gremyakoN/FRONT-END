@@ -100,7 +100,7 @@ body {
   min-width: var(--min-width);
 }
 
-button, input, textarea, mat-option, .mat-slide-toggle-bar, .mat-slide-toggle-thumb, .mat-autocomplete-panel, .mat-form-field-flex, .cdk-overlay-backdrop, .mat-select-panel, mat-chip mat-icon, mat-slider, .mat-calendar-body-cell, .mat-checkbox-inner-container {
+button, input, textarea, mat-option, .mat-slide-toggle-bar, .mat-slide-toggle-thumb, .mat-autocomplete-panel, .mat-form-field-flex, .cdk-overlay-backdrop, .mat-select-panel, mat-chip mat-icon, mat-slider, .mat-checkbox-inner-container {
   pointer-events: auto;
 }
 
@@ -192,7 +192,6 @@ reset-password {
   }
 }
 
-primary-organization-details, assignment-edit, category-edit, promotion-edit, promotion-select, category-select, member-details, add-article, add-event, event-select, committee-select, payments-report,
 change-password, search-exchange-results, search-file-results, upload-file, export-dialog {
   position: relative;
   display: block;
@@ -315,7 +314,7 @@ user-info {
   }
 }
 
-qwe-details {
+detail-grid {
 
   > [form] {
     > mat-card {
@@ -331,7 +330,7 @@ qwe-details {
         }
       }
 
-      &[files], &[huiles] {
+      &[files] {
         padding: 16px 0 0 0 !important;
         overflow: auto;
         pointer-events: auto;
@@ -711,37 +710,6 @@ app-root {
           }
         }
 
-        &[hierarchy] {
-          display: flex;
-          flex-direction: column;
-          padding: 16px;
-
-          > mat-card {
-            width: 100%;
-            margin-bottom: 16px;
-
-            [primary-organization] {
-              font-weight: normal;
-            }
-          }
-        }
-
-        &[categories], &[promotions] {
-          > table-sort {
-            padding: 16px;
-            width: 100%;
-
-            .mat-column-amount, .mat-column-min_value, .mat-column-max_value {
-              text-align: right;
-
-              .mat-sort-header-container {
-                text-align: right;
-                flex-direction: row-reverse;
-              }
-            }
-          }
-        }
-
         &[exchanges], &[files] {
           padding: 16px;
 
@@ -874,7 +842,6 @@ table-sort {
     }
   }
 }
-
 
 search-exchange-filters, search-file-filters {
   display: block;
@@ -1092,39 +1059,6 @@ selected-exchanges, selected-files {
       display: flex;
       justify-content: space-between;
     }
-  }
-}
-
-link-preview {
-  display: block;
-  position: absolute;
-  width: 448px;
-  left: 50%;
-  transform: translateY(50%);
-  z-index: 1;
-
-  mat-card {
-    &.hidden {
-      display: none;
-    }
-  }
-
-  [spinner] {
-    @extend %center-content;
-  }
-
-  .mat-card-title {
-    margin-bottom: 0 !important;
-  }
-
-  img {
-    margin-top: 8px;
-    max-width: 100%;
-  }
-
-  mat-card-content {
-    margin: 8px 0 0 0 !important;
-    text-align: left;
   }
 }
 
