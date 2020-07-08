@@ -100,7 +100,7 @@ body {
   min-width: var(--min-width);
 }
 
-button, input, textarea, mat-option, .mat-slide-toggle-bar, .mat-slide-toggle-thumb, .mat-autocomplete-panel, .mat-form-field-flex, .cdk-overlay-backdrop, .mat-select-panel, mat-chip mat-icon, mat-slider, .mat-checkbox-inner-container {
+button, input, textarea, mat-option, .mat-slide-toggle-bar, .mat-slide-toggle-thumb, .mat-autocomplete-panel, .mat-form-field-flex, .cdk-overlay-backdrop, .mat-select-panel, mat-chip mat-icon, mat-slider, .mat-calendar-body-cell, .mat-checkbox-inner-container {
   pointer-events: auto;
 }
 
@@ -314,7 +314,7 @@ user-info {
   }
 }
 
-detail-grid {
+detail-data {
 
   > [form] {
     > mat-card {
@@ -330,7 +330,7 @@ detail-grid {
         }
       }
 
-      &[files] {
+      &[files], &[some-others] {
         padding: 16px 0 0 0 !important;
         overflow: auto;
         pointer-events: auto;
@@ -707,6 +707,17 @@ app-root {
               margin: 0 8px;
               white-space: nowrap;
             }
+          }
+        }
+
+        &[companyregions] {
+          display: flex;
+          flex-direction: column;
+          padding: 16px;
+
+          > mat-card {
+            width: 100%;
+            margin-bottom: 16px;
           }
         }
 
